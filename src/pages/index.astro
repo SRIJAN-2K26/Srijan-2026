@@ -4,83 +4,40 @@ import Base from '../layouts/Base.astro';
 import data from '../data/event.json';
 import venue from '../assets/venue.jpg';
 import poster from '../assets/poster.jpg';
-import paytm from '../assets/paytm.png';
-import macrovision from '../assets/macrovision.png';
+import Story from '../components/Story.astro';
 
-const { event: ev, register, nav, about, tracks, schedule, prizes, sponsors, faq, contact } = data;
-const logos: Record<string, ImageMetadata> = { paytm, macrovision };
-const num = (i: number) => String(i + 1).padStart(2, '0');
+const { event: ev, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact } = data;
 const tagline = ev.tagline;
 ---
 <Base>
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#about">Skip to details</a>
   <div class="progress" aria-hidden="true"></div>
 
   <header class="top">
     <div class="wrap">
       <a class="brand" href="#top" aria-label={`${ev.name} ${ev.year} home`}>{ev.name} <span>{ev.year}</span></a>
       <nav class="nav" aria-label="Primary">
-        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        {nav.map((n) => <a href={n.href} data-f={n.frame}>{n.label}</a>)}
       </nav>
       <details class="menu">
         <summary aria-expanded="false"><span class="bars" aria-hidden="true"></span>Menu</summary>
         <ul aria-label="Sections">
-          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+          {nav.map((n) => <li><a href={n.href} data-f={n.frame}>{n.label}</a></li>)}
         </ul>
       </details>
       <a class="btn btn-primary" href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
     </div>
   </header>
 
-  <div class="dock" id="dock">
+  <div class="dock" id="dock"><div class="dock-in">
     <a class="btn btn-primary" href={register.href} target="_blank" rel="noopener noreferrer">
       {register.label}<span class="sr"> (opens in a new tab)</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
-  </div>
+  </div></div>
 
   <main id="main">
-    <!-- HERO -->
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <span class="slash two" aria-hidden="true"></span>
-      <span class="slash" aria-hidden="true"></span>
-      <div class="wrap">
-        <p class="inst seq" style="--d:0ms">{ev.instituteLine}</p>
-        <h1 id="hero-title" class="display seq" style="--d:30ms">{ev.name}{' '}<span class="y">{ev.year}</span></h1>
-        <p class="type seq" style="--d:60ms">{ev.type}</p>
-        <p class="tag seq" style="--d:80ms">
-          {tagline.map((t, i) => <><span>{t}</span>{i < tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}
-        </p>
-
-        <ul class="facts seq" style="--d:120ms" aria-label="Event details">
-          <li class="fact">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
-            <span>{ev.dates}</span>
-          </li>
-          <li class="fact">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <span>{ev.venue}</span>
-          </li>
-          <li class="fact">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
-            <span>{ev.mode}</span>
-          </li>
-          <li class="fact">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 1.5 6 5.5"/></svg>
-            <span>{ev.teamSize}</span>
-          </li>
-        </ul>
-
-        <div class="cta seq" style="--d:180ms">
-          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>
-            {register.label}<span class="sr"> (opens in a new tab)</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <p class="note">{register.note}</p>
-        </div>
-        <p id="days" class="days" hidden data-start={ev.countdownTo} data-end={ev.eventEnd}></p>
-      </div>
-    </section>
+    <Story />
 
     <div class="ticker" aria-hidden="true">
       <div class="ticker-track">
@@ -102,13 +59,7 @@ const tagline = ev.tagline;
             <div data-stagger style="margin-top:1.5rem">
               {about.body.map((p, i) => <p class="lead" style={`--i:${i}`}>{p}</p>)}
             </div>
-            <ol class="steps" data-stagger aria-label="How it works">
-              {about.steps.map((s, i) => (
-                <li class="step" style={`--i:${i}`}>
-                  <div><h3>{s.title}</h3><p>{s.text}</p></div>
-                </li>
-              ))}
-            </ol>
+            <div class="plain-doms" id="domains" data-reveal><h3>Six domains</h3><ul class="chips">{tracks.list.map((t) => <li>{t}</li>)}</ul><p>{tracks.problemStatements.title}.</p></div>
           </div>
           <figure class="poster" data-reveal>
             <Picture src={poster} formats={['avif', 'webp']} fallbackFormat="webp" widths={[360, 520, 780]} sizes="(min-width: 56rem) 26rem, 90vw" width={520} height={780}
@@ -125,19 +76,26 @@ const tagline = ev.tagline;
       </div>
     </section>
 
-    <!-- TRACKS -->
-    <section id="tracks" class="alt" aria-labelledby="tracks-h">
+    <!-- HOW IT WORKS -->
+    <section id="how" class="alt" aria-labelledby="how-h">
       <div class="wrap">
-        <p class="eyebrow" data-reveal><b>02</b> Domains</p>
-        <h2 id="tracks-h" class="display h2" data-reveal>{tracks.heading}</h2>
-        <ul class="tracks" data-stagger>
-          {tracks.list.map((t, i) => (
-            <li class="track" style={`--i:${i}`}><span class="n" aria-hidden="true">{num(i)}</span><h3>{t}</h3></li>
+        <p class="eyebrow" data-reveal><b>02</b> How it works</p>
+        <h2 id="how-h" class="display h2" data-reveal>{how.heading}</h2>
+        <ol class="stepper" data-stagger aria-label={how.aria}>
+          {how.steps.map((s, k) => (
+            <li class="stp" style={`--i:${k}`}>
+              <span class="num" aria-hidden="true">{k + 1}</span>
+              <div class="body">
+                <h3>{s.title}</h3>
+                <p>{s.reward ? `${prizes.total}. ${prizes.note}.` : s.text}</p>
+                {s.tag && <span class="pill">{s.tag}</span>}
+              </div>
+            </li>
           ))}
-        </ul>
-        <div class="ps" data-reveal>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></svg>
-          <div><h3>{tracks.problemStatements.title}</h3><p>{tracks.problemStatements.text}</p></div>
+        </ol>
+        <div class="cta" data-reveal>
+          <p class="display yourmove">{how.cta}</p>
+          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
         </div>
       </div>
     </section>
@@ -169,42 +127,10 @@ const tagline = ev.tagline;
       </div>
     </section>
 
-    <!-- PRIZES -->
-    <section id="prizes" class="alt" aria-labelledby="prz-h">
-      <div class="wrap">
-        <p class="eyebrow" data-reveal><b>04</b> Prizes</p>
-        <div class="prize" data-reveal>
-          <svg class="trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4a3 3 0 003 4M17 6h3a3 3 0 01-3 4"/></svg>
-          <h2 id="prz-h" class="display h2" style="max-width:none">{prizes.heading}</h2>
-          <p class="motto display" style="margin-top:1.5rem" aria-label={prizes.motto.join(', ')}>
-            {prizes.motto.map((m) => <span>{m}</span>)}
-          </p>
-          <p class="soon">{prizes.note}</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SPONSORS -->
-    <section id="sponsors" aria-labelledby="sp-h">
-      <div class="wrap">
-        <p class="eyebrow" data-reveal><b>05</b> Sponsors</p>
-        <h2 id="sp-h" class="display h2" data-reveal>{sponsors.heading}</h2>
-        <div class="sp-row" data-stagger>
-          {sponsors.list.map((s, i) => (
-            <div class={`logo ${s.logo === 'macrovision' ? 'dark' : ''}`} style={`--i:${i}`}>
-              <Picture src={logos[s.logo]} formats={['avif', 'webp']} fallbackFormat="webp" widths={[160, 320]} sizes="160px" alt={s.alt}
-                width={s.logo === 'macrovision' ? 320 : 320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
-            </div>
-          ))}
-          <a class="btn btn-ghost" style={`--i:${sponsors.list.length}`} href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
-        </div>
-      </div>
-    </section>
-
     <!-- FAQ -->
     <section id="faq" class="alt" aria-labelledby="faq-h">
       <div class="wrap">
-        <p class="eyebrow" data-reveal><b>06</b> FAQ</p>
+        <p class="eyebrow" data-reveal><b>04</b> FAQ</p>
         <h2 id="faq-h" class="display h2" data-reveal>{faq.heading}</h2>
         <div class="faq" data-stagger>
           {faq.items.map((f, i) => (
@@ -221,7 +147,7 @@ const tagline = ev.tagline;
     <!-- CONTACT -->
     <section id="contact" class="contact" aria-labelledby="ct-h">
       <div class="wrap">
-        <p class="eyebrow" data-reveal><b>07</b> Join in</p>
+        <p class="eyebrow" data-reveal><b>05</b> Join in</p>
         <h2 id="ct-h" class="display" data-reveal>{contact.heading}</h2>
         <p class="lead" data-reveal>{contact.text}</p>
         <div class="cta" data-reveal>

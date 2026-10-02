@@ -37,6 +37,16 @@ const { title = data.meta.title, description = data.meta.description } = Astro.p
           document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && m.open) { m.removeAttribute('open'); m.querySelector('summary').focus(); } });
           document.addEventListener('click', function (e) { if (m.open && !m.contains(e.target)) m.removeAttribute('open'); });
         }
+        var pinned = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()')) && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (pinned) {
+          // Pinned story: frames are scroll positions, so jump to the frame's scroll offset (CSS drives the dock + frames).
+          document.addEventListener('click', function (e) {
+            var a = e.target.closest && e.target.closest('a[data-f]');
+            if (!a) return;
+            e.preventDefault();
+            window.scrollTo({ top: Math.round((+a.dataset.f + 0.5) * 0.9 * innerHeight), behavior: 'smooth' });
+          });
+        }
         var dock = document.getElementById('dock');
         if (dock && 'IntersectionObserver' in window) {
           var seen = new Set();
@@ -44,7 +54,7 @@ const { title = data.meta.title, description = data.meta.description } = Astro.p
             es.forEach(function (e) { e.isIntersecting ? seen.add(e.target) : seen.delete(e.target); });
             dock.classList.toggle('show', seen.size === 0);
           });
-          document.querySelectorAll('[data-register], #contact .cta').forEach(function (e) { dio.observe(e); });
+          document.querySelectorAll(pinned ? '#contact .cta' : '[data-register], #contact .cta').forEach(function (e) { dio.observe(e); });
         } else if (dock) { dock.classList.add('show'); }
         var d = document.getElementById('days');
         if (d) {

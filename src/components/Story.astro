@@ -1,0 +1,144 @@
+---
+import { Picture } from 'astro:assets';
+import '../styles/story.css';
+import data from '../data/event.json';
+import art from '../data/art.json';
+import paytm from '../assets/paytm.png';
+import macrovision from '../assets/macrovision.png';
+
+const { event: ev, register, tracks, sponsors, contact, story, prizes } = data;
+const logos: Record<string, ImageMetadata> = { paytm, macrovision };
+const ii = ev.name.indexOf('I');
+const nameA = ev.name.slice(0, ii), nameI = ev.name[ii], nameB = ev.name.slice(ii + 1);
+const arrow = 'M5 12h14M13 6l6 6-6 6';
+const icons: Record<string, string> = {
+  ai: 'M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3M7 6h10a1 1 0 011 1v10a1 1 0 01-1 1H7a1 1 0 01-1-1V7a1 1 0 011-1zM10 10h4v4h-4z',
+  web: 'M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16',
+  shield: 'M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3zM9 12l2 2 4-4',
+  campus: 'M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6M9 11h.01M15 11h.01',
+  leaf: 'M5 19c0-9 5-14 15-14 0 10-5 15-14 15M5 19c2-5 5-8 9-10',
+  open: 'M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM12 12l8-4.5M12 12L4 7.5M12 12v9',
+};
+const chip = {
+  cal: 'M3 6a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6zM16 2v4M8 2v4M3 10h18',
+  pin: 'M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11zM12 7.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z',
+  mode: 'M4 5h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zM2 20h20',
+  cup: 'M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4a3 3 0 003 4M17 6h3a3 3 0 01-3 4',
+  team: 'M9 11a3 3 0 100-6 3 3 0 000 6zM3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M17 10a2.5 2.5 0 100-5M16 14.5c3 0 5 1.5 5 5.5',
+};
+const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSize], [chip.cup, prizes.total]];
+---
+<section class="story" id="top" aria-label={`${ev.name} ${ev.year}`}>
+  <div class="stage">
+    <span class="streak s-a" aria-hidden="true"></span><span class="streak s-b" aria-hidden="true"></span>
+    <div class="wipes" aria-hidden="true">{[0, 1, 2, 3, 4, 5].map((i) => <span class="wipe" style={`--bi:${i + 1}`}></span>)}</div>
+
+    <!-- 1 · SPARK -->
+    <article class="frame f1" style="--fi:0">
+      <div class="in">
+        <p class="inst">{ev.type}</p>
+        <h1 id="hero-title" class="display" aria-label={`${ev.name} ${ev.year}`}>
+          <span class="lit" aria-hidden="true"></span><span class="nm">{nameA}</span><span class="bi"><span class="nm">{nameI}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm">{nameB}</span>{' '}<span class="y">{ev.year}</span>
+        </h1>
+        <p class="tag">{ev.tagline.map((t, i) => <><span>{t}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
+        <p class="when display">{story.spark.line}</p>
+        <p class="support">{story.spark.support}</p>
+        <ul class="facts" aria-label="Event details">
+          {chips.map(([d, t]) => (
+            <li class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={d}/></svg><span>{t}</span></li>
+          ))}
+        </ul>
+        <div class="cta">
+          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
+          <p class="note">{register.note}</p>
+        </div>
+        <p id="days" class="days" hidden data-start={ev.countdownTo} data-end={ev.eventEnd}></p>
+      </div>
+    </article>
+
+    <!-- 2 · GROUND -->
+    <article class="frame f2" id="ground" style="--fi:1">
+      <div class="f-art">
+        <svg class="a-bld" viewBox={`0 215 ${art.campW} 181`} preserveAspectRatio="xMidYMax meet" role="img" aria-label={story.ground.alt}>
+          <defs>
+            <path id="cp" d={art.campus}/>
+            <pattern id="w0" width="22" height="20" patternUnits="userSpaceOnUse"><rect class="win" x="6" y="6" width="9" height="7"/></pattern>
+            <pattern id="w1" width="110" height="60" patternUnits="userSpaceOnUse"><g class="win"><rect x="28" y="6" width="9" height="7"/><rect x="72" y="26" width="9" height="7"/><rect x="50" y="46" width="9" height="7"/></g></pattern>
+          </defs>
+          <g class="bld">
+            <use href="#cp" class="c-fill"/><use href="#cp" fill="url(#w0)" class="w-base"/><use href="#cp" fill="url(#w1)" class="w-spark"/><use href="#cp" class="edge"/>
+          </g>
+          <g class="lion"><g transform="translate(120 304)">
+            <g class="gold"><rect x="16" y="82" width="28" height="10"/><rect x="12" y="72" width="36" height="10"/><rect x="10" y="64" width="40" height="8" rx="2"/><path d="M13 64V46c0-9 6-14 11-14h12c5 0 11 5 11 14v18z"/><circle cx="21" cy="30" r="7"/><circle cx="39" cy="30" r="7"/></g>
+          </g></g>
+        </svg>
+      </div>
+      <div class="f-copy"><p class="kicker">{story.ground.caption}</p><h2 class="line display">{story.ground.line}</h2><p class="sub">{story.ground.sub}</p></div>
+    </article>
+
+    <!-- 3 · CITY -->
+    <article class="frame f3" id="city" style="--fi:2">
+      <div class="f-art">
+        <span class="sunglow" aria-hidden="true"></span>
+        <svg class="skyline" viewBox={`0 0 ${art.skyW} ${art.skyH}`} preserveAspectRatio="xMidYMax meet" role="img" aria-label={story.city.alt}>
+          <path class="s-fill" d={art.sky}/>
+        </svg>
+      </div>
+      <div class="f-copy"><p class="kicker">{story.city.kicker}</p><h2 class="line display">{story.city.line}</h2><p class="sub">{story.city.sub}</p></div>
+    </article>
+
+    <!-- 4 · DOMAINS -->
+    <article class="frame f4" id="battlefield" style="--fi:3">
+      <div class="f-copy top"><h2 class="line display">{story.domains.line}</h2></div>
+      <ul class="doms">
+        {tracks.list.map((t, i) => (
+          <li class="dom" style={`--j:${i}`}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span>{t}</span></li>
+        ))}
+      </ul>
+      <p class="f-copy"><a class="flink" href={story.domains.link.href}>{story.domains.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a></p>
+    </article>
+
+    <!-- 5 · PATH -->
+    <article class="frame f5" id="path" style="--fi:4">
+      <div class="f-copy top"><h2 class="line display">{story.path.line}</h2><p class="sub">{story.path.sub}</p></div>
+      <ol class="steps5">
+        {story.path.steps.map((s, i) => (
+          <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong><span>{s.sub}</span></span></li>
+        ))}
+      </ol>
+      <p class="f-copy"><a class="flink" href={story.path.link.href}>{story.path.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a><span class="sub small soonnote"> {data.schedule.footnote}</span></p>
+    </article>
+
+    <!-- 6 · REWARD -->
+    <article class="frame f6" id="reward" style="--fi:5">
+      <div class="f-art">
+        <svg class="a-trophy" viewBox="0 0 200 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Trophy">
+          <g class="rays"><path d="M100 80L20 12M100 80L100 0M100 80L180 12M100 80L2 70M100 80L198 70"/></g>
+          <g class="trophy"><path class="gold" d="M62 30h76v34c0 22-17 38-38 38S62 86 62 64V30z"/><path class="handles" d="M62 38H38c0 22 8 34 26 38M138 38h24c0 22-8 34-26 38"/><path class="gold" d="M92 102h16v20H92zM78 122h44v12H78zM70 134h60v14H70z"/></g>
+        </svg>
+      </div>
+      <div class="f-copy"><h2 class="line total display">{prizes.total}</h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
+    </article>
+
+    <!-- 7 · YOUR MOVE -->
+    <article class="frame f7" id="move" style="--fi:6">
+      <div class="in">
+        <h2 class="line display">{story.move.line}</h2>
+        <p class="sub">{story.move.sub}</p>
+        <div class="cta">
+          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
+          <p class="note">{register.note}</p>
+        </div>
+        <div class="sp-row">
+          {sponsors.list.map((s) => (
+            <div class={`logo ${s.logo === 'macrovision' ? 'dark' : ''}`}>
+              <Picture src={logos[s.logo]} formats={['avif', 'webp']} fallbackFormat="webp" widths={[160, 320]} sizes="160px" alt={s.alt} width={320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
+            </div>
+          ))}
+          <a class="btn btn-ghost" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
+        </div>
+        <p class="faqlink">{story.move.faq.text} <a href={story.move.faq.href}>{story.move.faq.label}</a></p>
+      </div>
+    </article>
+  </div>
+</section>

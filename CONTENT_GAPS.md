@@ -7,7 +7,7 @@ Source of truth: Data Digger brief (`/workspace/srijan/brief/brief.md` + `brief.
 - [ ] **Registration open/close dates**: chat says opens ~4–5 Oct (a CSI email says 5th, 10 PM) and closes 11 Oct. Not on the page; add a "Registrations open on …" line once final.
 - [x] **Team size**: confirmed by Vineet as 1–4 members; shown as a hero chip and in the FAQ.
 - [ ] **Registration fee**: ₹50/head (chat) vs "free" (mockup). Not shown.
-- [ ] **Prizes**: no amounts anywhere confirmed. Page shows "Exciting prizes · Details announced soon". Also unconfirmed: best-idea award, certificates, swag.
+- [ ] **Prizes**: only the TOTAL is confirmed by Vineet: "₹1.5 Lakh+ in rewards" (one string, `prizes.total` in event.json, used in hero chip, frame 6, How-it-works step 5). Breakdown shown as "Breakdown announced soon"; no per-prize/track/place split anywhere. Also unconfirmed: best-idea award, certificates, swag.
 - [ ] **Problem statements**: the 15-statement PDF is a draft (to be final ~4 Oct). Page shows "Problem statements announced soon". The PDF's "Score x/10" values must never be shown. When final, add a `problemStatements.list` to the JSON and render it.
 - [ ] **Open Innovation domain list** (IMG-20261002-WA0038.jpg, not transcribed).
 - [x] **Schedule** trimmed to what the brief supports: 13 Oct online screening, 14 Oct offline finale (demos, judging, prizes). No hacking start, sessions or clock times are implied. Still open: detailed times (page says "Detailed times coming soon").
@@ -25,4 +25,4 @@ Source of truth: Data Digger brief (`/workspace/srijan/brief/brief.md` + `brief.
 - [ ] **Open Graph image**: none yet (needs an approved image and the production URL).
 
 ## Deliberately not on the page (per brief + parent instructions)
-Headcount stats and "24h/36h" claims, mockup times/dates/fees/prize amounts, Day 0–3 schedule, "Gigabit LAN / Chai Bar", Mind You Infotech, Hacker Pass generator, free stay & food, WhatsApp chat content and group links, the entry-pass PDF, phone numbers and personal emails.
+Headcount stats and "24h/36h" claims, mockup times/dates/fees/per-prize amounts, Day 0–3 schedule, "Gigabit LAN / Chai Bar", Mind You Infotech, Hacker Pass generator, free stay & food, WhatsApp chat content and group links, the entry-pass PDF, phone numbers and personal emails.

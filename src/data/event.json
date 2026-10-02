@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "SRIJAN 2K26 | Inter-College Hackathon, SRMCEM Lucknow",
-    "description": "SRIJAN 2K26 is an inter-college hybrid hackathon at SRMCEM, Lucknow on 13–14 October 2026. Build. Create. Impact."
+    "description": "Two days, your idea. Screening online on 13 Oct, finale at SRMCEM Lucknow on 14 Oct. Teams of one to four."
   },
   "event": {
     "name": "SRIJAN",
@@ -37,7 +37,12 @@
     },
     {
       "label": "Domains",
-      "href": "#tracks"
+      "href": "#battlefield",
+      "frame": 3
+    },
+    {
+      "label": "How it works",
+      "href": "#how"
     },
     {
       "label": "Schedule",
@@ -45,11 +50,13 @@
     },
     {
       "label": "Prizes",
-      "href": "#prizes"
+      "href": "#reward",
+      "frame": 5
     },
     {
       "label": "Sponsors",
-      "href": "#sponsors"
+      "href": "#move",
+      "frame": 6
     },
     {
       "label": "FAQ",
@@ -61,20 +68,6 @@
     "body": [
       "SRIJAN 2K26 is an inter-college hackathon that brings together students, developers, innovators and technology enthusiasts to build practical solutions to real-world problems.",
       "It pushes students beyond theoretical learning, turning ideas into working prototypes through teamwork, technology and problem-solving."
-    ],
-    "steps": [
-      {
-        "title": "Register",
-        "text": "Apply online and submit your idea proposal in the registration form."
-      },
-      {
-        "title": "Shortlisting",
-        "text": "On 13 Oct, teams are screened online and the shortlist is announced."
-      },
-      {
-        "title": "Finale",
-        "text": "On 14 Oct, shortlisted teams meet at SRMCEM for the offline finale: demos, judging and prizes."
-      }
     ],
     "venueCaption": "SRMCEM Campus, Lucknow"
   },
@@ -116,13 +109,13 @@
     "footnote": "Detailed times coming soon"
   },
   "prizes": {
-    "heading": "Exciting prizes",
+    "total": "₹1.5 Lakh+ in rewards",
     "motto": [
       "Win",
       "Learn",
       "Get recognized"
     ],
-    "note": "Details announced soon"
+    "note": "Breakdown announced soon"
   },
   "sponsors": {
     "heading": "Backed by",
@@ -191,5 +184,101 @@
         }
       ]
     }
+  },
+  "story": {
+    "spark": {
+      "line": "13–14 Oct 2026.",
+      "support": "One idea is all it takes to start."
+    },
+    "ground": {
+      "caption": "SRMCEM Campus, Lucknow",
+      "line": "Every big thing starts small.",
+      "sub": "Solo or with a team of up to four, you decide.",
+      "alt": "Stylised SRMCEM campus building silhouette with the golden Lion Capital statue in front, traced from the SRIJAN poster"
+    },
+    "city": {
+      "kicker": "SRMCEM, Lucknow",
+      "line": "City of Nawabs",
+      "sub": "A skyline with a long history of making things.",
+      "alt": "Lucknow skyline silhouette of domes and minarets, traced from the SRIJAN poster"
+    },
+    "domains": {
+      "line": "Pick your battlefield",
+      "icons": [
+        "ai",
+        "web",
+        "shield",
+        "campus",
+        "leaf",
+        "open"
+      ],
+      "link": {
+        "label": "See all domains",
+        "href": "#domains"
+      }
+    },
+    "path": {
+      "line": "Your path",
+      "sub": "Online screening 13 Oct. On-campus finale 14 Oct.",
+      "steps": [
+        {
+          "title": "Register",
+          "sub": "Submit your idea"
+        },
+        {
+          "title": "Online screening",
+          "sub": "13 Oct"
+        },
+        {
+          "title": "On-campus finale",
+          "sub": "14 Oct · SRMCEM"
+        }
+      ],
+      "link": {
+        "label": "See the schedule",
+        "href": "#schedule"
+      }
+    },
+    "reward": {
+      "alt": "Golden trophy"
+    },
+    "move": {
+      "line": "Your move.",
+      "sub": "Teams of 1–4. 13–14 Oct 2026. SRMCEM Lucknow, Hybrid.",
+      "faq": {
+        "text": "Questions?",
+        "label": "See the FAQ",
+        "href": "#faq"
+      }
+    }
+  },
+  "how": {
+    "heading": "From idea to finale",
+    "aria": "How it works",
+    "steps": [
+      {
+        "title": "Register",
+        "text": "Submit your idea through the Google Form.",
+        "tag": "Details coming soon"
+      },
+      {
+        "title": "Idea review",
+        "text": "Ideas are reviewed and selected teams are announced.",
+        "tag": "Details coming soon"
+      },
+      {
+        "title": "Online round, 13 Oct",
+        "text": "The online screening round."
+      },
+      {
+        "title": "Finale, 14 Oct",
+        "text": "Present your work at SRMCEM Lucknow to the judges."
+      },
+      {
+        "title": "Results and rewards",
+        "reward": true
+      }
+    ],
+    "cta": "Your move."
   }
 }

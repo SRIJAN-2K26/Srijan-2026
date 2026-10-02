@@ -6,7 +6,7 @@ for (const w of [390, 820, 1280]) {
   const r = await p.evaluate(() => {
     const vw = document.documentElement.clientWidth, out = [];
     document.querySelectorAll('main *, header *, footer *').forEach((e) => {
-      if (e.closest('.ticker') || e.classList.contains('slash') || e.closest('.hero') && e.classList.contains('slash')) return;
+      if (e.closest('.ticker, .wipes, .streak, .f-art, .lit, .frame')) return; // decorative, clipped by overflow:hidden
       const r = e.getBoundingClientRect();
       if (r.width && (r.right > vw + 1 || r.left < -1)) out.push(e.tagName + '.' + e.className + ' ' + Math.round(r.left) + '-' + Math.round(r.right));
     });
