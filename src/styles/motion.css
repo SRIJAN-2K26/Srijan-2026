@@ -1,0 +1,18 @@
+/* Motion layer: pointer-only / motion-ok effects. Reduced-motion and no-JS keep the static page. */
+
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto !important; }
+
+.spot {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 102, 0, 0.08), transparent 80%);
+}
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js.spot-on .spot { opacity: 1; }
+  }
+}

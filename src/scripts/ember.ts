@@ -95,9 +95,18 @@ if (canvas && ctx) {
       }
       ctx.globalAlpha = 1;
     };
-    const run = () => { if (!raf && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(tick); } };
+    const run = () => { if (!raf && !document.hidden && onScreen) { last = performance.now(); raf = requestAnimationFrame(tick); } };
     const stop = () => { cancelAnimationFrame(raf); raf = 0; };
-    const start = () => { size(); for (let i = 0; i < COUNT; i++) ps.push(spawn(null, true)); run(); document.addEventListener('visibilitychange', () => (document.hidden ? stop() : run())); };
+    let onScreen = true;
+    const start = () => {
+      size(); for (let i = 0; i < COUNT; i++) ps.push(spawn(null, true));
+      run();
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : run()));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((es) => { onScreen = !!es[0]?.isIntersecting; onScreen && !document.hidden ? run() : stop(); }, { threshold: 0 });
+        io.observe(canvas);
+      }
+    };
     'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 1500 }) : (tid = window.setTimeout(start, 300));
   }
 }
