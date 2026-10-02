@@ -89,11 +89,17 @@ const chars = (s: string) => s.split('').map((ch, i) => <span class="ch" style={
     <!-- 4 · PATH -->
     <article class="frame f4" id="path" style="--fi:3">
       <div class="f-copy top"><h2 class="line display">{story.path.line}</h2><p class="sub">{story.path.sub}</p></div>
-      <ol class="steps5">
-        {story.path.steps.map((s, i) => (
-          <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong><span>{s.sub}</span></span></li>
-        ))}
-      </ol>
+      <div class="path-wrap">
+        <svg class="path-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="path-track" d="M14 10v80" />
+          <path class="path-beam" pathLength="100" d="M14 10v80" />
+        </svg>
+        <ol class="steps5">
+          {story.path.steps.map((s, i) => (
+            <li class="st" data-path-node style={`--j:${i}`}><span class="dot" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="txt"><strong>{s.title}</strong><span>{s.sub}</span></span></li>
+          ))}
+        </ol>
+      </div>
       <p class="f-copy"><a class="flink" href={story.path.link.href}>{story.path.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a><span class="sub small soonnote"> {data.schedule.footnote}</span></p>
     </article>
 
