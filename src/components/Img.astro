@@ -1,0 +1,13 @@
+---
+// AVIF srcset for modern browsers + ONE WebP fallback (browsers without AVIF, <2023).
+// Keeps dist/ small: Astro's <Picture> would emit every width in both formats.
+import { getImage } from 'astro:assets';
+const { src, widths, sizes, width, height, alt, loading = 'lazy', fetchpriority, fallbackWidth } = Astro.props;
+const avif = await Promise.all(widths.map((w: number) => getImage({ src, width: w, format: 'avif' })));
+const fb = await getImage({ src, width: fallbackWidth ?? widths[Math.floor(widths.length / 2)], format: 'webp' });
+const srcset = avif.map((i) => `${i.src} ${i.attributes.width}w`).join(', ');
+---
+<picture>
+  <source type="image/avif" srcset={srcset} sizes={sizes} />
+  <img src={fb.src} alt={alt} width={width} height={height} loading={loading} decoding="async" fetchpriority={fetchpriority} />
+</picture>

@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import Img from '../components/Img.astro';
 import Base from '../layouts/Base.astro';
 import data from '../data/event.json';
 import venue from '../assets/venue.jpg';
@@ -107,14 +107,14 @@ const tagline = ev.tagline;
             </ol>
           </div>
           <figure class="poster" data-reveal>
-            <Picture src={poster} formats={['avif']} fallbackFormat="webp" widths={[360, 520, 780]} sizes="(min-width: 56rem) 26rem, 90vw" width={520} height={780}
+            <Img src={poster} fallbackWidth={520} widths={[360, 520, 660, 780]} sizes="(min-width: 56rem) 26rem, 90vw" width={520} height={780}
               alt="SRIJAN 2K26 inter-college hackathon poster: 13–14 Oct 2026, SRMCEM Campus Lucknow, hybrid mode" loading="lazy" />
             <figcaption>Official poster</figcaption>
           </figure>
         </div>
 
         <figure class="venue" data-reveal>
-          <Picture src={venue} formats={['avif']} fallbackFormat="webp" widths={[480, 768, 1024]} sizes="(min-width: 76rem) 70rem, 92vw" width={1024} height={380}
+          <Img src={venue} fallbackWidth={768} widths={[400, 560, 768, 1024]} sizes="(min-width: 76rem) 70rem, 92vw" width={1024} height={380}
             alt="SRMCEM campus building with the golden Ashoka lion capital statue in front" loading="lazy" />
           <figcaption>{about.venueCaption} · {ev.venueFull}</figcaption>
         </figure>
@@ -188,7 +188,7 @@ const tagline = ev.tagline;
         <div class="sp-row" data-stagger>
           {sponsors.list.map((s, i) => (
             <div class={`logo ${s.logo === 'macrovision' ? 'dark' : ''}`} style={`--i:${i}`}>
-              <Picture src={logos[s.logo]} formats={['avif']} fallbackFormat="webp" widths={s.logo === 'macrovision' ? [96, 192] : [256, 320]} sizes={s.logo === 'macrovision' ? '96px' : '256px'} alt={s.alt}
+              <Img src={logos[s.logo]} fallbackWidth={s.logo === 'macrovision' ? 192 : 320} widths={s.logo === 'macrovision' ? [96, 192] : [256, 320]} sizes={s.logo === 'macrovision' ? '96px' : '256px'} alt={s.alt}
                 width={320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
             </div>
           ))}
