@@ -27,8 +27,7 @@
   },
   "register": {
     "href": "https://forms.gle/6yS5wjADebhmvPpZA",
-    "label": "Register now",
-    "note": "Fee confirmed at registration"
+    "label": "Register now"
   },
   "nav": [
     {
@@ -38,7 +37,7 @@
     {
       "label": "Domains",
       "href": "#battlefield",
-      "frame": 3
+      "frame": 2
     },
     {
       "label": "How it works",
@@ -51,12 +50,12 @@
     {
       "label": "Prizes",
       "href": "#reward",
-      "frame": 5
+      "frame": 4
     },
     {
       "label": "Sponsors",
       "href": "#move",
-      "frame": 6
+      "frame": 5
     },
     {
       "label": "FAQ",
@@ -74,7 +73,7 @@
   "tracks": {
     "heading": "Six domains. Pick your battlefield.",
     "list": [
-      "AI & Machine Learning",
+      "AI & ML",
       "Web & App Development",
       "Cybersecurity",
       "Smart Campus Solutions",
@@ -154,10 +153,6 @@
       {
         "q": "How big can a team be?",
         "a": "Teams of 1 to 4 members."
-      },
-      {
-        "q": "Is there a registration fee?",
-        "a": "The fee is confirmed at registration."
       }
     ],
     "contactPointer": {
@@ -191,15 +186,11 @@
       "support": "One idea is all it takes to start."
     },
     "ground": {
-      "caption": "SRMCEM Campus, Lucknow",
       "line": "Every big thing starts small.",
-      "sub": "Solo or with a team of up to four, you decide.",
-      "alt": "Stylised SRMCEM campus building silhouette with the golden Lion Capital statue in front, traced from the SRIJAN poster"
-    },
-    "city": {
-      "kicker": "SRMCEM, Lucknow",
-      "line": "City of Nawabs",
-      "sub": "A skyline with a long history of making things.",
+      "sub": [
+        "Solo or with a team of up to four.",
+        "City of Nawabs, SRMCEM Lucknow."
+      ],
       "alt": "Lucknow skyline silhouette of domes and minarets, traced from the SRIJAN poster"
     },
     "domains": {

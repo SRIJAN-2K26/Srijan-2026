@@ -54,7 +54,7 @@ h1, h2, h3, p, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 
 :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
-.skip { display: block; text-align: center; background: var(--orange); color: #000; padding: .4rem 1rem; font-size: .85rem; font-weight: 700; text-decoration: none; }
+.skip { display: flex; align-items: center; justify-content: center; min-height: 44px; text-align: center; background: var(--orange); color: #000; padding: .4rem 1rem; font-size: .85rem; font-weight: 700; text-decoration: none; }
 .skip:focus-visible { outline-offset: -4px; outline-color: #000; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
@@ -189,6 +189,7 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 .day summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.4rem 1.5rem; -webkit-tap-highlight-color: transparent; transition: background-color 160ms; }
 .day summary::-webkit-details-marker { display: none; }
 .day summary:hover { background: #181818; }
+.day summary:focus-visible { outline-offset: -4px; }
 .day summary:active { background: #222; }
 .day .d { font-size: .8rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 .day .date { font-family: var(--display); text-transform: uppercase; font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1; }
@@ -280,6 +281,9 @@ footer .person:active { transform: scale(.98); }
 .num { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: var(--orange); color: #000; font-family: var(--display); font-size: 1.5rem; line-height: 1; }
 .stp h3 { font-size: 1.1rem; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; line-height: 1.2; padding-top: .35rem; }
 .stp p { color: var(--muted); margin-top: .2rem; }
-.pill { display: inline-block; margin-top: .5rem; padding: .2rem .7rem; border: 1px solid #444; border-radius: 999px; color: var(--muted); font-size: .8rem; font-weight: 600; }
+.pill { display: inline-block; margin-top: .5rem; padding: .2rem .7rem; border: 0; border-radius: 999px; background: rgba(255,255,255,.08); color: var(--muted); font-size: .8rem; font-weight: 600; }
 .stepper + .cta { margin-top: 1.5rem; }
 .yourmove { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+
+/* keep the stepper Register button clear of the sticky dock (dock shows below 64rem) */
+@media (max-width: 63.99rem) { #how { padding-bottom: 6.5rem; } }

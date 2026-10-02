@@ -9,7 +9,7 @@ for (const [w, h] of [[390, 844], [1280, 800]]) {
   const p = await (await b.newContext({ viewport: { width: w, height: h } })).newPage();
   await p.goto(BASE, { waitUntil: 'networkidle' }); await p.waitForTimeout(1500);
   const F = Math.round(.9 * h); let worst = [99, ''];
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 6; i++) {
     await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), Math.round((i + (i ? .6 : .02)) * F)); await p.waitForTimeout(300);
     const items = await p.evaluate((i) => {
       const f = document.querySelectorAll('.frame')[i]; const out = [];

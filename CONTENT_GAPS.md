@@ -6,7 +6,7 @@ Source of truth: Data Digger brief (`/workspace/srijan/brief/brief.md` + `brief.
 - [ ] **Register link** `https://forms.gle/6yS5wjADebhmvPpZA` is provisional (source: chat, 2 Oct). The payment QR is still pending college approval and the form may be replaced. One-line swap: `register.href` in `src/data/event.json`.
 - [ ] **Registration open/close dates**: chat says opens ~4–5 Oct (a CSI email says 5th, 10 PM) and closes 11 Oct. Not on the page; add a "Registrations open on …" line once final.
 - [x] **Team size**: confirmed by Vineet as 1–4 members; shown as a hero chip and in the FAQ.
-- [ ] **Registration fee**: ₹50/head (chat) vs "free" (mockup). Not shown.
+- [ ] **Registration fee**: ₹50/head (chat) vs "free" (mockup). Not shown anywhere on the page (no fee copy, no FAQ item).
 - [ ] **Prizes**: only the TOTAL is confirmed by Vineet: "₹1.5 Lakh+ in rewards" (one string, `prizes.total` in event.json, used in hero chip, frame 6, How-it-works step 5). Breakdown shown as "Breakdown announced soon"; no per-prize/track/place split anywhere. Also unconfirmed: best-idea award, certificates, swag.
 - [ ] **Problem statements**: the 15-statement PDF is a draft (to be final ~4 Oct). Page shows "Problem statements announced soon". The PDF's "Score x/10" values must never be shown. When final, add a `problemStatements.list` to the JSON and render it.
 - [ ] **Open Innovation domain list** (IMG-20261002-WA0038.jpg, not transcribed).

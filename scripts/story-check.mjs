@@ -18,7 +18,7 @@ for (const reduce of [false, true]) for (const [w, h] of sizes) {
   } else {
     const info = await p.evaluate(() => { const s = document.querySelector('.stage').getBoundingClientRect(); return { stageH: Math.round(s.height), F: Math.round(0.9 * innerHeight), pinned: getComputedStyle(document.querySelector('.stage')).position }; });
     const rows = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 6; i++) {
       const y = Math.round((i + (i === 0 ? 0.02 : 0.55)) * info.F);
       await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), y); await p.waitForTimeout(250);
       const r = await p.evaluate((i) => {
