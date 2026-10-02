@@ -1,0 +1,46 @@
+/* Motion layer (timeline / counters / buttons). transform + opacity only, except
+   stroke-dashoffset on the timeline path and FAQ panel height (explicit exceptions). */
+:root { --fx-ease: cubic-bezier(0.2, 0, 0, 1); }
+
+/* ───────── Timeline: SVG draw + node bloom ───────── */
+[data-timeline] { position: relative; }
+.tl-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+  color: var(--orange); z-index: 0; overflow: visible;
+}
+[data-timeline] > :not(.tl-svg) { position: relative; z-index: 1; }
+.dot, .num { position: relative; }
+.dot::before, .num::before, .dot::after, .num::after {
+  content: ''; position: absolute; border-radius: 50%; pointer-events: none;
+}
+.dot::before, .num::before { /* bloom */
+  inset: -14px; z-index: -1;
+  background: radial-gradient(circle, rgba(255,138,51,.55), transparent 70%);
+  opacity: .35;
+}
+.dot::after, .num::after { /* ring */
+  inset: -7px; border: 2px solid var(--orange-hi); opacity: .45;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .dot::before, .js .num::before, .js .dot::after, .js .num::after { opacity: 0; }
+  .js .tl-on .dot::before, .js .tl-on .num::before {
+    animation: bloom 900ms var(--fx-ease) both;
+  }
+  .js .tl-on .dot::after, .js .tl-on .num::after {
+    animation: ringpulse 1.1s var(--fx-ease) both;
+  }
+  @keyframes bloom { from { opacity: 0; transform: scale(.6); } to { opacity: .7; transform: none; } }
+  @keyframes ringpulse {
+    0% { opacity: 0; transform: scale(.7); }
+    45% { opacity: 1; }
+    100% { opacity: .55; transform: scale(1.15); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot::before, .num::before, .dot::after, .num::after {
+    animation: none !important; transform: none !important;
+  }
+  .dot::before, .num::before { opacity: .35; }
+  .dot::after, .num::after { opacity: .45; }
+}

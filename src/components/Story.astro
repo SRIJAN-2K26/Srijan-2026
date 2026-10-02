@@ -5,6 +5,7 @@ import data from '../data/event.json';
 import Skyline from './Skyline.astro';
 import RegLine from './RegLine.astro';
 import '../styles/skyline.css';
+import '../styles/motion-fx.css';
 import paytm from '../assets/sponsors/paytm.webp';
 import xyz from '../assets/sponsors/xyz.webp';
 import macrovisionAi from '../assets/sponsors/macrovision-ai-black.webp';
@@ -88,7 +89,8 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
     <!-- 4 · PATH -->
     <article class="frame f4" id="path" style="--fi:3">
       <div class="f-copy top"><h2 class="line display">{story.path.line}</h2><p class="sub">{story.path.sub}</p></div>
-      <ol class="steps5">
+      <ol class="steps5" data-timeline>
+        <svg class="tl-svg" aria-hidden="true" focusable="false"><path class="tl-path" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         {story.path.steps.map((s, i) => (
           <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong><span>{s.sub}</span></span></li>
         ))}
@@ -131,3 +133,4 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
 </section>
 
 <script>import '../scripts/reg-countdown.ts';</script>
+<script>import '../scripts/timeline.ts';</script>
