@@ -30,7 +30,7 @@ for (const [w, h] of (process.env.SIZES ? JSON.parse(process.env.SIZES) : [[390,
       const crMin = tl >= mn ? (tl + .05) / (mx + .05) : 0; // text lighter than darkest; compare to brightest bg
       const val = tl > mx ? (tl + .05) / (mx + .05) : tl < mn ? (mn + .05) / (tl + .05) : Math.min((tl + .05) / (mx + .05), (mx + .05) / (tl + .05));
       if (val < worst[0]) worst = [val, `f${i + 1} "${it.t}" ${it.c}`];
-      if (val < 4.5) console.log(JSON.stringify([it.x,it.y,it.w,it.h].map(Math.round)), w, `f${i + 1}`, JSON.stringify(it.t), it.c, 'worst-bg lum', mx.toFixed(3), 'ratio', val.toFixed(2));
+      if (val < (Number(process.env.THRESH) || 4.5)) console.log(JSON.stringify([it.x,it.y,it.w,it.h].map(Math.round)), w, `f${i + 1}`, JSON.stringify(it.t), it.c, 'worst-bg lum', mx.toFixed(3), 'ratio', val.toFixed(2));
     }
     await p.evaluate(() => document.getElementById('hide')?.remove());
   }

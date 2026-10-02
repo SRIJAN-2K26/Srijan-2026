@@ -43,7 +43,7 @@
   .ly-far { --dx: -1.2%; --dz: 30px; } .ly-mid { --dx: -2.6%; --dz: 70px; } .ly-near { --dx: -4.5%; --dz: 120px; } .ly-front { --dx: -8%; --dz: 190px; }
   @keyframes dolly { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(var(--dx), 0, var(--dz)); } }
   /* the city is full-strength in the hero (behind a scrim) and frame 2, then recedes behind the cards, glows again behind the trophy */
-  @keyframes cityv { 0%, 30% { opacity: 1; } 38%, 100% { opacity: .16; } }
+  @keyframes cityv { 0%, 30% { opacity: 1; } 38%, 100% { opacity: .08; } }
   @keyframes scrimv { 0%, 5% { opacity: 1; } 15%, 100% { opacity: 0; } }
 }
 }
