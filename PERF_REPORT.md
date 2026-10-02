@@ -18,7 +18,7 @@ Tooling lives outside the repo (`/workspace/perf-tools`: `serve.mjs`, `lh.sh`, `
 | Total transfer in the Lighthouse load (brotli, incl. lazy images it scrolls to) | 184.8 KB | **124.5 KB (−33 %)** |
 | Requests | 7 | 6 |
 | Render-blocking requests | 1 (CSS) | **0** |
-| Font bytes (Anton + Inter) | 67.3 KB | **30.3 KB (−55 %)** |
+| Font bytes (Anton + Inter) | 67.3 KB | **31.1 KB (−54 %)** |
 | `dist/` size on disk | 700 KB (36 files) | **492 KB (−30 %)**, 25 files |
 | Critical chain | HTML → CSS → fonts (3 levels) | HTML → fonts (Anton preloaded) |
 
