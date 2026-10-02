@@ -7,7 +7,14 @@ const fail = (m) => { bad++; console.log('FAIL', m); };
 const feeHits = [...text.matchAll(/.{0,40}\bfee\b.{0,60}/gi)].map((m) => m[0].trim());
 console.log('fee mentions:', feeHits.length); feeHits.forEach((h) => console.log('  ', h));
 if (/\bfees?\b/i.test(text.replace(/Registration fee/gi, ''))) fail('"fee" outside the Registration fee heading');
-for (const [re, why] of [[/\bUPI\b|\bQR\b|scan to|payment|pay (by|via|here|online)|bank|account number|deadline|last date|closes|closing/i, 'payment/QR/deadline'], [/48 hours|24 hours|\btop 75\b|\b75 teams\b/i, 'banned numbers'], [/\b\d{1,2}:\d{2}\s?(am|pm)?\b|\b\d{1,2}\s?(am|pm)\b/i, 'clock times'], [/\+?\d[\d\s-]{9,}\d/, 'phone-like numbers'], [/1,00,000|₹\s?1,00/, 'sponsor figure']]) if (re.test(text)) fail(why + ': ' + text.match(re)[0]);
+const t2 = text.replace(/12:00 PM IST/g, ''); // the owner-confirmed close time
+for (const [re, why] of [[/\bUPI\b|\bQR\b|scan to|payment|pay (by|via|here|online)|bank|account number|deadline|last date|payment deadline|registration (opens|open from)|opens on/i, 'payment/QR/deadline/opening date'], [/48 hours|24 hours|\btop 75\b|\b75 teams\b/i, 'banned numbers'], [/\b\d{1,2}:\d{2}\s?(am|pm)?\b|\b\d{1,2}\s?(am|pm)\b/i, 'clock times (only the 12:00 PM IST close time is allowed)'], [/\+?\d[\d\s-]{9,}\d/, 'phone-like numbers'], [/1,00,000|₹\s?1,00/, 'sponsor figure']]) if (re.test(t2)) fail(why + ': ' + t2.match(re)[0]);
+// dates: only 11 Oct (registration close), 12 Oct (shortlist), 13-14 Oct (event)
+const days = new Set(); for (const m of text.matchAll(/\b(\d{1,2})(?:\s?[–-]\s?(\d{1,2}))?\s+(?:Oct\b|October\b)/g)) { days.add(+m[1]); if (m[2]) days.add(+m[2]); }
+console.log('Oct days on page:', [...days].sort((a, b) => a - b).join(' '));
+for (const d of days) if (![11, 12, 13, 14].includes(d)) fail('unexpected date: ' + d + ' Oct');
+if (/\b(Sep|Sept|September|Nov|November)\b/.test(text)) fail('other month');
+if (!text.includes('Registration closes 11 Oct 2026, 12:00 PM IST')) fail('missing static close line');
 const amounts = [...text.matchAll(/₹\s?[\d,.]+(?:\s?Lakh\+?)?/g)].map((m) => m[0].replace(/\s/g, ''));
 const allowed = new Set(['₹50', '₹100', '₹150', '₹200', '₹1.5Lakh+']);
 const unexpected = [...new Set(amounts)].filter((a) => !allowed.has(a));
