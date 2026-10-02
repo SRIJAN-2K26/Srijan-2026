@@ -45,7 +45,7 @@ html { background: var(--bg); color: var(--fg); -webkit-text-size-adjust: 100%; 
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   margin: 0; font-family: var(--sans); font-size: 1rem; line-height: 1.6;
-  background: var(--bg); overflow-x: hidden;
+  background: transparent; /* html carries --bg; the fixed ember canvas (z-index 0) shows through, content sits above it */ overflow-x: hidden;
   padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 }
 img { display: block; max-width: 100%; height: auto; }
@@ -54,7 +54,7 @@ h1, h2, h3, p, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 
 :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
-.skip { display: flex; align-items: center; justify-content: center; min-height: 44px; text-align: center; background: var(--orange); color: #000; padding: .4rem 1rem; font-size: .85rem; font-weight: 700; text-decoration: none; }
+.skip { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; text-align: center; background: var(--orange); color: #000; padding: .4rem 1rem; font-size: .85rem; font-weight: 700; text-decoration: none; }
 .skip:focus-visible { outline-offset: -4px; outline-color: #000; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
@@ -242,6 +242,7 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 .contact h2 { font-size: clamp(3rem, 11vw, 8rem); max-width: 12ch; }
 .contact .lead { margin-top: 1.5rem; }
 .contact .cta { margin-top: 2rem; }
+main, footer { position: relative; z-index: 1; }
 footer { border-top: 1px solid var(--line); padding-block: 2.5rem; color: var(--muted); font-size: .9rem; }
 footer .wrap { display: grid; gap: 1.25rem; }
 footer .big { font-family: var(--display); text-transform: uppercase; font-size: 1.6rem; color: var(--fg); letter-spacing: .04em; }

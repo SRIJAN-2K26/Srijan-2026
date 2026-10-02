@@ -1,0 +1,11 @@
+---
+// Procedural background: dark matrix grid + 80 rising embers on one fixed <canvas>. Drawn by src/scripts/ember.ts
+// (bundled external module: no inline script, CSP unchanged). Without JS the canvas is just the page background colour.
+---
+<canvas class="ember" aria-hidden="true"></canvas>
+<script>
+  import '../scripts/ember.ts';
+</script>
+<style is:global>
+  .ember { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; background: #0a0a0a; display: block; }
+</style>

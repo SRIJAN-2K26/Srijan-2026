@@ -3,7 +3,7 @@
    Pinned scroll story is layered on inside @supports + prefers-reduced-motion: no-preference.
    Only transform / opacity (and visibility for hiding) are animated. */
 :root { --slate: #47607a; --gold: color-mix(in srgb, var(--orange) 70%, #fff); }
-.story { position: relative; background: var(--bg); padding: 0; }
+.story { position: relative; background: transparent; padding: 0; }
 .stage { position: relative; overflow: hidden; isolation: isolate; }
 
 /* orange diagonal streaks (poster) */
