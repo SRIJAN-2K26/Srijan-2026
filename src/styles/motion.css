@@ -16,3 +16,53 @@ html.lenis { scroll-behavior: auto !important; }
     html.js.spot-on .spot { opacity: 1; }
   }
 }
+
+/* Kinetic split-text: letters stay in flow (no CLS). JS-off / reduced-motion show them at rest. */
+.kin .ch { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .kin .ch {
+    animation: kin-in 640ms var(--ease) both;
+    animation-delay: calc(var(--c, 0) * 38ms + 280ms);
+  }
+  html.js .tag.kin .ch { animation-delay: calc(var(--c, 0) * 32ms + 720ms); }
+}
+@keyframes kin-in {
+  from { opacity: 0; transform: translateY(0.42em); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Chromatic / neon pulse: orange-only offsets so contrast vs black stays >= 4.5:1 (no cyan/dim fringing). */
+.chroma-pulse { position: relative; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .chroma-pulse {
+    animation: neon-pulse 4.8s ease-in-out 1.4s infinite;
+  }
+  html.js .chroma-pulse::before,
+  html.js .chroma-pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 2px;
+    opacity: 0;
+    animation: chroma-flick 4.8s ease-in-out 1.4s infinite;
+  }
+  html.js .chroma-pulse::before { box-shadow: 2px 0 0 rgba(255, 102, 0, 0.35); }
+  html.js .chroma-pulse::after { box-shadow: -2px 0 0 rgba(255, 138, 51, 0.28); animation-delay: 1.55s; }
+}
+@keyframes neon-pulse {
+  0%, 100% { text-shadow: 0 0 0 transparent; filter: none; }
+  40% { text-shadow: 0 0 10px rgba(255, 102, 0, 0.45), 0 0 22px rgba(255, 102, 0, 0.2); }
+  50% { text-shadow: 2px 0 0 rgba(255, 102, 0, 0.4), -2px 0 0 rgba(255, 138, 51, 0.28), 0 0 14px rgba(255, 102, 0, 0.35); }
+  62% { text-shadow: 0 0 8px rgba(255, 102, 0, 0.3); }
+}
+@keyframes chroma-flick {
+  0%, 70%, 100% { opacity: 0; }
+  48%, 54% { opacity: 1; }
+}
+
+/* Hero skyline: JS sets --para-y on silhouette vs foreground at different rates (pinned story uses CSS dolly). */
+@media (prefers-reduced-motion: no-preference) {
+  .sky.s-hero .ly-far, .sky.s-hero .ly-mid { transform: translate3d(0, calc(var(--para-far, 0) * 1px), 0); }
+  .sky.s-hero .ly-near, .sky.s-hero .ly-front { transform: translate3d(0, calc(var(--para-near, 0) * 1px), 0); }
+}

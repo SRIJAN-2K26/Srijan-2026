@@ -31,6 +31,7 @@ const chip = {
 };
 const logoList = sponsors.list;
 const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSize], [chip.cup, prizes.total]];
+const chars = (s: string) => s.split('').map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch === ' ' ? '\u00A0' : ch}</span>);
 ---
 <section class="story" id="top" aria-label={`${ev.name} ${ev.year}`}>
   <Skyline mode="defs" />
@@ -44,8 +45,8 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
       <Skyline cls="s s-hero" />
       <div class="in">
         <p class="inst">{ev.type}</p>
-        <h1 id="hero-title" class="display" aria-label={`${ev.name} ${ev.year}`}>
-          <span class="lit" aria-hidden="true"></span><span class="nm">{nameA}</span><span class="bi"><span class="nm">{nameI}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm">{nameB}</span>{' '}<span class="y">{ev.year}</span>
+        <h1 id="hero-title" class="display kin" aria-label={`${ev.name} ${ev.year}`}>
+          <span class="lit" aria-hidden="true"></span><span class="nm">{chars(nameA)}</span><span class="bi"><span class="nm">{chars(nameI)}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm">{chars(nameB)}</span>{' '}<span class="y chroma-pulse">{chars(ev.year)}</span>
         </h1>
         <div class="sponsored">
           <p class="sp-label">{sponsors.label}</p>
@@ -53,7 +54,7 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
             {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="eager" /></li>)}
           </ul>
         </div>
-        <p class="tag">{ev.tagline.map((t, i) => <><span>{t}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
+        <p class="tag kin" aria-label={ev.tagline.join(' • ')}>{ev.tagline.map((t, i) => <><span class:list={['tw', i === 2 && 'chroma-pulse']} aria-hidden="true">{chars(t)}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
         <p class="when display">{story.spark.line}</p>
         <p class="support">{story.spark.support}</p>
         <ul class="facts" aria-label="Event details">

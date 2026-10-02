@@ -40,8 +40,9 @@
     animation: scrimv linear both; animation-timeline: scroll(root); animation-range: 0 calc(6 * var(--F)); }
   @media (min-width: 64rem) { .scrim { background: linear-gradient(90deg, rgba(10,10,10,.94) 0 38%, rgba(10,10,10,.5) 78%, rgba(10,10,10,.15)); } }
   .ly { animation: dolly linear both; animation-timeline: scroll(root); animation-range: 0 calc(6 * var(--F)); will-change: transform; }
-  .ly-far { --dx: -1.2%; --dz: 30px; } .ly-mid { --dx: -2.6%; --dz: 70px; } .ly-near { --dx: -4.5%; --dz: 120px; } .ly-front { --dx: -8%; --dz: 190px; }
-  @keyframes dolly { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(var(--dx), 0, var(--dz)); } }
+  /* silhouette (far/mid) crawls slower; foreground (near/front) overshoots — two-speed parallax */
+  .ly-far { --dx: -0.7%; --dy: 8%; --dz: 18px; } .ly-mid { --dx: -2%; --dy: 4%; --dz: 55px; } .ly-near { --dx: -5.2%; --dy: -3%; --dz: 140px; } .ly-front { --dx: -10%; --dy: -7%; --dz: 220px; }
+  @keyframes dolly { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(var(--dx), var(--dy), var(--dz)); } }
   /* the city is full-strength in the hero (behind a scrim) and frame 2, then recedes behind the cards, glows again behind the trophy */
   @keyframes cityv { 0%, 30% { opacity: 1; } 38%, 100% { opacity: .08; } }
   @keyframes scrimv { 0%, 5% { opacity: 1; } 15%, 100% { opacity: 0; } }
