@@ -204,6 +204,7 @@ const tagline = ev.tagline;
             </details>
           ))}
         </div>
+        <p class="faq-more" data-reveal>{faq.contactPointer.text} <a href={faq.contactPointer.href}>{faq.contactPointer.linkLabel}</a></p>
       </div>
     </section>
 
@@ -224,6 +225,19 @@ const tagline = ev.tagline;
 
   <footer>
     <div class="wrap">
+      <div class="ask" id="contact-us" data-reveal>
+        <h2 class="display">{contact.questions.heading}</h2>
+        <ul class="people" data-stagger>
+          {contact.questions.people.map((c, i) => (
+            <li style={`--i:${i}`}>
+              <a class="person" href={`mailto:${c.email}`}>
+                <span class="who"><strong>{c.name}</strong><span>{c.role}</span></span>
+                <span class="mail">{c.email}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div>
         <p class="big">{ev.name} <span>{ev.year}</span></p>
         <p style="margin-top:.5rem">{ev.type} · {ev.datesLong} · {ev.mode}</p>

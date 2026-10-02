@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 const b = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox'] });
 for (const w of [390, 820, 1280]) {
   const p = await (await b.newContext({ viewport: { width: w, height: 800 } })).newPage();
-  await p.goto('http://localhost:4321/', { waitUntil: 'networkidle' });
+  await p.goto((process.env.BASE || 'http://localhost:4321/'), { waitUntil: 'networkidle' });
   const r = await p.evaluate(() => {
     const vw = document.documentElement.clientWidth, out = [];
     document.querySelectorAll('main *, header *, footer *').forEach((e) => {

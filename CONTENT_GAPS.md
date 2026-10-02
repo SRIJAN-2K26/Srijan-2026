@@ -15,7 +15,7 @@ Source of truth: Data Digger brief (`/workspace/srijan/brief/brief.md` + `brief.
 - [ ] **Sponsors**: Paytm and MacroVision AI shown (source: chat + logo files). Sponsor tier and **permission to display logos** unconfirmed. A third logo (`xyz_….jpg`, probably .xyz domain sponsor) is unconfirmed and left off. OSEN/Sprite/Campa were talks only. Partner button uses the sponsor form `https://forms.gle/CJGvo1dniUA4MumSA`.
 
 ## Missing content
-- [ ] **Public contact**: the brief lists `Lead.csidcoders@gmail.com` (Student Lead). It is a person-attached address, so it is NOT published. Need an approved public org email or social handles. Contact section currently offers Register / Partner CTAs only.
+- [x] **Public contact** resolved: Vineet supplied two public contacts, now in the footer "Questions? Contact us" block (`contact.questions` in `src/data/event.json`): Ankit Yadav (GFG SRMCEM Lead, gfg.campusbody.srmcem@gmail.com) and Abhay Shanker Tiwari (CSI SRMCEM Lead, Lead.csidcoders@gmail.com; address taken from the brief's sponsorship proposal). Still open: phone numbers (intentionally none) and a shared org inbox, if the organizers prefer one.
 - [ ] **Social URLs** (Instagram/LinkedIn): none in the sources.
 - [ ] **Official SRIJAN logo**: none exists (chat, 2 Oct). Header uses a text wordmark; `public/favicon.svg` is a plain monogram, not an official mark.
 - [ ] **Organizer logos** (CSI, SRMCEM, D'CODERS, GFG) as standalone files: only present inside posters. Organizers are named in text.

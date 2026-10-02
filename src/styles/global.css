@@ -290,4 +290,17 @@ footer p strong { color: var(--fg); font-weight: 600; }
 footer ul { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
 footer a { text-decoration: none; padding: .35rem 0; display: inline-block; }
 footer a:hover { color: var(--fg); text-decoration: underline; }
-@media (min-width: 48rem) { footer .wrap { grid-template-columns: 1.4fr 1fr; align-items: end; } }
+@media (min-width: 48rem) { footer .wrap { grid-template-columns: 1.4fr 1fr; align-items: end; } footer .ask { grid-column: 1 / -1; } }
+footer .ask { padding-bottom: 1.75rem; border-bottom: 1px solid var(--line); }
+footer .ask h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); color: var(--fg); }
+.people { display: grid; gap: .75rem; margin-top: 1.25rem; }
+footer .person { display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 16px; background: var(--bg-2); min-height: 3.5rem; text-decoration: none; transition: transform 180ms var(--ease), border-color 180ms, background-color 180ms; -webkit-tap-highlight-color: transparent; }
+footer .person:hover, footer .person:focus-visible { transform: translateY(-3px); border-color: var(--fg); background: #1b1b1b; text-decoration: none; }
+footer .person:active { transform: scale(.98); }
+.person .who strong { color: var(--fg); font-size: 1.05rem; display: block; }
+.person .who span { color: var(--muted); font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
+.person .mail { color: var(--fg); font-weight: 600; overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: #666; text-underline-offset: 3px; }
+@media (min-width: 40rem) { .people { grid-template-columns: repeat(2, 1fr); } }
+.faq-more { margin-top: 1.5rem; color: var(--muted); }
+.faq-more a { color: var(--fg); font-weight: 700; text-underline-offset: 3px; padding: .5rem 0; display: inline-block; }
+.faq-more a:hover { color: var(--orange); }
