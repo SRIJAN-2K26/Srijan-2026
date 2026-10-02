@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import data from '../data/event.json';
 import antonUrl from '../assets/fonts/anton-400-subset.woff2?url';
+import interUrl from '../assets/fonts/inter-wght-subset.woff2?url';
 const { title = data.meta.title, description = data.meta.description } = Astro.props;
 ---
 <!doctype html>
@@ -16,6 +17,7 @@ const { title = data.meta.title, description = data.meta.description } = Astro.p
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="preload" href={antonUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>document.documentElement.classList.add('js')</script>
   </head>

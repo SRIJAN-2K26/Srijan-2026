@@ -1,5 +1,5 @@
 /* Self-hosted woff2 subsets (Basic Latin + typographic punctuation used on the page).
-   Regenerate with scripts/subset-fonts.sh. Anton is preloaded in Base.astro (hero + brand); Inter is not. */
+   Regenerate with scripts/subset-fonts.sh. Anton and Inter are both preloaded in Base.astro (Inter preload avoids a swap re-layout on first paint). */
 @font-face {
   font-family: 'Anton';
   font-style: normal;
