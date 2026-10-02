@@ -91,6 +91,7 @@
 .f6 .logo img { max-height: 3.5rem; }
 .f6 .logo.dark img { max-height: 100%; }
 .faqlink { margin-top: 1rem; color: var(--muted); }
+.faqlink a { display: inline-flex; align-items: center; min-height: 44px; }
 .faqlink a, .soonnote a { color: var(--fg); }
 .flink { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; font-weight: 700; color: var(--orange-hi); text-decoration: none; border-bottom: 2px solid currentColor; }
 .flink svg { width: 1.1rem; height: 1.1rem; }
@@ -126,6 +127,8 @@
     animation-range: calc(var(--fi) * var(--F)) calc((var(--fi) + 1) * var(--F)); }
   .f1 { animation-name: fr1; padding-block: 1rem; }
   .f6 { animation-name: frL; }
+  /* below 64rem the sticky Register dock (~5rem) covers the frame's bottom edge: keep links clear of it (frames 1 and 6 hide the dock) */
+  @media (max-width: 63.99rem) { .f2, .f3, .f4, .f5 { padding-bottom: 5.75rem; } }
   .frame:has(:focus-visible) { opacity: 1 !important; visibility: visible !important; z-index: 6; background: var(--bg); }
   @keyframes fr { 0%, 6% { opacity: 0; visibility: hidden; } 14%, 86% { opacity: 1; visibility: visible; } 94%, 100% { opacity: 0; visibility: hidden; } }
   @keyframes fr1 { 0%, 86% { opacity: 1; visibility: visible; } 94%, 100% { opacity: 0; visibility: hidden; } }
