@@ -172,14 +172,14 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 }
 
 /* ───────── About ───────── */
-.about-grid { display: grid; gap: 3rem; }
-.poster { max-width: 26rem; margin-inline: auto; }
-.poster img { border-radius: 18px; border: 1px solid var(--line); width: 100%; }
+.about-grid { display: grid; gap: 3rem; grid-template-columns: minmax(0, 1fr); }
+.poster { width: 100%; max-width: 26rem; margin-inline: auto; }
+.poster img { border-radius: 18px; border: 1px solid var(--line); width: 100%; aspect-ratio: 520 / 780; }
 .poster figcaption, .venue figcaption { margin-top: .75rem; font-size: .85rem; color: var(--muted); }
 .venue { margin-top: clamp(3rem, 7vw, 5rem); }
-.venue img { width: 100%; border-radius: 20px; border: 1px solid var(--line); }
+.venue img { width: 100%; border-radius: 20px; border: 1px solid var(--line); aspect-ratio: 1024 / 380; object-fit: cover; }
 @media (min-width: 56rem) {
-  .about-grid { grid-template-columns: 1.3fr 1fr; align-items: start; gap: 4rem; }
+  .about-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; gap: 4rem; }
 }
 
 /* ───────── Schedule ───────── */
@@ -211,15 +211,17 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 @media (prefers-reduced-motion: reduce) { .day[open] ol { animation: none; } }
 
 /* ───────── Sponsors ───────── */
-.sp-row { margin-top: 2.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.25rem; }
-.logo { display: grid; place-items: center; height: 7rem; min-width: 11rem; padding: 1rem 1.5rem; border-radius: 18px; background: #fff; transition: transform 200ms var(--ease); }
-.logo.dark { background: #0b0d12; border: 1px solid #333; padding: .5rem; min-width: 7rem; }
-.logo:hover { transform: translateY(-4px); }
-.logo:active { transform: scale(.97); }
-.logo img { height: 100%; width: auto; max-height: 5rem; object-fit: contain; }
-.logo.dark img { max-height: 100%; border-radius: 10px; }
-.sp-row .btn { margin-left: auto; }
-@media (max-width: 40rem) { .sp-row .btn { margin-left: 0; width: 100%; } }
+.sp-row { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: stretch; gap: .75rem; }
+/* sponsor logos: ready-made cut-outs, one row, equal height, never stretched; not links, not focusable */
+.sp-logos { display: flex; flex-wrap: nowrap; align-items: center; gap: .5rem; list-style: none; padding: 0; --lh: 40px; }
+.sp-logos li { flex: none; height: var(--lh); }
+.sp-logos picture { display: block; height: 100%; }
+.sp-logos img { display: block; height: 100%; width: auto; border-radius: 8px; }
+@media (max-width: 400px) { .sp-logos { --lh: 32px; } }
+.sp-big { --lh: min(56px, calc((100vw - 2 * var(--pad) - 1rem) / 7.9)); gap: .5rem; }
+.sp-big img { border-radius: 10px; }
+.sp-row .btn { margin-left: auto; align-self: center; }
+@media (max-width: 40rem) { .sp-row .btn { margin-left: 0; width: 100%; flex-basis: 100%; } }
 
 /* ───────── FAQ ───────── */
 .faq { margin-top: 2.5rem; max-width: 52rem; border-top: 1px solid var(--line); }
@@ -268,9 +270,8 @@ footer .person:active { transform: scale(.98); }
   *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }
 
-.plain-doms { margin-top: 1.25rem; color: var(--muted); max-width: 60ch; }
+.plain-doms { margin-top: clamp(3rem, 7vw, 5rem); }
 .plain-doms strong { color: var(--fg); }
-.plain-doms h3 { font-size: 1rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg); }
 .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0; }
 .chips li { padding: .45rem .85rem; border: 1px solid color-mix(in srgb, var(--orange) 55%, transparent); border-radius: 999px; background: var(--bg); color: var(--fg); font-weight: 600; font-size: .9rem; }
 
@@ -287,3 +288,39 @@ footer .person:active { transform: scale(.98); }
 
 /* keep the stepper Register button clear of the sticky dock (dock shows below 64rem) */
 @media (max-width: 63.99rem) { #how { padding-bottom: 6.5rem; } }
+
+/* ───────── About: explainer, at-a-glance, domain cards ───────── */
+.explainer { margin-top: 1.75rem; padding: 1.1rem 1.25rem; border-left: 3px solid var(--orange); background: var(--bg-2); border-radius: 0 14px 14px 0; max-width: 60ch; }
+.explainer h3 { font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; }
+.explainer p { margin-top: .35rem; color: var(--muted); }
+.glance { display: grid; gap: .75rem; margin-top: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); max-width: 46rem; }
+.glance li { display: grid; gap: .15rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 16px; background: var(--bg-2); }
+.glance .k { font-size: .75rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--orange-hi); }
+.glance strong { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 1.5rem; line-height: 1.1; }
+.glance .d { color: var(--muted); font-size: .92rem; }
+.h3 { font-size: clamp(1.8rem, 5vw, 3rem); }
+.plain-doms .lead { margin-top: .75rem; }
+.dcards { display: grid; gap: .9rem; margin-top: 1.75rem; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); perspective: 900px; }
+.dcards li { position: relative; padding: 1.25rem 1.25rem 1.4rem; border: 1px solid color-mix(in srgb, var(--orange) 45%, transparent); border-radius: 18px; background: linear-gradient(160deg, #181b20, var(--bg-2)); transition: transform 260ms var(--ease), border-color 200ms; transform-origin: 50% 100%; }
+.dcards li:hover { transform: rotateX(4deg) translateY(-4px); border-color: var(--orange); }
+.dcards .n { font-family: var(--display); color: var(--orange); font-size: 1.1rem; letter-spacing: .06em; }
+.dcards h4 { margin: .25rem 0 .4rem; font-size: 1.15rem; line-height: 1.2; }
+.dcards p { color: var(--muted); font-size: .95rem; }
+.plain-doms .foot-note { margin-top: 1.5rem; }
+.day .blurb { padding: 0 1.5rem .5rem; color: var(--muted); }
+.stepper .pill { color: var(--fg); }
+@media (prefers-reduced-motion: reduce) { .dcards li, .dcards li:hover { transition: none; transform: none; } }
+/* keep the dock off the Register button while it has keyboard focus */
+body:has(#how .cta a:focus-visible) .dock { display: none; }
+#how .cta .btn { scroll-margin-bottom: 4rem; }
+.poster picture, .venue picture { display: block; }
+
+/* registration fee block */
+.fee { margin-top: 2rem; max-width: 46rem; }
+.fee-h { font-size: .8rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.fee-h span { display: block; margin-top: .2rem; color: var(--fg); font-size: 1rem; letter-spacing: .04em; text-transform: none; }
+.fee-tiers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; margin-top: .75rem; }
+.fee-tiers li { display: flex; flex-direction: column; gap: .1rem; padding: .7rem .9rem; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
+.fee-tiers .who { color: var(--muted); font-size: .85rem; font-weight: 600; }
+.fee-tiers strong { font-family: var(--display); font-weight: 400; font-size: 1.7rem; line-height: 1.1; letter-spacing: .02em; color: var(--orange-hi); }
+@media (min-width: 40rem) { .fee-tiers { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

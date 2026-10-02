@@ -6,7 +6,7 @@ import venue from '../assets/venue.jpg';
 import poster from '../assets/poster.jpg';
 import Story from '../components/Story.astro';
 
-const { event: ev, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact } = data;
+const { event: ev, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact, fee } = data;
 const tagline = ev.tagline;
 ---
 <Base>
@@ -59,13 +59,26 @@ const tagline = ev.tagline;
             <div data-stagger style="margin-top:1.5rem">
               {about.body.map((p, i) => <p class="lead" style={`--i:${i}`}>{p}</p>)}
             </div>
-            <div class="plain-doms" id="domains" data-reveal><h3>Six domains</h3><ul class="chips">{tracks.list.map((t) => <li>{t}</li>)}</ul><p>{tracks.problemStatements.title}.</p></div>
+            <div class="explainer" data-reveal><h3>{about.explainer.heading}</h3><p>{about.explainer.text}</p></div>
+            <ul class="glance" data-stagger aria-label="At a glance">
+              {about.cards.map((c, i) => <li style={`--i:${i}`}><span class="k">{c.k}</span><strong>{c.t}</strong><span class="d">{c.d}</span></li>)}
+            </ul>
           </div>
           <figure class="poster" data-reveal>
             <Img src={poster} fallbackWidth={520} widths={[360, 520, 660, 780]} sizes="(min-width: 56rem) 26rem, 90vw" width={520} height={780}
               alt="SRIJAN 2K26 inter-college hackathon poster: 13–14 Oct 2026, SRMCEM Campus Lucknow, hybrid mode" loading="lazy" />
             <figcaption>Official poster</figcaption>
           </figure>
+        </div>
+
+        <div class="plain-doms" id="domains">
+          <p class="eyebrow" data-reveal>Six domains</p>
+          <h3 class="display h3" data-reveal>{tracks.heading}</h3>
+          <p class="lead" data-reveal>{tracks.intro}</p>
+          <ul class="dcards" data-stagger>
+            {tracks.list.map((t, i) => <li style={`--i:${i}`}><span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h4>{t}</h4><p>{tracks.cards[i]}</p></li>)}
+          </ul>
+          <p class="foot-note" data-reveal>{tracks.problemStatements.title}.</p>
         </div>
 
         <figure class="venue" data-reveal>
@@ -81,18 +94,25 @@ const tagline = ev.tagline;
       <div class="wrap">
         <p class="eyebrow" data-reveal><b>02</b> How it works</p>
         <h2 id="how-h" class="display h2" data-reveal>{how.heading}</h2>
+        <p class="lead" data-reveal>{how.intro}</p>
         <ol class="stepper" data-stagger aria-label={how.aria}>
           {how.steps.map((s, k) => (
             <li class="stp" style={`--i:${k}`}>
               <span class="num" aria-hidden="true">{k + 1}</span>
               <div class="body">
                 <h3>{s.title}</h3>
-                <p>{s.reward ? `${prizes.total}. ${prizes.note}.` : s.text}</p>
+                <p>{s.reward ? `${prizes.total}.` : s.text}</p>
                 {s.tag && <span class="pill">{s.tag}</span>}
               </div>
             </li>
           ))}
         </ol>
+        <div class="fee" data-reveal>
+          <p class="fee-h">{fee.heading} <span>{fee.note}</span></p>
+          <ul class="fee-tiers" aria-label={fee.heading}>
+            {fee.tiers.map((t) => <li><span class="who">{t.label}</span><strong>{t.amount}</strong></li>)}
+          </ul>
+        </div>
         <div class="cta" data-reveal>
           <p class="display yourmove">{how.cta}</p>
           <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
@@ -116,6 +136,7 @@ const tagline = ev.tagline;
                 </span>
                 <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
               </summary>
+              <p class="blurb">{d.blurb}</p>
               <ol>{d.items.map((it) => <li>{it}</li>)}</ol>
             </details>
           ))}
