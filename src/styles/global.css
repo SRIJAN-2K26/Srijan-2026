@@ -340,3 +340,11 @@ a.btn[aria-disabled='true'] { background: #2b2f33; color: #e8e8e8; border: 1px s
 .reg-closed .dock { display: none; }
 .reg-closed body { padding-bottom: 0; }
 .reg-closed .f1 .regline[data-state='closed'], .reg-closed .f6 .regline[data-state='closed'] { visibility: hidden; }
+
+/* Lenis smooth scroll (class set by the library) and the pointer spotlight */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }
+.spot { position: fixed; left: 0; top: 0; width: 600px; height: 600px; margin: -300px 0 0 -300px; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 400ms var(--ease); background: radial-gradient(circle closest-side, rgba(255,102,0,.08), transparent 80%); transform: translate3d(var(--mouse-x, 50vw), var(--mouse-y, 30vh), 0); will-change: transform; }
+.spot.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .spot { display: none; } }

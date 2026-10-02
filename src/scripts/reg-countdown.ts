@@ -1,5 +1,6 @@
 // Registration countdown. Bundled by Astro as an external module (no inline script, CSP unchanged).
 // Source of truth: registration.closes in event.json, an ISO string with an explicit +05:30 offset, so Date.parse is timezone-proof.
+import { jump } from './scroller';
 const els = Array.from(document.querySelectorAll<HTMLElement>('[data-reg-closes]'));
 const closes = els.length ? Date.parse(els[0].dataset.regCloses || '') : NaN;
 
@@ -54,7 +55,7 @@ if (window.CSS?.supports?.('animation-timeline: scroll()') && !matchMedia('(pref
     const i = Number(f.style.getPropertyValue('--fi'));
     const F = 0.9 * innerHeight, y = scrollY;
     if (y >= (i + 0.12) * F && y <= (i + 0.88) * F) return; // frame already active
-    scrollTo({ top: Math.round((i + (i === 0 ? 0.02 : 0.55)) * F), behavior: 'instant' });
+    jump(Math.round((i + (i === 0 ? 0.02 : 0.55)) * F));
   });
 }
 
