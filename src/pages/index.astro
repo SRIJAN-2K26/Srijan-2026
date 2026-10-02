@@ -171,7 +171,7 @@ const tagline = ev.tagline;
       <div class="wrap">
         <p class="eyebrow" data-reveal><b>05</b> Join in</p>
         <h2 id="ct-h" class="display" data-reveal>{contact.heading}</h2>
-        <p class="lead" data-reveal>{contact.text}</p>
+        <p class="lead" data-reveal data-reg-copy data-closed-text={contact.closedText}>{contact.text}</p>
         <div class="cta" data-reveal>
           <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
           <a class="btn btn-ghost btn-lg" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>

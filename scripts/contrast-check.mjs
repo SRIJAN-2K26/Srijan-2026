@@ -18,7 +18,7 @@ for (const [w, h] of (process.env.SIZES ? JSON.parse(process.env.SIZES) : [[390,
       while (wk.nextNode()) { const n = wk.currentNode; if (!n.textContent.trim()) continue; const e = n.parentElement; if (seen.has(e) || e.closest('.sr,svg')) continue; seen.add(e);
         const r = document.createRange(); r.selectNodeContents(n); const b = r.getBoundingClientRect(); if (b.width < 2) continue;
         out.push({ t: n.textContent.trim().slice(0, 24), c: getComputedStyle(e).color, x: Math.max(0, b.left), y: Math.max(0, b.top), w: Math.min(b.width, innerWidth - b.left), h: b.height }); }
-      const st = document.createElement('style'); st.id = 'hide'; st.textContent = '.frame *{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important} .bolt{display:none} .sp-logos{visibility:hidden}'; document.head.append(st);
+      const st = document.createElement('style'); st.id = 'hide'; st.textContent = '.frame *{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important} .bolt{display:none} .sp-logos{visibility:hidden} .reg-chip{visibility:hidden}'; document.head.append(st);
       return out; }, i);
     for (const it of items) {
       if (it.w < 2 || it.h < 2) continue;

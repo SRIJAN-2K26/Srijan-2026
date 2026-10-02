@@ -87,7 +87,7 @@
 .f6 .sp-row { margin-top: 1.25rem; }
 .f6 .sp-row { justify-content: flex-start; }
 .faqlink { margin-top: 1rem; color: var(--muted); }
-.faqlink a { display: inline-flex; align-items: center; min-height: 44px; }
+.faqlink a { display: inline-flex; align-items: center; min-height: 46px; }
 .faqlink a, .soonnote a { color: var(--fg); }
 .flink { display: inline-flex; align-items: center; gap: .5rem; min-height: 46px; /* >= 44px even at the .985 entry scale */ font-weight: 700; color: var(--orange-hi); text-decoration: none; border-bottom: 2px solid currentColor; }
 .flink svg { width: 1.1rem; height: 1.1rem; }
