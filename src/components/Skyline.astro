@@ -1,0 +1,41 @@
+---
+// Stylised city skyline: layered inline SVG (far / mid / near / front) shared via <symbol>-style <g> defs.
+// Not a real landmark. Instances: <Skyline mode="defs"/> once, then <Skyline mode="stack"/> where needed.
+import { buildSkyline, W, H } from '../lib/skyline';
+const { mode = 'stack', cls = '', label = '' } = Astro.props;
+const s = buildSkyline();
+const vb = `0 0 ${W} ${H}`;
+---
+{mode === 'defs' && (
+  <svg class="sky-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="skF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#31445d"/><stop offset="1" stop-color="#17212d"/></linearGradient>
+      <linearGradient id="skM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26364b"/><stop offset="1" stop-color="#121b26"/></linearGradient>
+      <linearGradient id="skN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18222f"/><stop offset="1" stop-color="#0a0f15"/></linearGradient>
+      <g id="sk-far"><path fill="url(#skF)" d={s.far}/></g>
+      <g id="sk-mid"><path fill="url(#skM)" fill-rule="evenodd" d={s.mid + s.midCut}/></g>
+      <g id="sk-near">
+        <path fill="url(#skN)" fill-rule="evenodd" stroke="#ff8a33" stroke-opacity=".5" stroke-width="1.6" vector-effect="non-scaling-stroke" d={s.nearBody + s.nearCut}/>
+        <path fill="#35384a" d={s.sideLit}/><path fill="#4b5262" d={s.topLit}/>
+      </g>
+      <g id="sk-front"><path fill="#06090d" d={s.front}/></g>
+      <path id="skw-m0" d={s.midW[0]}/><path id="skw-m1" d={s.midW[1]}/><path id="skw-m2" d={s.midW[2]}/>
+      <path id="skw-n0" d={s.nearW[0]}/><path id="skw-n1" d={s.nearW[1]}/><path id="skw-n2" d={s.nearW[2]}/>
+    </defs>
+  </svg>
+)}
+{mode === 'stack' && (
+  <div class={`sky ${cls}`} {...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' })}>
+    <span class="sk-glow"></span>
+    {['far', 'mid', 'near', 'front'].map((l) => (
+      <div class={`ly ly-${l}`}>
+        <svg class="rise" viewBox={vb} preserveAspectRatio="xMidYMax slice" focusable="false">
+          <g><use href={`#sk-${l}`}/>
+            {l === 'mid' && <><use class="w w0" href="#skw-m0" fill="#ffc27a"/><use class="w w1" href="#skw-m1" fill="#ffe0b0"/><use class="w w2" href="#skw-m2" fill="#ffb05a"/></>}
+            {l === 'near' && <><use class="w w0" href="#skw-n0" fill="#ffd08a"/><use class="w w1" href="#skw-n1" fill="#fff0cf"/><use class="w w2" href="#skw-n2" fill="#ffa845"/></>}
+          </g>
+        </svg>
+      </div>
+    ))}
+  </div>
+)}
