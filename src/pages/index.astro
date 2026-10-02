@@ -140,7 +140,7 @@ const tagline = ev.tagline;
         <div class="days-grid" data-stagger>
           {schedule.days.map((d, i) => (
             <details class="day" open style={`--i:${i}`}>
-              <summary>
+              <summary aria-expanded="true">
                 <span>
                   <span class="d">{d.day}</span><br />
                   <span class="date">{d.date}</span><br />
@@ -148,8 +148,10 @@ const tagline = ev.tagline;
                 </span>
                 <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
               </summary>
-              <p class="blurb">{d.blurb}</p>
-              <ol>{d.items.map((it) => <li>{it}</li>)}</ol>
+              <div class="day-panel"><div class="clip">
+                <p class="blurb">{d.blurb}</p>
+                <ol>{d.items.map((it) => <li>{it}</li>)}</ol>
+              </div></div>
             </details>
           ))}
         </div>
@@ -168,8 +170,10 @@ const tagline = ev.tagline;
         <div class="faq" data-stagger>
           {faq.items.map((f, i) => (
             <details style={`--i:${i}`}>
-              <summary>{f.q}<span class="plus" aria-hidden="true"></span></summary>
-              <p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p>
+              <summary aria-expanded="false">{f.q}<span class="plus" aria-hidden="true"></span></summary>
+              <div class="faq-panel"><div class="clip">
+                <p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p>
+              </div></div>
             </details>
           ))}
         </div>
