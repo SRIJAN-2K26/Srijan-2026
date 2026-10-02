@@ -5,12 +5,12 @@ Source of truth: Data Digger brief (`/workspace/srijan/brief/brief.md` + `brief.
 ## Needs organizer confirmation before launch
 - [ ] **Register link** `https://forms.gle/6yS5wjADebhmvPpZA` is provisional (source: chat, 2 Oct). The payment QR is still pending college approval and the form may be replaced. One-line swap: `register.href` in `src/data/event.json`.
 - [ ] **Registration open/close dates**: chat says opens ~4–5 Oct (a CSI email says 5th, 10 PM) and closes 11 Oct. Not on the page; add a "Registrations open on …" line once final.
-- [ ] **Team size**: poster and latest chat say 1–4, formal proposal says 2–4. Page shows no number, only "Fee and team size confirmed at registration".
+- [x] **Team size**: confirmed by Vineet as 1–4 members; shown as a hero chip and in the FAQ.
 - [ ] **Registration fee**: ₹50/head (chat) vs "free" (mockup). Not shown.
 - [ ] **Prizes**: no amounts anywhere confirmed. Page shows "Exciting prizes · Details announced soon". Also unconfirmed: best-idea award, certificates, swag.
 - [ ] **Problem statements**: the 15-statement PDF is a draft (to be final ~4 Oct). Page shows "Problem statements announced soon". The PDF's "Score x/10" values must never be shown. When final, add a `problemStatements.list` to the JSON and render it.
 - [ ] **Open Innovation domain list** (IMG-20261002-WA0038.jpg, not transcribed).
-- [ ] **Schedule**: no clock times. Day-level only plus "Detailed times coming soon". Sources conflict on whether hacking starts 13 Oct (formal proposal) or after the shortlist (chat). Day 1 wording follows the brief draft; confirm.
+- [x] **Schedule** trimmed to what the brief supports: 13 Oct online screening, 14 Oct offline finale (demos, judging, prizes). No hacking start, sessions or clock times are implied. Still open: detailed times (page says "Detailed times coming soon").
 - [ ] **Shortlist size** ("top 75", chat) and **judges** ("2 judges from CSI Lucknow chapter", chat; no names): not shown.
 - [ ] **Sponsors**: Paytm and MacroVision AI shown (source: chat + logo files). Sponsor tier and **permission to display logos** unconfirmed. A third logo (`xyz_….jpg`, probably .xyz domain sponsor) is unconfirmed and left off. OSEN/Sprite/Campa were talks only. Partner button uses the sponsor form `https://forms.gle/CJGvo1dniUA4MumSA`.
 

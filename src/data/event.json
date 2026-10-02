@@ -22,12 +22,13 @@
     "organizers": "CSI SRMCEM × D’CODERS",
     "collaborator": "GFG SRMCEM",
     "instituteLine": "An institution promoted by IITians",
-    "eligibility": "Students from SRMCEM and other colleges"
+    "eligibility": "Students from SRMCEM and other colleges",
+    "teamSize": "1–4 members"
   },
   "register": {
     "href": "https://forms.gle/6yS5wjADebhmvPpZA",
     "label": "Register now",
-    "note": "Fee and team size confirmed at registration"
+    "note": "Fee confirmed at registration"
   },
   "nav": [
     {
@@ -68,11 +69,11 @@
       },
       {
         "title": "Shortlisting",
-        "text": "On 13 Oct, shortlisted teams are announced and the online round runs."
+        "text": "On 13 Oct, teams are screened online and the shortlist is announced."
       },
       {
         "title": "Finale",
-        "text": "On 14 Oct, shortlisted teams meet at SRMCEM to demo, get judged and celebrate."
+        "text": "On 14 Oct, shortlisted teams meet at SRMCEM for the offline finale: demos, judging and prizes."
       }
     ],
     "venueCaption": "SRMCEM Campus, Lucknow"
@@ -100,26 +101,15 @@
         "date": "13 Oct",
         "mode": "Online",
         "items": [
-          "Opening & briefing",
-          "Problem statement release",
-          "Hacking begins for shortlisted teams",
-          "Mentor sessions",
-          "Sponsor sessions",
-          "Progress checkpoint"
+          "Online screening"
         ]
       },
       {
         "day": "Day 2",
         "date": "14 Oct",
-        "mode": "At SRMCEM",
+        "mode": "SRMCEM Campus",
         "items": [
-          "Team reporting",
-          "Final development & testing",
-          "Code freeze",
-          "Project demonstrations",
-          "Jury evaluation",
-          "Prize distribution",
-          "Closing ceremony"
+          "Offline finale: demos, judging, prizes"
         ]
       }
     ],
@@ -169,8 +159,12 @@
         "a": "Teams submit an idea proposal in the registration form and a committee shortlists the teams that go to the finale."
       },
       {
-        "q": "What are the team size and fee?",
-        "a": "Both are confirmed at registration."
+        "q": "How big can a team be?",
+        "a": "Teams of 1 to 4 members."
+      },
+      {
+        "q": "Is there a registration fee?",
+        "a": "The fee is confirmed at registration."
       }
     ],
     "contactPointer": {

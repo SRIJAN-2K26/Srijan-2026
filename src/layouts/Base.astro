@@ -31,6 +31,8 @@ const { title = data.meta.title, description = data.meta.description } = Astro.p
         }
         var m = document.querySelector('.menu');
         if (m) {
+          var ms = m.querySelector('summary');
+          m.addEventListener('toggle', function () { ms.setAttribute('aria-expanded', m.open ? 'true' : 'false'); });
           m.addEventListener('click', function (e) { if (e.target.closest('a')) m.removeAttribute('open'); });
           document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && m.open) { m.removeAttribute('open'); m.querySelector('summary').focus(); } });
           document.addEventListener('click', function (e) { if (m.open && !m.contains(e.target)) m.removeAttribute('open'); });

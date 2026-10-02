@@ -191,7 +191,7 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
   transition-delay: calc(min(var(--i, 0), 3) * var(--stagger));
 }
 .js .eyebrow[data-reveal]::after { transform: scaleX(0); }
-.js .eyebrow[data-reveal].in::after { transform: scaleX(1); transition: transform 400ms var(--ease) 100ms; }
+.js .eyebrow[data-reveal].in::after { transform: scaleX(1); transition: transform 400ms var(--ease); }
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal], .js [data-stagger] > * { opacity: 1; transform: none; }
   .js .eyebrow[data-reveal]::after { transform: none; }
