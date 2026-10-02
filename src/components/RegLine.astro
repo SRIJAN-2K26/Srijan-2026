@@ -1,0 +1,9 @@
+---
+// One compact line: static IST deadline text (correct with no JS), upgraded to a live countdown by src/scripts/reg-countdown.ts.
+import data from '../data/event.json';
+const closes = data.registration.closes;
+const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).formatToParts(new Date(closes)).map((p) => [p.type, p.value]));
+const when = `${parts.day} ${parts.month} ${parts.year}, ${parts.hour}:${parts.minute} ${String(parts.dayPeriod).toUpperCase()} IST`;
+const { cls = '' } = Astro.props;
+---
+<p class={`regline ${cls}`} data-reg-closes={closes} data-state="static" aria-live="off"><span>Registration closes {when}</span></p>

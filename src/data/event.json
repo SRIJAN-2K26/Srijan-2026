@@ -14,8 +14,6 @@
     ],
     "dates": "13–14 Oct 2026",
     "datesLong": "13–14 October 2026",
-    "countdownTo": "2026-10-13T00:00:00+05:30",
-    "eventEnd": "2026-10-14T23:59:59+05:30",
     "venue": "SRMCEM Campus, Lucknow",
     "venueFull": "Shri Ramswaroop Memorial College of Engineering & Management, Lucknow",
     "mode": "Hybrid",
@@ -208,6 +206,10 @@
         "a": "₹50 per team member: ₹50 for 1, ₹100 for 2, ₹150 for 3, ₹200 for 4."
       },
       {
+        "q": "When does registration close?",
+        "a": "Registration closes on 11 Oct 2026 at 12:00 PM IST."
+      },
+      {
         "q": "How are teams selected?",
         "a": "Teams submit an idea in the registration form. Shortlisted teams are announced on 12 Oct, based on the ideas submitted."
       },
@@ -367,5 +369,8 @@
         "amount": "₹200"
       }
     ]
+  },
+  "registration": {
+    "closes": "2026-10-11T12:00:00+05:30"
   }
 }
