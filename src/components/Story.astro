@@ -32,6 +32,8 @@ const chip = {
 };
 const logoList = sponsors.list;
 const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSize], [chip.cup, prizes.total]];
+const prizeFig = '₹1.5 Lakh+';
+const prizeTail = prizes.total.startsWith(prizeFig) ? prizes.total.slice(prizeFig.length) : '';
 ---
 <section class="story" id="top" aria-label={`${ev.name} ${ev.year}`}>
   <Skyline mode="defs" />
@@ -100,7 +102,7 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
 
     <!-- 5 · REWARD -->
     <article class="frame f5" id="reward" style="--fi:4">
-      <div class="f-art">
+      <div class="f-art reward-float">
         <svg class="a-trophy" viewBox="0 0 200 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Trophy">
           <ellipse class="plat" cx="100" cy="152" rx="58" ry="6"/>
           <g class="rays"><path d="M100 80L20 12M100 80L100 0M100 80L180 12M100 80L2 70M100 80L198 70"/></g>
@@ -108,7 +110,7 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
         <g class="sparks"><path style="--d:0" d="M30 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path style="--d:1" d="M170 52l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/><path style="--d:2" d="M52 110l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:3" d="M150 118l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:4" d="M100 8l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
         </svg>
       </div>
-      <div class="f-copy"><h2 class="line total display">{prizes.total}</h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
+      <div class="f-copy"><h2 class="line total display" data-prize><span class="sr">{prizes.total}</span><span class="prize-fx" aria-hidden="true"><span class="prize-scramble">{prizeFig}</span><span class="prize-tail">{prizeTail}</span></span></h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
     </article>
 
     <!-- 6 · YOUR MOVE -->
@@ -134,3 +136,4 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
 
 <script>import '../scripts/reg-countdown.ts';</script>
 <script>import '../scripts/timeline.ts';</script>
+<script>import '../scripts/counters.ts';</script>

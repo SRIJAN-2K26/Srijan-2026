@@ -37,8 +37,22 @@
   }
 }
 
+/* ───────── Counters / reward ───────── */
+[data-prize] { position: relative; }
+.prize-fx { display: block; }
+.prize-scramble { font-variant-numeric: tabular-nums; }
+.pc { display: inline-block; }
+.pc.d { width: .62em; text-align: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .reward-float { animation: floaty 5.2s ease-in-out infinite; }
+  @keyframes floaty {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(0, -8px, 0); }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .dot::before, .num::before, .dot::after, .num::after {
+  .dot::before, .num::before, .dot::after, .num::after, .reward-float {
     animation: none !important; transform: none !important;
   }
   .dot::before, .num::before { opacity: .35; }
