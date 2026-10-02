@@ -80,7 +80,7 @@ const chars = (s: string) => s.split('').map((ch, i) => <span class="ch" style={
       <div class="f-copy top"><h2 class="line display">{story.domains.line}</h2><p class="sub">{story.domains.sub}</p></div>
       <ul class="doms">
         {tracks.list.map((t, i) => (
-          <li class="dom" style={`--j:${i}`}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span>{t}</span></li>
+          <li class="dom" data-tilt style={`--j:${i}`}><span class="tilt-glow" aria-hidden="true"></span><svg class="tilt-pop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span class="tilt-pop">{t}</span></li>
         ))}
       </ul>
       <p class="f-copy"><a class="flink" href={story.domains.link.href}>{story.domains.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a></p>

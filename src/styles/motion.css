@@ -61,6 +61,30 @@ html.lenis { scroll-behavior: auto !important; }
   48%, 54% { opacity: 1; }
 }
 
+/* 3D tilt cards (tracks + battlefield). No tilt on touch or reduced motion. */
+.dom { position: relative; }
+[data-tilt] .tilt-glow {
+  position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  background: conic-gradient(from var(--glow-a, 210deg), transparent 0 40%, rgba(255, 102, 0, 0.9) 62%, transparent 82%);
+  opacity: 0; z-index: 0;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude; -webkit-mask-composite: xor;
+  padding: 1px;
+}
+[data-tilt] > :not(.tilt-glow) { position: relative; z-index: 1; }
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js [data-tilt] {
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(var(--ts, 1), var(--ts, 1), 1);
+      transform-style: preserve-3d;
+      transition: transform 160ms var(--ease), border-color 200ms;
+    }
+    html.js .dcards li[data-tilt]:hover { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1.02, 1.02, 1); }
+    html.js [data-tilt] .tilt-pop { transform: translateZ(30px); }
+    html.js [data-tilt]:hover .tilt-glow { opacity: 1; }
+  }
+}
+
 /* Hero skyline: JS sets --para-y on silhouette vs foreground at different rates (pinned story uses CSS dolly). */
 @media (prefers-reduced-motion: no-preference) {
   .sky.s-hero .ly-far, .sky.s-hero .ly-mid { transform: translate3d(0, calc(var(--para-far, 0) * 1px), 0); }
