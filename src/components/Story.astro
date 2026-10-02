@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import Img from './Img.astro';
 import '../styles/story.css';
 import data from '../data/event.json';
 import art from '../data/art.json';
@@ -132,7 +132,7 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
         <div class="sp-row">
           {sponsors.list.map((s) => (
             <div class={`logo ${s.logo === 'macrovision' ? 'dark' : ''}`}>
-              <Picture src={logos[s.logo]} formats={['avif', 'webp']} fallbackFormat="webp" widths={[160, 320]} sizes="160px" alt={s.alt} width={320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
+              <Img src={logos[s.logo]} fallbackWidth={160} widths={[160, 320]} sizes="160px" alt={s.alt} width={320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
             </div>
           ))}
           <a class="btn btn-ghost" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>

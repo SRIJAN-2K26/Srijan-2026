@@ -1,10 +1,11 @@
-/* Self-hosted, latin-only subsets (fontsource). */
+/* Self-hosted woff2 subsets (Basic Latin + typographic punctuation used on the page).
+   Regenerate with scripts/subset-fonts.sh. Anton is preloaded in Base.astro (hero + brand); Inter is not. */
 @font-face {
   font-family: 'Anton';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('@fontsource/anton/files/anton-latin-400-normal.woff2') format('woff2');
+  src: url('../assets/fonts/anton-400-subset.woff2') format('woff2');
 }
 @font-face { /* one glyph (₹) subset from Anton latin-ext, ~1 KB; the latin subsets above lack it */
   font-family: 'Rupee';
@@ -19,7 +20,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
+  src: url('../assets/fonts/inter-wght-subset.woff2') format('woff2');
 }
 
 :root {
