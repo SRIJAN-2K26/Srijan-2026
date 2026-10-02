@@ -2,12 +2,14 @@
 import Img from './Img.astro';
 import '../styles/story.css';
 import data from '../data/event.json';
-import art from '../data/art.json';
-import paytm from '../assets/paytm.png';
-import macrovision from '../assets/macrovision.png';
+import Skyline from './Skyline.astro';
+import '../styles/skyline.css';
+import paytm from '../assets/sponsors/paytm.webp';
+import xyz from '../assets/sponsors/xyz.webp';
+import macrovisionAi from '../assets/sponsors/macrovision-ai.webp';
 
 const { event: ev, register, tracks, sponsors, contact, story, prizes } = data;
-const logos: Record<string, ImageMetadata> = { paytm, macrovision };
+const logos: Record<string, ImageMetadata> = { paytm, xyz, 'macrovision-ai': macrovisionAi };
 const ii = ev.name.indexOf('I');
 const nameA = ev.name.slice(0, ii), nameI = ev.name[ii], nameB = ev.name.slice(ii + 1);
 const arrow = 'M5 12h14M13 6l6 6-6 6';
@@ -26,20 +28,30 @@ const chip = {
   cup: 'M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4a3 3 0 003 4M17 6h3a3 3 0 01-3 4',
   team: 'M9 11a3 3 0 100-6 3 3 0 000 6zM3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M17 10a2.5 2.5 0 100-5M16 14.5c3 0 5 1.5 5 5.5',
 };
+const logoList = sponsors.list;
 const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSize], [chip.cup, prizes.total]];
 ---
 <section class="story" id="top" aria-label={`${ev.name} ${ev.year}`}>
+  <Skyline mode="defs" />
   <div class="stage">
     <span class="streak s-a" aria-hidden="true"></span><span class="streak s-b" aria-hidden="true"></span>
+    <Skyline cls="city" label={story.ground.alt} /><span class="scrim" aria-hidden="true"></span>
     <div class="wipes" aria-hidden="true">{[0, 1, 2, 3, 4].map((i) => <span class="wipe" style={`--bi:${i + 1}`}></span>)}</div>
 
     <!-- 1 · SPARK -->
     <article class="frame f1" style="--fi:0">
+      <Skyline cls="s s-hero" />
       <div class="in">
         <p class="inst">{ev.type}</p>
         <h1 id="hero-title" class="display" aria-label={`${ev.name} ${ev.year}`}>
           <span class="lit" aria-hidden="true"></span><span class="nm">{nameA}</span><span class="bi"><span class="nm">{nameI}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm">{nameB}</span>{' '}<span class="y">{ev.year}</span>
         </h1>
+        <div class="sponsored">
+          <p class="sp-label">{sponsors.label}</p>
+          <ul class="sp-logos" aria-label={sponsors.label}>
+            {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="eager" /></li>)}
+          </ul>
+        </div>
         <p class="tag">{ev.tagline.map((t, i) => <><span>{t}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
         <p class="when display">{story.spark.line}</p>
         <p class="support">{story.spark.support}</p>
@@ -57,18 +69,13 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
 
     <!-- 2 · GROUND (skyline + start-small line) -->
     <article class="frame f2" id="ground" style="--fi:1">
-      <div class="f-art">
-        <span class="sunglow" aria-hidden="true"></span>
-        <svg class="skyline" viewBox={`0 0 ${art.skyW} ${art.skyH}`} preserveAspectRatio="xMidYMax meet" role="img" aria-label={story.ground.alt}>
-          <path class="s-fill" d={art.sky}/>
-        </svg>
-      </div>
+      <div class="f-art"><Skyline cls="s" label={story.ground.alt} /></div>
       <div class="f-copy"><h2 class="line display">{story.ground.line}</h2>{story.ground.sub.map((t) => <p class="sub">{t}</p>)}</div>
     </article>
 
     <!-- 3 · DOMAINS -->
     <article class="frame f3" id="battlefield" style="--fi:2">
-      <div class="f-copy top"><h2 class="line display">{story.domains.line}</h2></div>
+      <div class="f-copy top"><h2 class="line display">{story.domains.line}</h2><p class="sub">{story.domains.sub}</p></div>
       <ul class="doms">
         {tracks.list.map((t, i) => (
           <li class="dom" style={`--j:${i}`}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span>{t}</span></li>
@@ -92,8 +99,10 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
     <article class="frame f5" id="reward" style="--fi:4">
       <div class="f-art">
         <svg class="a-trophy" viewBox="0 0 200 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Trophy">
+          <ellipse class="plat" cx="100" cy="152" rx="58" ry="6"/>
           <g class="rays"><path d="M100 80L20 12M100 80L100 0M100 80L180 12M100 80L2 70M100 80L198 70"/></g>
           <g class="trophy"><path class="gold" d="M62 30h76v34c0 22-17 38-38 38S62 86 62 64V30z"/><path class="handles" d="M62 38H38c0 22 8 34 26 38M138 38h24c0 22-8 34-26 38"/><path class="gold" d="M92 102h16v20H92zM78 122h44v12H78zM70 134h60v14H70z"/></g>
+        <g class="sparks"><path style="--d:0" d="M30 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path style="--d:1" d="M170 52l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/><path style="--d:2" d="M52 110l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:3" d="M150 118l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:4" d="M100 8l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
         </svg>
       </div>
       <div class="f-copy"><h2 class="line total display">{prizes.total}</h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
@@ -108,11 +117,9 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
           <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
         </div>
         <div class="sp-row">
-          {sponsors.list.map((s) => (
-            <div class={`logo ${s.logo === 'macrovision' ? 'dark' : ''}`}>
-              <Img src={logos[s.logo]} fallbackWidth={160} widths={[160, 320]} sizes="160px" alt={s.alt} width={320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
-            </div>
-          ))}
+          <ul class="sp-logos sp-big" aria-label={sponsors.label}>
+            {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="lazy" /></li>)}
+          </ul>
           <a class="btn btn-ghost" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
         </div>
         <p class="faqlink">{story.move.faq.text} <a href={story.move.faq.href}>{story.move.faq.label}</a></p>

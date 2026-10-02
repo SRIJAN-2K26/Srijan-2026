@@ -68,7 +68,33 @@
       "SRIJAN 2K26 is an inter-college hackathon that brings together students, developers, innovators and technology enthusiasts to build practical solutions to real-world problems.",
       "It pushes students beyond theoretical learning, turning ideas into working prototypes through teamwork, technology and problem-solving."
     ],
-    "venueCaption": "SRMCEM Campus, Lucknow"
+    "venueCaption": "SRMCEM Campus, Lucknow",
+    "explainer": {
+      "heading": "New to hackathons?",
+      "text": "A hackathon is an event where small teams turn an idea into a working prototype and present it to judges."
+    },
+    "cards": [
+      {
+        "k": "Format",
+        "t": "Hybrid",
+        "d": "One event in two formats: an online round first, then an in-person finale."
+      },
+      {
+        "k": "Who can join",
+        "t": "Students",
+        "d": "Students from SRMCEM and other colleges can take part."
+      },
+      {
+        "k": "Team size",
+        "t": "1–4 members",
+        "d": "Join solo or bring a team of up to four."
+      },
+      {
+        "k": "Where",
+        "t": "SRMCEM, Lucknow",
+        "d": "The finale is hosted on campus in Lucknow, the City of Nawabs."
+      }
+    ]
   },
   "tracks": {
     "heading": "Six domains. Pick your battlefield.",
@@ -83,7 +109,16 @@
     "problemStatements": {
       "title": "Problem statements announced soon",
       "text": "The problem statements are being finalised. Check back here, they will be published on this page."
-    }
+    },
+    "cards": [
+      "Building systems that learn from data to predict, classify, generate or automate decisions that normally need human judgement.",
+      "Designing and building websites and mobile or desktop apps that people use through browsers and devices.",
+      "Protecting systems, networks and data from unauthorised access, attacks and misuse.",
+      "Technology ideas, such as connected devices, automation and data tools, that make a campus safer, more efficient and easier to use.",
+      "Solutions that reduce environmental harm or address community needs such as health, education and accessibility.",
+      "A free-choice theme for original ideas that do not fit the other five but solve a real problem."
+    ],
+    "intro": "Each domain is a theme for your idea. The note under each is general background, not an event rule."
   },
   "schedule": {
     "heading": "Two days. One finale.",
@@ -94,7 +129,8 @@
         "mode": "Online",
         "items": [
           "Online screening"
-        ]
+        ],
+        "blurb": "The first round is held online."
       },
       {
         "day": "Day 2",
@@ -102,7 +138,8 @@
         "mode": "SRMCEM Campus",
         "items": [
           "Offline finale: demos, judging, prizes"
-        ]
+        ],
+        "blurb": "The second day is in person at SRMCEM Campus, Lucknow, with demos, judging and prizes."
       }
     ],
     "footnote": "Detailed times coming soon"
@@ -120,20 +157,32 @@
     "heading": "Backed by",
     "list": [
       {
-        "name": "Paytm",
-        "logo": "paytm",
-        "alt": "Paytm logo"
+        "name": "MacroVision AI",
+        "logo": "macrovision-ai",
+        "alt": "MacroVision AI",
+        "w": 266,
+        "h": 77
       },
       {
-        "name": "MacroVision AI",
-        "logo": "macrovision",
-        "alt": "MacroVision AI logo"
+        "name": ".xyz",
+        "logo": "xyz",
+        "alt": ".xyz",
+        "w": 130,
+        "h": 79
+      },
+      {
+        "name": "Paytm",
+        "logo": "paytm",
+        "alt": "Paytm",
+        "w": 166,
+        "h": 62
       }
     ],
     "partner": {
       "label": "Partner with us",
       "href": "https://forms.gle/CJGvo1dniUA4MumSA"
-    }
+    },
+    "label": "Sponsored by"
   },
   "faq": {
     "heading": "Quick answers",
@@ -143,16 +192,40 @@
         "a": "Students from SRMCEM and other participating colleges and universities."
       },
       {
-        "q": "What does hybrid mean?",
-        "a": "Teams apply online and shortlisted teams are announced on 13 Oct. The finale is offline at SRMCEM, Lucknow on 14 Oct."
+        "q": "What is a hackathon?",
+        "a": "An event where teams turn an idea into a working prototype and present it. SRIJAN 2K26 is for building practical solutions to real-world problems."
       },
       {
-        "q": "How are teams selected?",
-        "a": "Teams submit an idea proposal in the registration form and a committee shortlists the teams that go to the finale."
+        "q": "What does hybrid mean?",
+        "a": "The event runs in two formats. Day 1 (13 Oct) is the online screening and Day 2 (14 Oct) is the offline finale at SRMCEM Campus, Lucknow."
       },
       {
         "q": "How big can a team be?",
-        "a": "Teams of 1 to 4 members."
+        "a": "Teams of 1 to 4 members, so you can join solo."
+      },
+      {
+        "q": "How much does it cost?",
+        "a": "₹50 per team member: ₹50 for 1, ₹100 for 2, ₹150 for 3, ₹200 for 4."
+      },
+      {
+        "q": "How are teams selected?",
+        "a": "Teams submit an idea in the registration form. Shortlisted teams are announced on 12 Oct, based on the ideas submitted."
+      },
+      {
+        "q": "When are shortlisted teams announced?",
+        "a": "On 12 Oct, based on the ideas submitted in the registration form."
+      },
+      {
+        "q": "Where is the finale?",
+        "a": "At SRMCEM Campus, Lucknow, on 14 Oct."
+      },
+      {
+        "q": "What are the domains?",
+        "a": "There are six: AI & ML, Web & App Development, Cybersecurity, Smart Campus Solutions, Sustainability & Social Impact, and Open Innovation. Problem statements are announced soon."
+      },
+      {
+        "q": "What can we win?",
+        "a": "₹1.5 Lakh+ in rewards. The breakdown is announced soon."
       }
     ],
     "contactPointer": {
@@ -183,15 +256,15 @@
   "story": {
     "spark": {
       "line": "13–14 Oct 2026.",
-      "support": "One idea is all it takes to start."
+      "support": "Online screening first, then the on-campus finale."
     },
     "ground": {
       "line": "Every big thing starts small.",
       "sub": [
-        "Solo or with a team of up to four.",
-        "City of Nawabs, SRMCEM Lucknow."
+        "Come solo or with a team of up to four.",
+        "Hosted at SRMCEM, Lucknow, the City of Nawabs."
       ],
-      "alt": "Lucknow skyline silhouette of domes and minarets, traced from the SRIJAN poster"
+      "alt": "Stylised city skyline at dusk, with domes, minarets, an arched gateway and modern towers"
     },
     "domains": {
       "line": "Pick your battlefield",
@@ -206,7 +279,8 @@
       "link": {
         "label": "See all domains",
         "href": "#domains"
-      }
+      },
+      "sub": "Six themes. Choose the one your idea fits."
     },
     "path": {
       "line": "Your path",
@@ -249,13 +323,11 @@
     "steps": [
       {
         "title": "Register",
-        "text": "Submit your idea through the Google Form.",
-        "tag": "Details coming soon"
+        "text": "Submit your idea in the form."
       },
       {
-        "title": "Idea review",
-        "text": "Ideas are reviewed and selected teams are announced.",
-        "tag": "Details coming soon"
+        "title": "Shortlist, 12 Oct",
+        "text": "Shortlisted teams are announced, based on the ideas submitted."
       },
       {
         "title": "Online round, 13 Oct",
@@ -267,9 +339,33 @@
       },
       {
         "title": "Results and rewards",
-        "reward": true
+        "reward": true,
+        "tag": "Details coming soon"
       }
     ],
-    "cta": "Your move."
+    "cta": "Your move.",
+    "intro": "Five steps from sign-up to the stage."
+  },
+  "fee": {
+    "heading": "Registration fee",
+    "note": "₹50 per team member",
+    "tiers": [
+      {
+        "label": "Solo",
+        "amount": "₹50"
+      },
+      {
+        "label": "2 members",
+        "amount": "₹100"
+      },
+      {
+        "label": "3 members",
+        "amount": "₹150"
+      },
+      {
+        "label": "4 members",
+        "amount": "₹200"
+      }
+    ]
   }
 }

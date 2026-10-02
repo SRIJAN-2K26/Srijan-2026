@@ -17,7 +17,7 @@
 /* frames: static layout */
 .frame { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; padding-block: 3.5rem; border-top: 1px solid var(--line); }
 .f1 { border-top: 0; min-height: calc(100svh - 4rem); padding-block: 2.5rem 3.5rem; }
-.in, .f-copy, .doms, .steps5 { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--pad); }
+.frame > .in, .f-copy, .doms, .steps5 { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--pad); }
 .kicker { font-size: .8rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--orange-hi); }
 .line { font-size: clamp(2.2rem, 8vw, 5rem); margin-top: .4rem; }
 .sub { color: var(--muted); margin-top: .6rem; max-width: 40rem; }
@@ -29,11 +29,8 @@
 .f-art { position: relative; height: clamp(11rem, 36svh, 22rem); display: flex; justify-content: center; align-items: flex-end; overflow: hidden; margin-bottom: 1.5rem; }
 .f-art svg { flex: none; display: block; width: max(100%, 34rem); max-width: 100%; height: 100%; }
 @media (max-width: 34rem) { .f-art svg { max-width: none; } }
-.f2 .f-art { border-bottom: 2px solid color-mix(in srgb, var(--orange) 60%, transparent); }
 .gold { fill: var(--gold); }
 .s-fill { fill: #1c2733; }
-.skyline { z-index: 1; }
-.sunglow { position: absolute; left: 50%; bottom: -10%; width: min(46rem, 130%); aspect-ratio: 2/1; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,106,0,.55), rgba(255,106,0,.12) 60%, transparent); }
 .handles { fill: none; stroke: var(--gold); stroke-width: 5; stroke-linecap: round; }
 .rays path { stroke: var(--orange); stroke-width: 3; stroke-linecap: round; opacity: .7; fill: none; }
 .rays { transform-origin: 100px 80px; }
@@ -47,6 +44,8 @@
 .bolt { position: absolute; left: 50%; top: -.17em; height: 1em; width: auto; aspect-ratio: 1 / 3; fill: var(--orange); transform: translateX(-50%); pointer-events: none; overflow: visible; }
 .bolt path { stroke: #000; stroke-width: 3; paint-order: stroke; }
 .lit { position: absolute; z-index: -1; inset: -25% -12%; background: radial-gradient(closest-side, rgba(255,106,0,.28), transparent); pointer-events: none; }
+.sponsored { margin-top: .7rem; }
+.sp-label { font-size: .7rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); }
 .f1 .tag { margin-top: .6rem; font-family: var(--display); text-transform: uppercase; font-size: clamp(1.6rem, 7.2vw, 3.2rem); line-height: 1.05; letter-spacing: .06em; color: var(--fg); }
 .f1 .tag i { font-style: normal; color: var(--orange); padding-inline: .35em; }
 .when { margin-top: .9rem; font-size: clamp(1.3rem, 4.6vw, 2rem); letter-spacing: .05em; line-height: 1.1; }
@@ -57,7 +56,7 @@
 .fact svg { width: 1.15rem; height: 1.15rem; color: var(--orange); flex: none; }
 @media (min-width: 40rem) { .facts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; } .fact { display: inline-flex; padding: .65rem 1rem; font-size: .95rem; } }
 .cta { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
-.days { margin-top: .9rem; font-size: .85rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.days { text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); margin-top: .9rem; font-size: .85rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .days[hidden] { display: none; }
 .days b { color: var(--fg); }
 
@@ -86,10 +85,7 @@
 /* frame 6 (your move) */
 .f6 .line { margin-top: .3rem; }
 .f6 .sp-row { margin-top: 1.25rem; }
-.f6 .logo { height: 4.5rem; min-width: 8rem; padding: .5rem 1rem; }
-.f6 .logo.dark { min-width: 4.5rem; padding: .25rem; }
-.f6 .logo img { max-height: 3.5rem; }
-.f6 .logo.dark img { max-height: 100%; }
+.f6 .sp-row { justify-content: flex-start; }
 .faqlink { margin-top: 1rem; color: var(--muted); }
 .faqlink a { display: inline-flex; align-items: center; min-height: 44px; }
 .faqlink a, .soonnote a { color: var(--fg); }
@@ -130,26 +126,30 @@
   /* below 64rem the sticky Register dock (~5rem) covers the frame's bottom edge: keep links clear of it (frames 1 and 6 hide the dock) */
   @media (max-width: 63.99rem) { .f2, .f3, .f4, .f5 { padding-bottom: 5.75rem; } }
   .frame:has(:focus-visible) { opacity: 1 !important; visibility: visible !important; z-index: 6; background: var(--bg); }
-  @keyframes fr { 0%, 6% { opacity: 0; visibility: hidden; } 14%, 86% { opacity: 1; visibility: visible; } 94%, 100% { opacity: 0; visibility: hidden; } }
-  @keyframes fr1 { 0%, 86% { opacity: 1; visibility: visible; } 94%, 100% { opacity: 0; visibility: hidden; } }
-  @keyframes frL { 0%, 6% { opacity: 0; visibility: hidden; } 14%, 100% { opacity: 1; visibility: visible; } }
+  @keyframes fr { 0%, 6% { opacity: 0; visibility: hidden; transform: translateY(2.5rem) scale(.985); } 14%, 86% { opacity: 1; visibility: visible; transform: none; } 94%, 100% { opacity: 0; visibility: hidden; transform: translateY(-2.5rem) scale(1.015); } }
+  @keyframes fr1 { 0%, 86% { opacity: 1; visibility: visible; transform: none; } 94%, 100% { opacity: 0; visibility: hidden; transform: translateY(-2.5rem) scale(1.015); } }
+  @keyframes frL { 0%, 6% { opacity: 0; visibility: hidden; transform: translateY(2.5rem) scale(.985); } 14%, 100% { opacity: 1; visibility: visible; transform: none; } }
 
   .f1 h1 { font-size: clamp(3.6rem, min(19vw, 16vh), 11rem); }
   .f-art { height: clamp(11rem, 40svh, 24rem); margin-bottom: 1rem; }
+  .f2 { justify-content: flex-start; }
+  .f2 .f-copy { margin-top: clamp(.5rem, 5svh, 3rem); }
   .s-a, .s-b { animation: par linear both; animation-timeline: scroll(root); animation-range: 0 calc(6 * var(--F)); }
   @keyframes par { from { transform: translateY(0) skewX(-18deg); } to { transform: translateY(8%) skewX(-18deg); } }
 
   /* per-element scroll choreography: --a/--b = start/end as fraction of the frame's scroll length */
-  .skyline, .trophy, .sunglow, .rays, .dom, .st, .st + .st::before {
+  .trophy, .rays, .dom, .st, .st + .st::before {
     animation-timeline: scroll(root); animation-fill-mode: both; animation-timing-function: linear;
     animation-range: calc((var(--fi) + var(--a)) * var(--F)) calc((var(--fi) + var(--b)) * var(--F)); }
-  .skyline { --a: .04; --b: .4; animation-name: up; --ty: 100%; }
-  .sunglow { --a: .1; --b: .5; animation-name: glow; }
   .trophy { --a: .05; --b: .36; animation-name: pop; transform-origin: 100px 148px; }
   .rays { --a: .2; --b: .5; animation-name: ray; }
-  .dom { --a: calc(.08 + var(--j) * .075); --b: calc(var(--a) + .1); animation-name: up; --ty: 24px; }
-  .st { --a: calc(.08 + var(--j) * .22); --b: calc(var(--a) + .12); animation-name: left; }
-  .st + .st::before { --a: calc(var(--j) * .22 - .02); --b: calc(var(--a) + .1); animation-name: grow; }
+  .rays { animation-name: ray, spin; animation-range: calc((var(--fi) + .2) * var(--F)) calc((var(--fi) + .5) * var(--F)), calc((var(--fi) + .1) * var(--F)) calc((var(--fi) + .95) * var(--F)); }
+  @keyframes spin { from { rotate: -24deg; } to { rotate: 24deg; } }
+  .doms { perspective: 700px; }
+  .dom { --a: calc(.1 + var(--j) * .06); --b: calc(var(--a) + .1); animation-name: flip; transform-origin: 50% 100%; }
+  .st { --a: calc(.1 + var(--j) * .13); --b: calc(var(--a) + .1); animation-name: left; }
+  .st + .st::before { --a: calc(var(--j) * .13 + .02); --b: calc(var(--a) + .08); animation-name: grow; }
+  @keyframes flip { from { opacity: 0; transform: rotateX(-42deg) translateY(28px); } to { opacity: 1; transform: none; } }
   @keyframes up { from { opacity: 0; transform: translateY(var(--ty, 30px)); } to { opacity: 1; transform: none; } }
   @keyframes left { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -160,9 +160,17 @@
   @media (min-width: 56rem) { .st + .st::before { animation-name: growX; } }
   @keyframes growX { from { transform: scaleX(0); } to { transform: none; } }
 
+  /* text choreography: children of each frame's copy rise in a stagger as the frame arrives */
+  .frame:not(.f1) :is(.in, .f-copy) > * { --k: 0; --a: calc(.07 + var(--k) * .035);
+    animation: rise2 linear both; animation-timeline: scroll(root);
+    animation-range: calc((var(--fi) + var(--a)) * var(--F)) calc((var(--fi) + var(--a) + .09) * var(--F)); }
+  .frame :is(.in, .f-copy) > :nth-child(2) { --k: 1; } .frame :is(.in, .f-copy) > :nth-child(3) { --k: 2; }
+  .frame :is(.in, .f-copy) > :nth-child(4) { --k: 3; } .frame :is(.in, .f-copy) > :nth-child(5) { --k: 4; }
+  @keyframes rise2 { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
   /* sticky Register dock: hidden while a frame's own Register button is on screen */
   .dock-in { animation: dockv linear both; animation-timeline: scroll(root); animation-range: 0 calc(6.2 * var(--F)); }
-  @keyframes dockv { 0%, 13.3% { opacity: 0; visibility: hidden; } 16.3%, 81.5% { opacity: 1; visibility: visible; } 84.8%, 96% { opacity: 0; visibility: hidden; } 100% { opacity: 1; visibility: visible; } }
+  @keyframes dockv { 0%, 13.3% { opacity: 0; visibility: hidden; } 16.3%, 78% { opacity: 1; visibility: visible; } 80.2%, 98.5% { opacity: 0; visibility: hidden; } 100% { opacity: 1; visibility: visible; } }
 }
 }
 
@@ -170,6 +178,35 @@
 .total { font-size: clamp(2.6rem, min(12vw, 6.2vw + 1rem), 5.25rem); line-height: .95; color: var(--fg); }
 .motto { margin-top: .75rem; font-size: clamp(1.3rem, 5vw, 2.2rem); letter-spacing: .06em; color: var(--muted); line-height: 1.1; }
 .motto i { font-style: normal; color: var(--orange); padding-inline: .35em; }
-.f6 .logo { overflow: hidden; }
-.f6 .logo.dark img { height: 100%; width: auto; max-width: 100%; }
 .frame .line, .frame .sub, .frame .motto, .frame .kicker { text-shadow: 0 0 10px var(--bg), 0 0 3px var(--bg); }
+
+.f6 .btn-ghost { background: rgba(10,10,10,.92); }
+.sparks path { fill: #fff3c4; }
+.plat { fill: color-mix(in srgb, var(--orange) 55%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  .f1 .in > :is(.inst, .sponsored, .tag, .when, .support, .facts, .cta, .days) { animation: heroin 700ms var(--ease) both; animation-delay: calc(var(--k, 0) * 80ms + 420ms); }
+  .f1 .in > .inst { --k: 0; } .f1 .in > .sponsored { --k: 1; } .f1 .in > .tag { --k: 2; } .f1 .in > .when { --k: 3; } .f1 .in > .support { --k: 4; } .f1 .in > .facts { --k: 5; } .f1 .in > .cta { --k: 6; } .f1 .in > .days { --k: 7; }
+  @keyframes heroin { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .sparks path { transform-box: fill-box; transform-origin: center; animation: spark 2.6s ease-in-out infinite; animation-delay: calc(var(--d, 0) * -.6s); }
+  @keyframes spark { 0%, 100% { opacity: .15; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+}
+@media (max-height: 760px) { .f3 .sub { display: none; } }
+
+/* short phones: tighten the hero so Register stays fully above the fold with the sponsor row */
+@media (max-height: 700px) {
+  .f1 h1 { font-size: clamp(3.2rem, min(17vw, 12.5vh), 11rem); }
+  .f1 .inst { margin-bottom: .35rem; }
+  .sponsored { margin-top: .5rem; }
+  .sp-label { margin-bottom: .25rem; }
+  .f1 .tag { margin-top: .35rem; font-size: clamp(1.4rem, 6.4vw, 3.2rem); }
+  .when { margin-top: .5rem; }
+  .facts { margin-top: .8rem; }
+  .f1 .cta { margin-top: .9rem; }
+  .f1 { padding-block: .6rem; }
+}
+
+@media (max-height: 800px) and (min-height: 701px) {
+  .f1 h1 { font-size: clamp(3.6rem, min(19vw, 13.5vh), 11rem); }
+  .facts { margin-top: 1rem; }
+  .f1 .cta { margin-top: 1.1rem; }
+}
