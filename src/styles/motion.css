@@ -107,6 +107,42 @@ html:not(.js) .path-beam, html.rm .path-beam { stroke-dashoffset: 0; }
     pointer-events: none;
   }
 }
+/* Prize ticker: final figure is always in the DOM; scramble is an overlay. */
+.prize-vis {
+  position: relative;
+  display: inline-block;
+}
+.prize-fig, .prize-fx {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-family: var(--display);
+  letter-spacing: 0.02em;
+}
+.prize-fig { color: var(--fg); }
+.prize-fx {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--orange-hi);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+html.js [data-prize].scrambling .prize-fx { opacity: 1; }
+html.js [data-prize].scrambling .prize-fig { color: transparent; }
+.f5 .f-art { perspective: 640px; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .f5 .a-trophy {
+    transform-origin: 50% 80%;
+    animation: badge-float 5.6s ease-in-out infinite;
+    filter: drop-shadow(0 0 16px rgba(255, 102, 0, 0.45));
+  }
+}
+@keyframes badge-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(-5deg); }
+  50% { transform: translate3d(0, -8px, 0) rotateX(5deg) rotateY(5deg); }
+}
+
 @keyframes node-ripple {
   from { transform: scale(0.7); opacity: 1; }
   to { transform: scale(1.55); opacity: 0; }

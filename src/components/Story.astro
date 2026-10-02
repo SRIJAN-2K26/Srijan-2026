@@ -113,7 +113,13 @@ const chars = (s: string) => s.split('').map((ch, i) => <span class="ch" style={
         <g class="sparks"><path style="--d:0" d="M30 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path style="--d:1" d="M170 52l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/><path style="--d:2" d="M52 110l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:3" d="M150 118l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:4" d="M100 8l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
         </svg>
       </div>
-      <div class="f-copy"><h2 class="line total display">{prizes.total}</h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
+      <div class="f-copy"><h2 class="line total display" data-prize>
+        <span class="sr">{prizes.total}</span>
+        <span class="prize-vis" aria-hidden="true">
+          <span class="prize-fig" data-prize-fig>₹1.5 Lakh+</span><span class="prize-rest"> in rewards</span>
+          <span class="prize-fx" data-prize-fx></span>
+        </span>
+      </h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
     </article>
 
     <!-- 6 · YOUR MOVE -->
