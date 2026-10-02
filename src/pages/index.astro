@@ -188,7 +188,7 @@ const tagline = ev.tagline;
         <div class="sp-row" data-stagger>
           {sponsors.list.map((s, i) => (
             <div class={`logo ${s.logo === 'macrovision' ? 'dark' : ''}`} style={`--i:${i}`}>
-              <Img src={logos[s.logo]} fallbackWidth={s.logo === 'macrovision' ? 192 : 320} widths={s.logo === 'macrovision' ? [96, 192] : [256, 320]} sizes={s.logo === 'macrovision' ? '96px' : '256px'} alt={s.alt}
+              <Img src={logos[s.logo]} fallbackWidth={160} widths={[160, 320]} sizes="160px" alt={s.alt}
                 width={320} height={s.logo === 'macrovision' ? 320 : 100} loading="lazy" />
             </div>
           ))}
