@@ -55,3 +55,34 @@
   .sky.s-hero .ly-far, .sky.s-hero .ly-mid { transform: translate3d(0, calc(var(--para-far, 0) * 1px), 0); }
   .sky.s-hero .ly-near, .sky.s-hero .ly-front { transform: translate3d(0, calc(var(--para-near, 0) * 1px), 0); }
 }
+
+/* 3D tilt cards. Text stays on the card plane (no translateZ on type). Pointer-fine hover only. */
+.dom { position: relative; }
+[data-tilt] .tilt-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  background: conic-gradient(from var(--glow-a, 210deg), transparent 0 40%, rgba(255, 102, 0, 0.85) 62%, transparent 82%);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+}
+[data-tilt] > :not(.tilt-glow) { position: relative; z-index: 1; }
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js [data-tilt] {
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(var(--ts, 1), var(--ts, 1), 1);
+      transform-style: preserve-3d;
+      transition: transform 160ms var(--ease), border-color 200ms;
+    }
+    html.js .dcards li[data-tilt]:hover {
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1.02, 1.02, 1);
+    }
+    html.js [data-tilt] .tilt-pop { transform: translate3d(0, 0, 24px); }
+    html.js [data-tilt]:hover .tilt-glow { opacity: 1; }
+  }
+}

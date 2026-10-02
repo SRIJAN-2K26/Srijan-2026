@@ -78,7 +78,14 @@ const tagline = ev.tagline;
           <h3 class="display h3" data-reveal>{tracks.heading}</h3>
           <p class="lead" data-reveal>{tracks.intro}</p>
           <ul class="dcards" data-stagger>
-            {tracks.list.map((t, i) => <li style={`--i:${i}`}><span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h4>{t}</h4><p>{tracks.cards[i]}</p></li>)}
+            {tracks.list.map((t, i) => (
+              <li data-tilt style={`--i:${i}`}>
+                <span class="tilt-glow" aria-hidden="true"></span>
+                <span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h4>{t}</h4>
+                <p>{tracks.cards[i]}</p>
+              </li>
+            ))}
           </ul>
           <p class="foot-note" data-reveal>{tracks.problemStatements.title}.</p>
         </div>
