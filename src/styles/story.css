@@ -56,9 +56,9 @@
 .fact svg { width: 1.15rem; height: 1.15rem; color: var(--orange); flex: none; }
 @media (min-width: 40rem) { .facts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; } .fact { display: inline-flex; padding: .65rem 1rem; font-size: .95rem; } }
 .cta { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
-.days { text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); margin-top: .9rem; font-size: .85rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.days[hidden] { display: none; }
-.days b { color: var(--fg); }
+.regline { margin-top: .9rem; min-height: 1.5em; font-size: min(.9rem, 3.5vw); font-weight: 700; letter-spacing: .02em; white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); }
+.regline[data-state='closed'] { color: var(--fg); }
+.f6 .regline { margin-top: .75rem; }
 
 /* frame 3 (domains) */
 .doms { display: grid; gap: .6rem; margin-top: 1.5rem; }
@@ -184,8 +184,8 @@
 .sparks path { fill: #fff3c4; }
 .plat { fill: color-mix(in srgb, var(--orange) 55%, transparent); }
 @media (prefers-reduced-motion: no-preference) {
-  .f1 .in > :is(.inst, .sponsored, .tag, .when, .support, .facts, .cta, .days) { animation: heroin 700ms var(--ease) both; animation-delay: calc(var(--k, 0) * 80ms + 420ms); }
-  .f1 .in > .inst { --k: 0; } .f1 .in > .sponsored { --k: 1; } .f1 .in > .tag { --k: 2; } .f1 .in > .when { --k: 3; } .f1 .in > .support { --k: 4; } .f1 .in > .facts { --k: 5; } .f1 .in > .cta { --k: 6; } .f1 .in > .days { --k: 7; }
+  .f1 .in > :is(.inst, .sponsored, .tag, .when, .support, .facts, .cta, .regline) { animation: heroin 700ms var(--ease) both; animation-delay: calc(var(--k, 0) * 80ms + 420ms); }
+  .f1 .in > .inst { --k: 0; } .f1 .in > .sponsored { --k: 1; } .f1 .in > .tag { --k: 2; } .f1 .in > .when { --k: 3; } .f1 .in > .support { --k: 4; } .f1 .in > .facts { --k: 5; } .f1 .in > .cta { --k: 6; } .f1 .in > .regline { --k: 7; }
   @keyframes heroin { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   .sparks path { transform-box: fill-box; transform-origin: center; animation: spark 2.6s ease-in-out infinite; animation-delay: calc(var(--d, 0) * -.6s); }
   @keyframes spark { 0%, 100% { opacity: .15; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }

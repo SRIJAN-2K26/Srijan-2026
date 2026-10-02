@@ -3,6 +3,7 @@ import Img from './Img.astro';
 import '../styles/story.css';
 import data from '../data/event.json';
 import Skyline from './Skyline.astro';
+import RegLine from './RegLine.astro';
 import '../styles/skyline.css';
 import paytm from '../assets/sponsors/paytm.webp';
 import xyz from '../assets/sponsors/xyz.webp';
@@ -63,7 +64,7 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
         <div class="cta">
           <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
         </div>
-        <p id="days" class="days" hidden data-start={ev.countdownTo} data-end={ev.eventEnd}></p>
+        <RegLine />
       </div>
     </article>
 
@@ -116,6 +117,7 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
         <div class="cta">
           <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
         </div>
+        <RegLine />
         <div class="sp-row">
           <ul class="sp-logos sp-big" aria-label={sponsors.label}>
             {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="lazy" /></li>)}
@@ -127,3 +129,5 @@ const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSi
     </article>
   </div>
 </section>
+
+<script>import '../scripts/reg-countdown.ts';</script>
