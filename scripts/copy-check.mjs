@@ -20,5 +20,8 @@ const allowed = new Set(['₹50', '₹100', '₹150', '₹200', '₹1.5Lakh+']);
 const unexpected = [...new Set(amounts)].filter((a) => !allowed.has(a));
 console.log('amounts on page:', [...new Set(amounts)].join(' '));
 if (unexpected.length) fail('unexpected amounts: ' + unexpected.join(' '));
+// owner-approved reward wording: "Rewards worth ₹1.5 Lakh+" (never "in rewards", cash, prize pool, goodies/vouchers)
+if (!text.includes('Rewards worth ₹1.5 Lakh+')) fail('missing approved reward wording');
+if (/Lakh\+?\s+in rewards|\bcash\b|prize pool|goodies|voucher/i.test(text)) fail('old/forbidden reward wording');
 if ((html.match(/@/g) || []).length && /[\w.]+@(?!gmail\.com)/.test(text)) fail('unexpected email');
 process.exit(bad ? 1 : 0);
