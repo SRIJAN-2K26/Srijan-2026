@@ -5,11 +5,13 @@ import data from '../data/event.json';
 import venue from '../assets/venue.jpg';
 import poster from '../assets/poster.jpg';
 import Story from '../components/Story.astro';
+import EmberBg from '../components/EmberBg.astro';
 
 const { event: ev, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact, fee } = data;
 const tagline = ev.tagline;
 ---
 <Base>
+  <EmberBg />
   <a class="skip" href="#about">Skip to details</a>
   <div class="progress" aria-hidden="true"></div>
 
