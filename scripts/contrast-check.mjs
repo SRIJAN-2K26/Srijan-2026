@@ -5,9 +5,9 @@ const BASE = process.env.BASE || 'http://localhost:4393/';
 const lum = (r, g, b) => { const f = (c) => { c /= 255; return c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
 const parse = (s) => s.match(/[\d.]+/g).map(Number);
 const b = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox'] });
-for (const [w, h] of [[390, 844], [1280, 800]]) {
+for (const [w, h] of (process.env.SIZES ? JSON.parse(process.env.SIZES) : [[390, 844], [1280, 800]])) {
   const p = await (await b.newContext({ viewport: { width: w, height: h } })).newPage();
-  await p.goto(BASE, { waitUntil: 'networkidle' }); await p.waitForTimeout(1500);
+  await p.goto(BASE, { waitUntil: 'networkidle' }); await p.waitForTimeout(2800);
   const F = Math.round(.9 * h); let worst = [99, ''];
   for (let i = 0; i < 6; i++) {
     await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), Math.round((i + (i ? .6 : .02)) * F)); await p.waitForTimeout(300);
@@ -18,7 +18,7 @@ for (const [w, h] of [[390, 844], [1280, 800]]) {
       while (wk.nextNode()) { const n = wk.currentNode; if (!n.textContent.trim()) continue; const e = n.parentElement; if (seen.has(e) || e.closest('.sr,svg')) continue; seen.add(e);
         const r = document.createRange(); r.selectNodeContents(n); const b = r.getBoundingClientRect(); if (b.width < 2) continue;
         out.push({ t: n.textContent.trim().slice(0, 24), c: getComputedStyle(e).color, x: Math.max(0, b.left), y: Math.max(0, b.top), w: Math.min(b.width, innerWidth - b.left), h: b.height }); }
-      const st = document.createElement('style'); st.id = 'hide'; st.textContent = '.frame *{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important}'; document.head.append(st);
+      const st = document.createElement('style'); st.id = 'hide'; st.textContent = '.frame *{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important} .bolt{display:none} .sp-logos{visibility:hidden}'; document.head.append(st);
       return out; }, i);
     for (const it of items) {
       if (it.w < 2 || it.h < 2) continue;

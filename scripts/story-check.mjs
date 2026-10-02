@@ -24,7 +24,7 @@ for (const reduce of [false, true]) for (const [w, h] of sizes) {
       const r = await p.evaluate((i) => {
         const st = document.querySelector('.stage').getBoundingClientRect(); const f = document.querySelectorAll('.frame')[i];
         const cs = getComputedStyle(f); const kids = [...f.querySelectorAll('.in,.f-copy,.doms,.steps5,.f-art,.sub')].filter((e) => !e.closest('.f-art') || e.classList.contains('f-art'));
-        let maxB = 0, minT = 1e9; kids.forEach((k) => { const r = k.getBoundingClientRect(); maxB = Math.max(maxB, r.bottom); minT = Math.min(minT, r.top); });
+        let maxB = 0, minT = 1e9; kids.forEach((k) => { const r = k.getBoundingClientRect(); if (!r.width && !r.height) return; maxB = Math.max(maxB, r.bottom); minT = Math.min(minT, r.top); });
         const reg = f.querySelector('[data-register]')?.getBoundingClientRect();
         const dock = getComputedStyle(document.querySelector('.dock-in'));
         const vis = [...document.querySelectorAll('.frame')].filter((x) => getComputedStyle(x).visibility === 'visible' && +getComputedStyle(x).opacity > 0.5).length;
