@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "SRIJAN 2K26 | Inter-College Hackathon, SRMCEM Lucknow",
+    "description": "SRIJAN 2K26 is an inter-college hybrid hackathon at SRMCEM, Lucknow on 13–14 October 2026. Build. Create. Impact."
+  },
+  "event": {
+    "name": "SRIJAN",
+    "year": "2K26",
+    "type": "Inter-College Hackathon",
+    "tagline": ["Build", "Create", "Impact"],
+    "dates": "13–14 Oct 2026",
+    "datesLong": "13–14 October 2026",
+    "countdownTo": "2026-10-13T00:00:00+05:30",
+    "eventEnd": "2026-10-14T23:59:59+05:30",
+    "venue": "SRMCEM Campus, Lucknow",
+    "venueFull": "Shri Ramswaroop Memorial College of Engineering & Management, Lucknow",
+    "mode": "Hybrid",
+    "organizers": "CSI SRMCEM × D’CODERS",
+    "collaborator": "GFG SRMCEM",
+    "instituteLine": "An institution promoted by IITians",
+    "eligibility": "Students from SRMCEM and other colleges"
+  },
+  "register": {
+    "href": "https://forms.gle/6yS5wjADebhmvPpZA",
+    "label": "Register now",
+    "note": "Fee and team size confirmed at registration"
+  },
+  "nav": [
+    { "label": "About", "href": "#about" },
+    { "label": "Domains", "href": "#tracks" },
+    { "label": "Schedule", "href": "#schedule" },
+    { "label": "Prizes", "href": "#prizes" },
+    { "label": "Sponsors", "href": "#sponsors" },
+    { "label": "FAQ", "href": "#faq" }
+  ],
+  "about": {
+    "heading": "Ideas in. Prototypes out.",
+    "body": [
+      "SRIJAN 2K26 is an inter-college hackathon that brings together students, developers, innovators and technology enthusiasts to build practical solutions to real-world problems.",
+      "It pushes students beyond theoretical learning, turning ideas into working prototypes through teamwork, technology and problem-solving."
+    ],
+    "steps": [
+      { "title": "Register", "text": "Apply online and submit your idea proposal in the registration form." },
+      { "title": "Shortlisting", "text": "On 13 Oct, shortlisted teams are announced and the online round runs." },
+      { "title": "Finale", "text": "On 14 Oct, shortlisted teams meet at SRMCEM to demo, get judged and celebrate." }
+    ],
+    "venueCaption": "SRMCEM Campus, Lucknow"
+  },
+  "tracks": {
+    "heading": "Six domains. Pick your battlefield.",
+    "list": [
+      "AI & Machine Learning",
+      "Web & App Development",
+      "Cybersecurity",
+      "Smart Campus Solutions",
+      "Sustainability & Social Impact",
+      "Open Innovation"
+    ],
+    "problemStatements": {
+      "title": "Problem statements announced soon",
+      "text": "The problem statements are being finalised. Check back here, they will be published on this page."
+    }
+  },
+  "schedule": {
+    "heading": "Two days. One finale.",
+    "days": [
+      {
+        "day": "Day 1",
+        "date": "13 Oct",
+        "mode": "Online",
+        "items": [
+          "Opening & briefing",
+          "Problem statement release",
+          "Hacking begins for shortlisted teams",
+          "Mentor sessions",
+          "Sponsor sessions",
+          "Progress checkpoint"
+        ]
+      },
+      {
+        "day": "Day 2",
+        "date": "14 Oct",
+        "mode": "At SRMCEM",
+        "items": [
+          "Team reporting",
+          "Final development & testing",
+          "Code freeze",
+          "Project demonstrations",
+          "Jury evaluation",
+          "Prize distribution",
+          "Closing ceremony"
+        ]
+      }
+    ],
+    "footnote": "Detailed times coming soon"
+  },
+  "prizes": {
+    "heading": "Exciting prizes",
+    "motto": ["Win", "Learn", "Get recognized"],
+    "note": "Details announced soon"
+  },
+  "sponsors": {
+    "heading": "Backed by",
+    "list": [
+      { "name": "Paytm", "logo": "paytm", "alt": "Paytm logo" },
+      { "name": "MacroVision AI", "logo": "macrovision", "alt": "MacroVision AI logo" }
+    ],
+    "partner": {
+      "label": "Partner with us",
+      "href": "https://forms.gle/CJGvo1dniUA4MumSA"
+    }
+  },
+  "faq": {
+    "heading": "Quick answers",
+    "items": [
+      { "q": "Who can participate?", "a": "Students from SRMCEM and other participating colleges and universities." },
+      { "q": "What does hybrid mean?", "a": "Teams apply online and shortlisted teams are announced on 13 Oct. The finale is offline at SRMCEM, Lucknow on 14 Oct." },
+      { "q": "How are teams selected?", "a": "Teams submit an idea proposal in the registration form and a committee shortlists the teams that go to the finale." },
+      { "q": "What are the team size and fee?", "a": "Both are confirmed at registration." }
+    ]
+  },
+  "contact": {
+    "heading": "See you at SRMCEM.",
+    "text": "Ready to build? Register your team, or bring your brand to the stage as a partner."
+  }
+}

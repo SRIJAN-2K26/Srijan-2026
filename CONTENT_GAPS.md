@@ -1,0 +1,28 @@
+# Content gaps and open items (SRIJAN 2K26 home page v1)
+
+Source of truth: Data Digger brief (`/workspace/srijan/brief/brief.md` + `brief.json`, draft 1). Anything below is **left off the page** (no empty cards, no "TBD" shown) until an organizer confirms it.
+
+## Needs organizer confirmation before launch
+- [ ] **Register link** `https://forms.gle/6yS5wjADebhmvPpZA` is provisional (source: chat, 2 Oct). The payment QR is still pending college approval and the form may be replaced. One-line swap: `register.href` in `src/data/event.json`.
+- [ ] **Registration open/close dates**: chat says opens ~4–5 Oct (a CSI email says 5th, 10 PM) and closes 11 Oct. Not on the page; add a "Registrations open on …" line once final.
+- [ ] **Team size**: poster and latest chat say 1–4, formal proposal says 2–4. Page shows no number, only "Fee and team size confirmed at registration".
+- [ ] **Registration fee**: ₹50/head (chat) vs "free" (mockup). Not shown.
+- [ ] **Prizes**: no amounts anywhere confirmed. Page shows "Exciting prizes · Details announced soon". Also unconfirmed: best-idea award, certificates, swag.
+- [ ] **Problem statements**: the 15-statement PDF is a draft (to be final ~4 Oct). Page shows "Problem statements announced soon". The PDF's "Score x/10" values must never be shown. When final, add a `problemStatements.list` to the JSON and render it.
+- [ ] **Open Innovation domain list** (IMG-20261002-WA0038.jpg, not transcribed).
+- [ ] **Schedule**: no clock times. Day-level only plus "Detailed times coming soon". Sources conflict on whether hacking starts 13 Oct (formal proposal) or after the shortlist (chat). Day 1 wording follows the brief draft; confirm.
+- [ ] **Shortlist size** ("top 75", chat) and **judges** ("2 judges from CSI Lucknow chapter", chat; no names): not shown.
+- [ ] **Sponsors**: Paytm and MacroVision AI shown (source: chat + logo files). Sponsor tier and **permission to display logos** unconfirmed. A third logo (`xyz_….jpg`, probably .xyz domain sponsor) is unconfirmed and left off. OSEN/Sprite/Campa were talks only. Partner button uses the sponsor form `https://forms.gle/CJGvo1dniUA4MumSA`.
+
+## Missing content
+- [ ] **Public contact**: the brief lists `Lead.csidcoders@gmail.com` (Student Lead). It is a person-attached address, so it is NOT published. Need an approved public org email or social handles. Contact section currently offers Register / Partner CTAs only.
+- [ ] **Social URLs** (Instagram/LinkedIn): none in the sources.
+- [ ] **Official SRIJAN logo**: none exists (chat, 2 Oct). Header uses a text wordmark; `public/favicon.svg` is a plain monogram, not an official mark.
+- [ ] **Organizer logos** (CSI, SRMCEM, D'CODERS, GFG) as standalone files: only present inside posters. Organizers are named in text.
+- [ ] **Original high-res campus photo**: the venue image is cropped from the final poster (IMG-20260923-WA0029.jpg), 1024 px wide.
+- [ ] **Venue street address**: not sourced (the mockup address is unconfirmed).
+- [ ] **FAQ answers** still missing: cross-college teams, what to bring for the offline finale, rules, and eligibility details beyond "students from SRMCEM and other colleges".
+- [ ] **Open Graph image**: none yet (needs an approved image and the production URL).
+
+## Deliberately not on the page (per brief + parent instructions)
+Headcount stats and "24h/36h" claims, mockup times/dates/fees/prize amounts, Day 0–3 schedule, "Gigabit LAN / Chai Bar", Mind You Infotech, Hacker Pass generator, free stay & food, WhatsApp chat content and group links, the entry-pass PDF, phone numbers and personal emails.
