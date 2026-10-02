@@ -27,8 +27,7 @@
   },
   "register": {
     "href": "https://forms.gle/6yS5wjADebhmvPpZA",
-    "label": "Register now",
-    "note": "Fee confirmed at registration"
+    "label": "Register now"
   },
   "nav": [
     {
@@ -74,7 +73,7 @@
   "tracks": {
     "heading": "Six domains. Pick your battlefield.",
     "list": [
-      "AI & Machine Learning",
+      "AI & ML",
       "Web & App Development",
       "Cybersecurity",
       "Smart Campus Solutions",
@@ -154,10 +153,6 @@
       {
         "q": "How big can a team be?",
         "a": "Teams of 1 to 4 members."
-      },
-      {
-        "q": "Is there a registration fee?",
-        "a": "The fee is confirmed at registration."
       }
     ],
     "contactPointer": {

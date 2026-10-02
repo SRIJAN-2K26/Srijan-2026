@@ -62,7 +62,6 @@
 .fact svg { width: 1.15rem; height: 1.15rem; color: var(--orange); flex: none; }
 @media (min-width: 40rem) { .facts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; } .fact { display: inline-flex; padding: .65rem 1rem; font-size: .95rem; } }
 .cta { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
-.note { color: var(--muted); font-size: .9rem; max-width: 20rem; }
 .days { margin-top: .9rem; font-size: .85rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .days[hidden] { display: none; }
 .days b { color: var(--fg); }
