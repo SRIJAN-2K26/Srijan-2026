@@ -207,7 +207,8 @@
       },
       {
         "q": "When does registration close?",
-        "a": "Registration closes on 11 Oct 2026 at 12:00 PM IST."
+        "a": "Registration closes on 11 Oct 2026 at 12:00 PM IST.",
+        "regClose": true
       },
       {
         "q": "How are teams selected?",
@@ -368,7 +369,8 @@
         "label": "4 members",
         "amount": "₹200"
       }
-    ]
+    ],
+    "caption": "Total for your team"
   },
   "registration": {
     "closes": "2026-10-11T12:00:00+05:30"

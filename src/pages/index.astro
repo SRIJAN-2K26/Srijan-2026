@@ -25,12 +25,12 @@ const tagline = ev.tagline;
           {nav.map((n) => <li><a href={n.href} data-f={n.frame}>{n.label}</a></li>)}
         </ul>
       </details>
-      <a class="btn btn-primary" href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
+      <a class="btn btn-primary" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
     </div>
   </header>
 
   <div class="dock" id="dock"><div class="dock-in">
-    <a class="btn btn-primary" href={register.href} target="_blank" rel="noopener noreferrer">
+    <a class="btn btn-primary" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">
       {register.label}<span class="sr"> (opens in a new tab)</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
@@ -109,13 +109,14 @@ const tagline = ev.tagline;
         </ol>
         <div class="fee" data-reveal>
           <p class="fee-h">{fee.heading} <span>{fee.note}</span></p>
+          <p class="fee-cap">{fee.caption}</p>
           <ul class="fee-tiers" aria-label={fee.heading}>
             {fee.tiers.map((t) => <li><span class="who">{t.label}</span><strong>{t.amount}</strong></li>)}
           </ul>
         </div>
         <div class="cta" data-reveal>
           <p class="display yourmove">{how.cta}</p>
-          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
+          <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
         </div>
       </div>
     </section>
@@ -157,7 +158,7 @@ const tagline = ev.tagline;
           {faq.items.map((f, i) => (
             <details style={`--i:${i}`}>
               <summary>{f.q}<span class="plus" aria-hidden="true"></span></summary>
-              <p class="a">{f.a}</p>
+              <p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p>
             </details>
           ))}
         </div>
@@ -172,7 +173,7 @@ const tagline = ev.tagline;
         <h2 id="ct-h" class="display" data-reveal>{contact.heading}</h2>
         <p class="lead" data-reveal>{contact.text}</p>
         <div class="cta" data-reveal>
-          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
+          <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
           <a class="btn btn-ghost btn-lg" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
         </div>
       </div>
