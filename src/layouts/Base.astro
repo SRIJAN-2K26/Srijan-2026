@@ -29,6 +29,21 @@ const { title = data.meta.title, description = data.meta.description } = Astro.p
           }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
           els.forEach(function (e) { io.observe(e); });
         }
+        var m = document.querySelector('.menu');
+        if (m) {
+          m.addEventListener('click', function (e) { if (e.target.closest('a')) m.removeAttribute('open'); });
+          document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && m.open) { m.removeAttribute('open'); m.querySelector('summary').focus(); } });
+          document.addEventListener('click', function (e) { if (m.open && !m.contains(e.target)) m.removeAttribute('open'); });
+        }
+        var dock = document.getElementById('dock');
+        if (dock && 'IntersectionObserver' in window) {
+          var seen = new Set();
+          var dio = new IntersectionObserver(function (es) {
+            es.forEach(function (e) { e.isIntersecting ? seen.add(e.target) : seen.delete(e.target); });
+            dock.classList.toggle('show', seen.size === 0);
+          });
+          document.querySelectorAll('[data-register], #contact .cta').forEach(function (e) { dio.observe(e); });
+        } else if (dock) { dock.classList.add('show'); }
         var d = document.getElementById('days');
         if (d) {
           var t = new Date(d.dataset.start), end = new Date(d.dataset.end), now = new Date();

@@ -22,13 +22,19 @@ const tagline = ev.tagline;
       <nav class="nav" aria-label="Primary">
         {nav.map((n) => <a href={n.href}>{n.label}</a>)}
       </nav>
-      <a class="btn btn-primary" href={register.href} rel="noopener">{register.label}</a>
+      <details class="menu">
+        <summary><span class="bars" aria-hidden="true"></span>Menu</summary>
+        <ul aria-label="Sections">
+          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        </ul>
+      </details>
+      <a class="btn btn-primary" href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
     </div>
   </header>
 
-  <div class="dock">
-    <a class="btn btn-primary" href={register.href} rel="noopener">
-      {register.label}
+  <div class="dock" id="dock">
+    <a class="btn btn-primary" href={register.href} target="_blank" rel="noopener noreferrer">
+      {register.label}<span class="sr"> (opens in a new tab)</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </div>
@@ -40,13 +46,13 @@ const tagline = ev.tagline;
       <span class="slash" aria-hidden="true"></span>
       <div class="wrap">
         <p class="inst seq" style="--d:0ms">{ev.instituteLine}</p>
-        <h1 id="hero-title" class="display seq" style="--d:60ms">{ev.name}<span class="y">{ev.year}</span></h1>
-        <p class="type seq" style="--d:120ms">{ev.type}</p>
-        <p class="tag seq" style="--d:160ms">
+        <h1 id="hero-title" class="display seq" style="--d:30ms">{ev.name}{' '}<span class="y">{ev.year}</span></h1>
+        <p class="type seq" style="--d:60ms">{ev.type}</p>
+        <p class="tag seq" style="--d:80ms">
           {tagline.map((t, i) => <><span>{t}</span>{i < tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}
         </p>
 
-        <ul class="facts seq" style="--d:260ms" aria-label="Event details">
+        <ul class="facts seq" style="--d:120ms" aria-label="Event details">
           <li class="fact">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
             <span>{ev.dates}</span>
@@ -61,9 +67,9 @@ const tagline = ev.tagline;
           </li>
         </ul>
 
-        <div class="cta seq" style="--d:420ms">
-          <a class="btn btn-primary btn-lg" href={register.href} rel="noopener" data-register>
-            {register.label}
+        <div class="cta seq" style="--d:180ms">
+          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer" data-register>
+            {register.label}<span class="sr"> (opens in a new tab)</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <p class="note">{register.note}</p>
@@ -215,10 +221,9 @@ const tagline = ev.tagline;
         <h2 id="ct-h" class="display" data-reveal>{contact.heading}</h2>
         <p class="lead" data-reveal>{contact.text}</p>
         <div class="cta" data-reveal>
-          <a class="btn btn-primary btn-lg" href={register.href} rel="noopener">{register.label}</a>
+          <a class="btn btn-primary btn-lg" href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
           <a class="btn btn-ghost btn-lg" href={sponsors.partner.href} rel="noopener">{sponsors.partner.label}</a>
         </div>
-        <p class="note" style="margin-top:1rem" data-reveal>{register.note}</p>
       </div>
     </section>
   </main>
@@ -246,7 +251,7 @@ const tagline = ev.tagline;
         <p style="margin-top:.5rem">{ev.instituteLine}</p>
       </div>
       <ul aria-label="Footer links">
-        <li><a href={register.href} rel="noopener">{register.label}</a></li>
+        <li><a href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a></li>
         <li><a href={sponsors.partner.href} rel="noopener">{sponsors.partner.label}</a></li>
         <li><a href="#top">Back to top</a></li>
       </ul>

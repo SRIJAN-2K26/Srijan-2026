@@ -8,7 +8,7 @@ for (const [w, h, name] of widths) {
   const errs = [];
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text()));
   page.on('pageerror', (e) => errs.push(String(e)));
-  await page.goto('http://localhost:4321/', { waitUntil: 'networkidle' });
+  await page.goto((process.env.BASE || 'http://localhost:4321/'), { waitUntil: 'networkidle' });
   await page.waitForTimeout(1500);
   await page.screenshot({ path: `shots/${name}-hero.png` });
   // scroll through to trigger reveals
