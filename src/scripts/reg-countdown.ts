@@ -3,6 +3,7 @@
 // Every tick recomputes from Date.now(); seconds round up, so the clock never reads 00 : 00 : 00 : 00 or goes negative: at the close
 // it is replaced by the closed text. Ticking digits are aria-hidden; screen readers get one line, rewritten at most once a minute.
 import { jump } from './scroller';
+import { initChip } from './clock-fly';
 const lines = Array.from(document.querySelectorAll<HTMLElement>('[data-reg-closes]'));
 const closes = lines.length ? Date.parse(lines[0].dataset.regCloses || '') : NaN;
 const { lead = '', compact = '', closed = '', units = '' } = lines[0]?.dataset ?? {};
@@ -65,7 +66,10 @@ if (lines.length && !Number.isNaN(closes)) {
   const close = () => {
     done = true; clearTimeout(timer);
     for (const v of views) { v.clock.hidden = true; v.stat.textContent = closed; v.stat.hidden = false; v.sr.textContent = closed; v.line.dataset.state = 'closed'; if (!v.sr.isConnected) v.line.append(v.sr); }
-    if (chip) { chip.textContent = closed; chip.dataset.state = 'closed'; }
+    if (chip) {
+      if (chip.dataset.state === 'open') chip.style.width = `${chip.getBoundingClientRect().width}px`; // closing keeps the chip's box: the text swaps, nothing moves (CLS 0)
+      chip.textContent = closed; chip.dataset.state = 'closed';
+    }
     markClosed();
   };
   const tick = () => {
@@ -103,28 +107,5 @@ if (window.CSS?.supports?.('animation-timeline: scroll()') && !matchMedia('(pref
   });
 }
 
-// Chip visibility: shown once the hero line has scrolled away, hidden while the last frame (which has its own line) is on screen
-// and while any Register button below the story passes under it.
-{
-  const chip = document.querySelector<HTMLElement>('.reg-chip');
-  const story = document.querySelector<HTMLElement>('.story');
-  const regs = [...document.querySelectorAll<HTMLElement>('[data-reg-btn]')].filter((a) => !a.closest('.top, .dock, .story'));
-  if (chip && story) {
-    const pinned = !!window.CSS?.supports?.('animation-timeline: scroll()');
-    let tick = 0;
-    const update = () => {
-      tick = 0;
-      const y = scrollY, vh = innerHeight, F = 0.9 * vh;
-      let show: boolean;
-      if (pinned) { const end = story.offsetTop + story.offsetHeight - vh; show = y > 0.97 * F && !(y > 4.9 * F && y < end + 0.35 * vh); }
-      else { const l = document.querySelector('.f1 .regline')?.getBoundingClientRect(); const l6 = document.querySelector('.f6 .regline')?.getBoundingClientRect(); const on = (r?: DOMRect) => !!r && r.bottom > 64 && r.top < vh; show = !on(l) && !on(l6); }
-      if (show) {
-        const c = chip.getBoundingClientRect();
-        show = !regs.some((a) => { const r = a.getBoundingClientRect(); return r.width > 0 && r.bottom > c.top - 8 && r.top < c.bottom + 8 && r.right > c.left - 8 && r.left < c.right + 8; });
-      }
-      chip.classList.toggle('on', show);
-    };
-    const req = () => { if (!tick) tick = requestAnimationFrame(update); };
-    addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); update();
-  }
-}
+// Chip placement, visibility and the hero-clock flight live in clock-fly.ts (pure function of scroll position).
+initChip();

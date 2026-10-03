@@ -336,13 +336,18 @@ body:has(#how .cta a:focus-visible) .dock { display: none; }
 a.btn[aria-disabled='true'] { background: #2b2f33; color: #e8e8e8; border: 1px solid #5a5f64; box-shadow: none; cursor: not-allowed; pointer-events: none; }
 
 /* Corner countdown chip (JS-created, aria-hidden). Hangs off the header's bottom edge at the top-right, below the header Register button, clear of the dock. */
-.reg-chip { position: fixed; top: 4rem; right: max(.5rem, env(safe-area-inset-right)); z-index: 45; min-width: 11.5em; padding: .3rem .8rem; border: 1px solid #5a3a22; border-top: 0; border-radius: 0 0 12px 12px; background: rgba(10,10,10,.92); color: var(--fg); font-size: .78rem; font-weight: 700; letter-spacing: .02em; line-height: 1.3; text-align: center; white-space: nowrap; pointer-events: none; opacity: 0; transform: translateY(-110%); transition: opacity 260ms var(--ease), transform 260ms var(--ease); }
-.reg-chip.on { opacity: 1; transform: none; }
+.reg-chip { position: fixed; top: 4rem; right: max(.5rem, env(safe-area-inset-right)); z-index: 45; min-width: 11.5em; padding: .3rem .8rem; border: 1px solid #5a3a22; border-top: 0; border-radius: 0 0 12px 12px; background: rgba(10,10,10,.92); color: var(--fg); font-size: .78rem; font-weight: 700; letter-spacing: .02em; line-height: 1.3; text-align: center; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 200ms linear; display: flex; align-items: center; justify-content: center; gap: .35em; min-height: 44px; box-sizing: border-box; max-width: calc(100vw - 1rem); }
+.reg-chip.on { opacity: 1; }
+/* flight mode: opacity is a pure function of scroll (set as --cf by clock-fly.ts), never a timed fade */
+.reg-chip.fly { opacity: var(--cf, 0); transition: none; }
+.rl-clock { transform-origin: 50% 50%; }
 .reg-chip .rc-lead { color: var(--muted); }
 .reg-chip .rl-num { font-family: inherit; font-size: inherit; line-height: inherit; }
 .reg-chip .rl-d { width: .64em; }
 .reg-chip .rc-c { padding-inline: .1em; color: var(--orange-hi); }
-.reg-chip[data-state='closed'] { min-width: 0; color: #e8e8e8; }
+.reg-chip[data-state='closed'] { min-width: 0; color: #e8e8e8; white-space: normal; line-height: 1.15; }
+/* narrow screens: shrink the chip to just the digits so it covers as little body text as possible */
+@media (max-width: 30rem) { .reg-chip { min-width: 0; padding: .3rem .55rem; font-size: .72rem; } .reg-chip .rc-lead { display: none; } }
 @media (prefers-reduced-motion: reduce) { .reg-chip { display: none; } }
 /* after the close: no dead dock, no duplicate hero line (height is kept so nothing shifts) */
 .reg-closed .dock { display: none; }
