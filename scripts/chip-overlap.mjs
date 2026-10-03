@@ -16,4 +16,21 @@ for (const [w, h] of [[360, 640], [375, 667], [390, 667], [390, 844], [820, 1180
   }
   if (hits.length) bad++; console.log(w + 'x' + h, hits.length ? 'OVERLAP ' + JSON.stringify(hits.slice(0, 4)) : 'clear'); await p.close();
 }
+// Full-range sweep (step 40px, whole page incl. the very bottom): while the chip is visible (opacity > .05) its rect must not intersect, by even 1px,
+// any Register button (that is itself visible), footer .person card, .fee li, .sp-row a, .faq-more a or details>summary.
+for (const [w, h] of [[320, 700], [360, 800], [390, 844]]) {
+  const p = await (await b.newContext({ viewport: { width: w, height: h } })).newPage(); await p.goto(BASE, { waitUntil: 'networkidle' }); await p.waitForTimeout(1800);
+  const total = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight); const hits = []; let shown = 0, n = 0;
+  const ys = []; for (let y = 0; y < total; y += 40) ys.push(y); ys.push(total);
+  for (const y of ys) {
+    await p.evaluate((y) => scrollTo({ top: y, behavior: 'instant' }), y); await p.waitForTimeout(300); n++;
+    const r = await p.evaluate(() => { const c = document.querySelector('.reg-chip'); if (!c) return null; const cs = getComputedStyle(c); const op = +cs.opacity; if (op <= .05 || cs.display === 'none') return null; const q = c.getBoundingClientRect();
+      const vis = (e) => { for (let a = e; a && a !== document.body; a = a.parentElement) { const s = getComputedStyle(a); if (s.display === 'none' || s.visibility === 'hidden' || +s.opacity < .05) return false; } return true; };
+      const bad = [...document.querySelectorAll('[data-reg-btn], footer .person, .fee li, .sp-row a, .faq-more a, details>summary')].filter((e) => !e.closest('.top,.dock')).filter((e) => { const t = e.getBoundingClientRect(); return t.width > 0 && t.height > 0 && t.right > q.left && t.left < q.right && t.bottom > q.top && t.top < q.bottom && vis(e); }).map((e) => (e.className || e.tagName) + ':' + (e.textContent.trim().slice(0, 20)));
+      return bad; });
+    if (r) { shown++; if (r.length) hits.push([y, r]); }
+  }
+  const atBottom = await p.evaluate(() => +getComputedStyle(document.querySelector('.reg-chip')).opacity); // at the very bottom (last step) nothing may be covered
+  if (hits.length || !shown) bad++; console.log(`sweep ${w}x${h}: chip visible in ${shown}/${n} steps (opacity at page bottom ${atBottom})`, hits.length ? 'OVERLAP ' + JSON.stringify(hits.slice(0, 4)) : 'clear'); await p.close();
+}
 await b.close(); process.exit(bad ? 1 : 0);
