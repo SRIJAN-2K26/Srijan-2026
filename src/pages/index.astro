@@ -29,12 +29,12 @@ const tagline = ev.tagline;
           {nav.map((n) => <li><a href={n.href} data-f={n.frame}>{n.label}</a></li>)}
         </ul>
       </details>
-      <a class="btn btn-primary" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
+      <a class="btn btn-primary" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
     </div>
   </header>
 
   <div class="dock" id="dock"><div class="dock-in">
-    <a class="btn btn-primary" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">
+    <a class="btn btn-primary" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer">
       {register.label}<span class="sr"> (opens in a new tab)</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
@@ -106,7 +106,8 @@ const tagline = ev.tagline;
         <p class="eyebrow" data-reveal><b>02</b> How it works</p>
         <h2 id="how-h" class="display h2" data-reveal>{how.heading}</h2>
         <p class="lead" data-reveal>{how.intro}</p>
-        <ol class="stepper" data-stagger aria-label={how.aria}>
+        <ol class="stepper" data-stagger aria-label={how.aria} data-timeline>
+          <svg class="tl-svg" aria-hidden="true" focusable="false"><path class="tl-path" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           {how.steps.map((s, k) => (
             <li class="stp" style={`--i:${k}`}>
               <span class="num" aria-hidden="true">{k + 1}</span>
@@ -127,7 +128,7 @@ const tagline = ev.tagline;
         </div>
         <div class="cta" data-reveal>
           <p class="display yourmove">{how.cta}</p>
-          <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
+          <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
         </div>
       </div>
     </section>
@@ -137,7 +138,7 @@ const tagline = ev.tagline;
       <div class="wrap">
         <p class="eyebrow" data-reveal><b>03</b> Schedule</p>
         <h2 id="sch-h" class="display h2" data-reveal>{schedule.heading}</h2>
-        <div class="days-grid" data-stagger>
+        <div class="days-grid" data-stagger data-schedule-tabs>
           {schedule.days.map((d, i) => (
             <details class="day" open style={`--i:${i}`}>
               <summary>
@@ -167,9 +168,9 @@ const tagline = ev.tagline;
         <h2 id="faq-h" class="display h2" data-reveal>{faq.heading}</h2>
         <div class="faq" data-stagger>
           {faq.items.map((f, i) => (
-            <details style={`--i:${i}`}>
-              <summary>{f.q}<span class="plus" aria-hidden="true"></span></summary>
-              <p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p>
+            <details data-faq style={`--i:${i}`}>
+              <summary aria-expanded="false">{f.q}<span class="plus" aria-hidden="true"></span></summary>
+              <div class="faq-panel"><div class="faq-in"><p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p></div></div>
             </details>
           ))}
         </div>
@@ -184,8 +185,8 @@ const tagline = ev.tagline;
         <h2 id="ct-h" class="display" data-reveal>{contact.heading}</h2>
         <p class="lead" data-reveal data-reg-copy data-closed-text={contact.closedText}>{contact.text}</p>
         <div class="cta" data-reveal>
-          <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
-          <a class="btn btn-ghost btn-lg" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
+          <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
+          <a class="btn btn-ghost btn-lg" data-magnetic href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
         </div>
       </div>
     </section>

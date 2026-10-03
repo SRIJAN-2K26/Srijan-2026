@@ -6,6 +6,7 @@ import Skyline from './Skyline.astro';
 import RegLine from './RegLine.astro';
 import '../styles/skyline.css';
 import '../styles/hero-cards-fx.css';
+import '../styles/motion-fx.css';
 import paytm from '../assets/sponsors/paytm.webp';
 import xyz from '../assets/sponsors/xyz.webp';
 import macrovisionAi from '../assets/sponsors/macrovision-ai-black.webp';
@@ -33,6 +34,10 @@ const chip = {
 const logoList = sponsors.list;
 const chips = [[chip.pin, ev.venue], [chip.mode, ev.mode], [chip.team, ev.teamSize], [chip.cup, prizes.total]];
 const split = (s: string) => [...s];
+const prizeFig = '₹1.5 Lakh+';
+const pi = prizes.total.indexOf(prizeFig);
+const prizeHead = pi > 0 ? prizes.total.slice(0, pi) : '';
+const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
 ---
 <section class="story" id="top" aria-label={`${ev.name} ${ev.year}`}>
   <Skyline mode="defs" />
@@ -55,7 +60,7 @@ const split = (s: string) => [...s];
             {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="eager" /></li>)}
           </ul>
         </div>
-        <p class="tag kin" aria-label={ev.tagline.join(' • ')}>{ev.tagline.map((t, i) => <><span class:list={['tw', i === 2 && 'chroma-pulse']} aria-hidden="true">{split(t).map((ch, j) => <span class="ch" style={`--c:${j}`}>{ch}</span>)}{i === 2 && <><span class="fx fx-a">{t}</span><span class="fx fx-b">{t}</span></>}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
+        <p class="tag kin"><span class="sr">{ev.tagline.join(' • ')}</span>{ev.tagline.map((t, i) => <><span class:list={['tw', i === 2 && 'chroma-pulse']} aria-hidden="true">{split(t).map((ch, j) => <span class="ch" style={`--c:${j}`}>{ch}</span>)}{i === 2 && <><span class="fx fx-a">{t}</span><span class="fx fx-b">{t}</span></>}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
         <p class="when display">{story.spark.line}</p>
         <p class="support">{story.spark.support}</p>
         <ul class="facts" aria-label="Event details">
@@ -64,7 +69,7 @@ const split = (s: string) => [...s];
           ))}
         </ul>
         <div class="cta">
-          <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
+          <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
         </div>
         <RegLine />
       </div>
@@ -90,7 +95,8 @@ const split = (s: string) => [...s];
     <!-- 4 · PATH -->
     <article class="frame f4" id="path" style="--fi:3">
       <div class="f-copy top"><h2 class="line display">{story.path.line}</h2><p class="sub">{story.path.sub}</p></div>
-      <ol class="steps5">
+      <ol class="steps5" data-timeline>
+        <svg class="tl-svg" aria-hidden="true" focusable="false"><path class="tl-path" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         {story.path.steps.map((s, i) => (
           <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong><span>{s.sub}</span></span></li>
         ))}
@@ -100,7 +106,7 @@ const split = (s: string) => [...s];
 
     <!-- 5 · REWARD -->
     <article class="frame f5" id="reward" style="--fi:4">
-      <div class="f-art">
+      <div class="f-art reward-float">
         <svg class="a-trophy" viewBox="0 0 200 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Trophy">
           <ellipse class="plat" cx="100" cy="152" rx="58" ry="6"/>
           <g class="rays"><path d="M100 80L20 12M100 80L100 0M100 80L180 12M100 80L2 70M100 80L198 70"/></g>
@@ -108,7 +114,7 @@ const split = (s: string) => [...s];
         <g class="sparks"><path style="--d:0" d="M30 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path style="--d:1" d="M170 52l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/><path style="--d:2" d="M52 110l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:3" d="M150 118l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:4" d="M100 8l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
         </svg>
       </div>
-      <div class="f-copy"><h2 class="line total display">{prizes.total}</h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
+      <div class="f-copy"><h2 class="line total display" data-prize><span class="sr">{prizes.total}</span><span class="prize-fx" aria-hidden="true"><span class="prize-head">{prizeHead}</span><span class="prize-scramble">{prizeFig}</span><span class="prize-tail">{prizeTail}</span></span></h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
     </article>
 
     <!-- 6 · YOUR MOVE -->
@@ -117,14 +123,14 @@ const split = (s: string) => [...s];
         <h2 class="line display">{story.move.line}</h2>
         <p class="sub">{story.move.sub}</p>
         <div class="cta">
-          <a class="btn btn-primary btn-lg" data-reg-btn href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
+          <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
         </div>
         <RegLine />
         <div class="sp-row">
           <ul class="sp-logos sp-big" aria-label={sponsors.label}>
             {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="lazy" /></li>)}
           </ul>
-          <a class="btn btn-ghost" href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
+          <a class="btn btn-ghost" data-magnetic href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
         </div>
         <p class="faqlink">{story.move.faq.text} <a href={story.move.faq.href}>{story.move.faq.label}</a></p>
       </div>
@@ -133,5 +139,3 @@ const split = (s: string) => [...s];
 </section>
 
 <script>import '../scripts/reg-countdown.ts';</script>
-<script>import '../scripts/hero-motion.ts';</script>
-<script>import '../scripts/tilt.ts';</script>

@@ -74,13 +74,17 @@
 [data-tilt] > :not(.tilt-glow) { position: relative; z-index: 1; }
 @media (hover: hover) and (pointer: fine) {
   @media (prefers-reduced-motion: no-preference) {
+    /* Individual transform properties (rotate/scale) compose with the reveal's and the pinned story's own
+       `transform` animations instead of replacing them. Perspective comes from the parent grid (.doms / .dcards). */
     html.js [data-tilt] {
-      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(var(--ts, 1), var(--ts, 1), 1);
+      rotate: var(--ta, 0 0 1) var(--tg, 0deg);
+      scale: var(--ts, 1);
       transform-style: preserve-3d;
-      transition: transform 160ms var(--ease), border-color 200ms;
+      transition: rotate 160ms var(--ease), scale 160ms var(--ease), border-color 200ms;
     }
-    html.js .dcards li[data-tilt]:hover {
-      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1.02, 1.02, 1);
+    html.js [data-stagger].in > [data-tilt] {
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), rotate 160ms var(--ease), scale 160ms var(--ease), border-color 200ms;
+      transition-delay: calc(min(var(--i, 0), 3) * var(--stagger)), calc(min(var(--i, 0), 3) * var(--stagger)), 0s, 0s, 0s;
     }
     html.js [data-tilt] .tilt-pop { transform: translate3d(0, 0, 24px); }
     html.js [data-tilt]:hover .tilt-glow { opacity: 1; }

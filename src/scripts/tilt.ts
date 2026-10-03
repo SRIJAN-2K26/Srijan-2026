@@ -7,20 +7,27 @@ if (!reduce && fine) {
     const reset = () => {
       el.style.setProperty('--rx', '0deg');
       el.style.setProperty('--ry', '0deg');
+      el.style.setProperty('--ta', '0 0 1');
+      el.style.setProperty('--tg', '0deg');
       el.style.setProperty('--ts', '1');
       el.style.removeProperty('will-change');
     };
     el.addEventListener('pointerenter', (e) => {
       if (e.pointerType && e.pointerType !== 'mouse') return;
-      el.style.willChange = 'transform';
+      el.style.willChange = 'rotate';
     });
     el.addEventListener('pointermove', (e) => {
       if (e.pointerType && e.pointerType !== 'mouse') return;
       const r = el.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
       const py = (e.clientY - r.top) / r.height - 0.5;
-      el.style.setProperty('--rx', `${(-py * max).toFixed(2)}deg`);
-      el.style.setProperty('--ry', `${(px * max).toFixed(2)}deg`);
+      const rx = -py * max, ry = px * max;
+      el.style.setProperty('--rx', `${rx.toFixed(2)}deg`);
+      el.style.setProperty('--ry', `${ry.toFixed(2)}deg`);
+      // rotateX(rx) rotateY(ry) as one axis-angle `rotate` (individual property, so it stacks on transform animations)
+      const g = Math.hypot(rx, ry);
+      el.style.setProperty('--ta', g < 0.01 ? '0 0 1' : `${(rx / g).toFixed(4)} ${(ry / g).toFixed(4)} 0`);
+      el.style.setProperty('--tg', `${g.toFixed(2)}deg`);
       el.style.setProperty('--ts', '1.02');
       el.style.setProperty('--glow-a', `${(Math.atan2(py, px) * 180) / Math.PI + 90}deg`);
     });
