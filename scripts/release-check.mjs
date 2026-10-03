@@ -1,5 +1,5 @@
-// Combined motion release checks (Lenis + hero parallax + timeline draw + tilt + prize scramble + magnetic buttons + FAQ + schedule tabs),
-// prize scramble CLS (360x640, 4x CPU) and fit, hero h1 accessible name, header tap targets / scroll-behavior / FAQ aria-controls,
+// Combined motion release checks (Lenis + hero parallax + timeline draw + tilt + prize settle + magnetic buttons + FAQ + schedule tabs),
+// prize settle CLS (360x640, 4x CPU) and fit, hero h1 accessible name, header tap targets / scroll-behavior / FAQ aria-controls,
 // plus reduced-motion / touch / JS-off behaviour. Also saves the six review screenshots per viewport into $OUT.
 import { chromium } from 'playwright';
 import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
@@ -22,16 +22,16 @@ for (const [w, h, mobile] of [[1280, 800, false], [390, 844, true]]) {
   p.on('console', (m) => m.type() === 'error' && errs.push(m.text())); p.on('pageerror', (e) => errs.push(String(e)));
   await p.goto(BASE, { waitUntil: 'load' }); await settle(p);
   await p.screenshot({ path: `${OUT}/${tag}-1-hero.png` });
-  ok(await p.evaluate(() => !document.querySelectorAll('.pc').length), tag + ' prize scramble has NOT fired at page load');
+  ok(await p.evaluate(() => !document.querySelectorAll('.pc').length), tag + ' prize settle has NOT fired at page load');
   // ── hero: kinetic title has an accessible name once; parallax follows scroll under Lenis
   const hero = await p.evaluate(() => { const t = document.querySelector('.tag.kin'); return { label: t.getAttribute('aria-label'), sr: t.querySelector('.sr')?.textContent, vis: [...t.querySelectorAll('[aria-hidden=true]')].length }; }); console.log(tag, 'hero tagline', JSON.stringify(hero)); ok(!hero.label && /BUILD/i.test(hero.sr || '') && hero.vis >= 3, 'tagline: sr copy + aria-hidden visual (no aria-label on <p>)');
   // pinned story: the stage-level .city is the one skyline (hero copy hidden, fallback drift script idle); its layers dolly with the Lenis scroll
   if (!mobile) { await p.mouse.move(w / 2, h / 2); const city = () => p.evaluate(() => ({ t: getComputedStyle(document.querySelector('.city .ly-front')).transform, hero: getComputedStyle(document.querySelector('.sky.s-hero')).display, drift: document.querySelector('.sky.s-hero').hasAttribute('data-drift') })); const c0 = await city(); await p.mouse.wheel(0, 400); await p.waitForTimeout(1600); const c1 = await city(); const y = await p.evaluate(() => scrollY); console.log(tag, 'city dolly', c0.t, '->', c1.t, 'at scrollY', y); ok(c0.t !== c1.t && y > 300 && c1.hero === 'none' && !c1.drift, 'pinned city dolly tracks Lenis scroll (hero skyline hidden, no fallback drift)'); await jump(p, 0); await p.waitForTimeout(400); }
-  // ── frame 3: domain cards (+ tilt on the pinned tiles)
+  // ── frame 3: domain cards (+ hover spring on the pinned tiles; replaced the 3D tilt in the bold redesign)
   await jump(p, Math.round(2.55 * F)); await p.waitForTimeout(900);
-  if (!mobile) { const box = await p.locator('.dom').nth(1).boundingBox(); await p.mouse.move(box.x + box.width * .85, box.y + box.height * .2, { steps: 8 }); await p.waitForTimeout(600);
-    const t = await p.evaluate(() => { const e = document.querySelectorAll('.dom')[1]; return { tr: getComputedStyle(e).rotate, rx: e.style.getPropertyValue('--rx'), glow: +getComputedStyle(e.querySelector('.tilt-glow')).opacity, op: +getComputedStyle(e).opacity }; }); console.log(tag, 'f3 .dom tilt', JSON.stringify(t));
-    ok(t.rx && t.rx !== '0deg' && t.op === 1, 'tilt vars set on pinned domain tile'); ok(t.tr !== 'none', 'pinned domain tile rotate applies on top of the flip timeline: ' + t.tr); ok(t.glow > .5, 'tilt border glow on hover'); }
+  if (!mobile) { const box = await p.locator('.dom').nth(1).boundingBox(); await p.mouse.move(box.x + box.width * .85, box.y + box.height * .2, { steps: 8 }); await p.waitForTimeout(200);
+    const t = await p.evaluate(() => { const e = document.querySelectorAll('.dom')[1], c = e.querySelector('.dom-in'); return { sc: new DOMMatrixReadOnly(getComputedStyle(c).transform).a, anims: c.getAnimations().length, op: +getComputedStyle(e).opacity }; }); console.log(tag, 'f3 .dom spring', JSON.stringify(t));
+    ok(t.sc > 1 && t.sc <= 1.03 && t.op === 1, 'hover spring scales the pinned domain card (1.00-1.02): ' + t.sc); }
   await p.screenshot({ path: `${OUT}/${tag}-2-domain-cards.png` }); await p.mouse.move(2, 2);
   // ── frame 4: pinned timeline draws as you scroll
   { const rd = []; for (const k of [3.1, 3.25, 3.4, 3.6, 3.8]) { await jump(p, Math.round(k * F)); await p.waitForTimeout(200); rd.push(await p.evaluate(() => { const t = document.querySelector('.steps5 .tl-path'); return +(parseFloat(t.style.strokeDashoffset) / parseFloat(t.style.strokeDasharray)).toFixed(2); })); }
@@ -40,7 +40,7 @@ for (const [w, h, mobile] of [[1280, 800, false], [390, 844, true]]) {
   { const a = await p.evaluate(() => { const r = document.querySelector('.steps5'), d = r.querySelector('.tl-path').getAttribute('d'), pts = d.slice(1).split(' L').map((s) => s.split(',').map(Number)); const rr = r.getBoundingClientRect(); const dots = [...r.querySelectorAll('.dot')].map((n) => { const q = n.getBoundingClientRect(); return [q.left + q.width / 2 - rr.left, q.top + q.height / 2 - rr.top]; }); return pts.map((q, i) => Math.hypot(q[0] - dots[i][0], q[1] - dots[i][1])); }); console.log(tag, 'pinned path→dot offsets px', a.map((x) => x.toFixed(1)).join(',')); ok(a.every((x) => x < 2), 'pinned path endpoints sit on the dots'); }
   await p.screenshot({ path: `${OUT}/${tag}-4-schedule-timeline-story.png` });
   // ── frame 5: reward counter
-  await jump(p, Math.round(4.55 * F)); await p.waitForTimeout(250); const mid = await p.evaluate(() => document.querySelector('.prize-scramble').textContent); await p.waitForTimeout(1500);
+  await jump(p, Math.round(4.55 * F)); await p.waitForTimeout(250); const mid = await p.evaluate(() => document.querySelector('.prize-scramble').textContent); ok(mid === '₹1.5 Lakh+', 'prize: text mid-settle is still exactly ₹1.5 Lakh+ (' + mid + ')'); await p.waitForTimeout(1500);
   const pr = await p.evaluate(() => { const r = document.querySelector('[data-prize]'), sr = r.querySelector('.sr'); const q = r.getBoundingClientRect(); const fx = r.querySelector('.prize-fx').getBoundingClientRect(); return { sr: sr.textContent, nodes: sr.childNodes.length, fx: r.querySelector('.prize-fx').textContent.trim(), aria: r.querySelector('.prize-fx').getAttribute('aria-hidden'), fig: r.querySelector('.prize-scramble').textContent, h: Math.round(q.height), fxh: Math.round(fx.height), vw: innerWidth, right: Math.round(fx.right) }; });
   console.log(tag, 'prize mid-scramble', JSON.stringify(mid), 'final', JSON.stringify(pr));
   ok(pr.sr === REWARD && pr.nodes === 1 && pr.fx === REWARD && pr.fig === '₹1.5 Lakh+' && pr.aria === 'true', 'prize: one sr text node = "' + REWARD + '", overlay settles on "₹1.5 Lakh+"'); ok(pr.right <= pr.vw, 'prize heading inside viewport');
@@ -97,7 +97,7 @@ for (const [w, h] of [[390, 844], [1280, 800]]) {
 { const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false }); const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(800);
   const r = await p.evaluate(() => ({ text: document.body.innerText, days: [...document.querySelectorAll('.day')].map((d) => !d.hidden), tabs: document.querySelectorAll('.day-tab').length, faq: [...document.querySelectorAll('.faq .a')].length, frames: [...document.querySelectorAll('.frame')].map((e) => +getComputedStyle(e).opacity), venueH: Math.round(document.querySelector('[data-venue-map]').getBoundingClientRect().height) }));
   const must = [REWARD, 'BUILD', '13 Oct', '14 Oct', 'Get directions to the campus', 'On-campus finale · 14 Oct']; const miss = must.filter((m) => !new RegExp(m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(r.text)); console.log('js-off', JSON.stringify({ days: r.days, tabs: r.tabs, faq: r.faq, frames: r.frames, miss })); ok(!miss.length && r.days.every(Boolean) && r.tabs === 0 && r.venueH >= 44 && !r.text.includes('Rewards worth ₹1.5 Lakh+Rewards'), 'JS off: text readable, both days visible, no duplicate overlay text ' + miss); await ctx.close(); }
-// ── prize scramble: CLS 0 at 360x640 with 4x CPU throttle while scrolling to the reward frame (pinned + no-timeline fallback) ──
+// ── prize settle: CLS 0 at 360x640 with 4x CPU throttle while scrolling to the reward frame (pinned + no-timeline fallback) ──
 const SUPPORTS = /@supports\s*\(\s*animation-timeline\s*:\s*scroll\(\)\s*\)/g;
 for (const mode of ['pinned', 'fallback']) {
   const ctx = await b.newContext({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true });
@@ -117,7 +117,7 @@ for (const mode of ['pinned', 'fallback']) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   console.log('prize-cls', mode, 'pinned=' + pinned, JSON.stringify(r));
   ok(pinned === (mode === 'pinned'), `prize-cls ${mode}: layout mode`);
-  ok(r.cells === 10 && r.text === REWARD, `prize-cls ${mode}: scramble ran and settled (${r.cells} cells, "${r.text}")`);
+  ok(r.cells === 0 && r.text === REWARD, `prize-cls ${mode}: no digit cells (${r.cells}); text stayed "${r.text}"`);
   ok(r.cls === 0, `prize-cls ${mode}: CLS 0 at 360x640 / 4x CPU while scrolling to the reward frame (${r.cls} ${JSON.stringify(r.shifts)})`);
   ok(r.nowrap === 'nowrap' && !/width|height/.test(r.styled), `prize-cls ${mode}: .prize-fx nowrap, size lock released after the run (${r.styled})`);
   ok(!errs.length, `prize-cls ${mode}: errors ${errs}`);

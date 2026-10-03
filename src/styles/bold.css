@@ -87,10 +87,11 @@
 .prize-fig { color: var(--orange); }
 
 /* ── final Register: the biggest thing on the page ── */
-.btn-xl { display: flex; width: 100%; max-width: 100%; font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: .01em; font-size: var(--big); line-height: 1; padding: .16em .25em; min-height: calc(var(--big) * 2.5); text-align: center; text-wrap: balance; white-space: normal; border-radius: .28em; }
+.btn-xl { display: flex; width: 100%; max-width: 100%; font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: .01em; font-size: var(--big); line-height: 1; padding: .16em .25em; min-height: calc(var(--big) * 3.1); text-align: center; text-wrap: balance; white-space: normal; border-radius: .28em; }
 .btn-xl:hover { transform: none; }
 .btn-xl:active { transform: none; }
-@media (min-width: 64rem) { .btn-xl { min-height: calc(var(--big) * 1.4); border-radius: 999px; } }
+@media (min-width: 64rem) { .btn-xl { min-height: calc(var(--big) * 2.05); border-radius: 999px; } }
+@media (max-height: 640px) { .btn-xl { min-height: calc(var(--big) * 2.5); } }
 .f6 a.btn-xl[aria-disabled='true'] { white-space: normal; font-size: var(--big); letter-spacing: .01em; padding: .16em .25em; }
 .f6 .cta { margin-top: 1rem; }
 .f6 .cta .regline { flex: 1 1 auto; }
@@ -128,3 +129,13 @@
     .f3 .dom-in { padding: .3rem .5rem; }
   }
 }
+/* the corner clock chip hangs off the header's right edge (64px..108px): start the Spark headline's text box below it */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .f2 .f-copy { margin-top: clamp(1.8rem, 6svh, 4rem); }
+  }
+}
+
+/* nothing on the page may out-size the final Register button: cap the old Contact heading at --big, give short nav labels a 44px-wide target */
+.contact h2 { font-size: min(clamp(3rem, 11vw, 8rem), var(--big)); }
+.nav a { min-width: 44px; justify-content: center; }

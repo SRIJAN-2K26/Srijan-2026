@@ -99,7 +99,7 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
         {story.path.steps.map((s, i) => {
           const vis = s.sub.replace(`${s.day} ${story.path.month}`, '').replace(/^[\s·]+/, '');
           return (
-          <li class="st" data-step style={`--j:${i}`}>{i === 0 && <span class="st-mark" aria-hidden="true"></span>}<span class="dot" aria-hidden="true"><b>{s.day}</b><i>{story.path.month}</i></span><span class="txt"><strong>{s.title}</strong>{' '}{vis !== s.sub ? <><span class="sr">{s.sub.replace(/ · .*/, '')}</span>{vis && <span>{vis}</span>}</> : <span>{s.sub}</span>}{s.note && <>{' '}<span class="note">{s.note}</span></>}</span></li>
+          <li class="st" data-step style={`--j:${i}`}>{i === 0 && <span class="st-mark" aria-hidden="true"></span>}<span class="dot" aria-hidden="true"><b>{s.day}</b><i>{story.path.month}</i></span><span class="txt"><strong>{s.title}</strong>{' '}{vis !== s.sub ? <><span class="sr">{s.sub.slice(0, s.sub.length - vis.length).trim()}</span>{vis && <>{' '}<span>{vis}</span></>}</> : <span>{s.sub}</span>}{s.note && <>{' '}<span class="note">{s.note}</span></>}</span></li>
           );
         })}
       </ol>
