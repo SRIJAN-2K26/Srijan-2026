@@ -35,7 +35,15 @@ if (root && scramble && !reduce) {
     // pinned story: the frame is always "intersecting"; start when it is actually the active frame (opacity), checked on scroll
     // sampled in rAF: scroll-driven animations only update after the scroll event, before animation-frame callbacks
     let q = 0;
-    const check = () => { q = 0; if (+getComputedStyle(frame).opacity > 0.7) { run(); removeEventListener('scroll', onScroll); } };
+    // also require the scroll position to be inside the frame's window: before the scroll timeline attaches, opacity can read 1 at load
+    const story = frame.closest<HTMLElement>('.story');
+    const inWindow = () => {
+      if (!story) return true;
+      const F = (story.offsetHeight - (frame.parentElement as HTMLElement).offsetHeight) / 6;
+      const fi = +(frame.style.getPropertyValue('--fi') || 0);
+      return scrollY > story.getBoundingClientRect().top + scrollY + (fi + 0.1) * F;
+    };
+    const check = () => { q = 0; if (inWindow() && +getComputedStyle(frame).opacity > 0.7) { run(); removeEventListener('scroll', onScroll); } };
     const onScroll = () => { if (!q) q = requestAnimationFrame(check); };
     addEventListener('scroll', onScroll, { passive: true }); check();
   } else if ('IntersectionObserver' in window) {
