@@ -32,7 +32,7 @@ for (const [w, h] of [[390, 844], [390, 667], [360, 640], [1280, 800]]) {
     seen.push(r); if (r.op < .9 || !r.onScreen || !r.hit) badKb++;
   }
   const frames = [...new Set(seen.map((x) => x.f))];
-  const okK = badKb === 0 && [1, 3, 4, 6].every((f) => frames.includes(f)); if (!okK) bad++;
+  const okK = badKb === 0 && [1, 4, 6].every((f) => frames.includes(f)); if (!okK) bad++;
   console.log(w + 'x' + h, 'keyboard through story frames', JSON.stringify(seen.map((x) => `f${x.f}:${x.t}${x.op < .9 || !x.onScreen || !x.hit ? ' BAD' + JSON.stringify(x) : ''}`)), okK ? 'OK' : 'FAIL');
   await p.close();
 }

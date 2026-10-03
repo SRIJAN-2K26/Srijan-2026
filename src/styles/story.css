@@ -66,12 +66,14 @@
 .js .rl-static { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
 .rl-clock:not([hidden]), .js .rl-clock { display: inline-flex; align-items: flex-start; gap: .25rem; }
 .js .rl-clock[hidden] { visibility: hidden; }
-.rl-lead { align-self: center; width: min-content; margin-right: .3rem; font-size: .66rem; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; white-space: normal; }
+.rl-lead { align-self: center; width: min-content; margin-right: .3rem; font-size: .72rem; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; white-space: normal; }
 .rl-unit { display: inline-flex; flex-direction: column; align-items: center; min-width: 2.2rem; }
 .rl-num { font-family: var(--display); font-weight: 400; font-size: var(--rl-n); line-height: 1; color: var(--fg); }
 .rl-d { display: inline-block; width: .58em; text-align: center; }
 .rl-colon { font-family: var(--display); font-size: var(--rl-n); line-height: 1; color: var(--orange-hi); }
-.rl-lbl { margin-top: .2rem; font-size: .58rem; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
+.rl-lbl { margin-top: .2rem; font-size: .7rem; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
+/* 320px: keep the larger labels inside the viewport by tightening tracking and gaps (not the font size) */
+@media (max-width: 22rem) { .rl-lead { letter-spacing: .02em; margin-right: .15rem; } .rl-lbl { letter-spacing: .03em; } .rl-unit { min-width: 1.9rem; } .rl-clock:not([hidden]), .js .rl-clock { gap: .12rem; } }
 
 /* frame 3 (domains) */
 .doms { display: grid; gap: .6rem; margin-top: 1.5rem; }
@@ -88,12 +90,25 @@
 .txt { display: grid; }
 .txt strong { font-size: 1.1rem; line-height: 1.2; }
 .txt span { color: var(--muted); font-size: .95rem; }
+.txt .note { color: var(--fg); font-size: .85rem; line-height: 1.25; margin-top: .15rem; }
 .st + .st::before { content: ''; position: absolute; left: calc(1rem + 1.4rem - 1.5px); top: -1.25rem; width: 3px; height: 1.25rem; background: var(--orange); transform-origin: 50% 0; }
 @media (min-width: 56rem) {
-  .steps5 { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .steps5 { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
   .st { flex-direction: column; align-items: flex-start; padding: 1.25rem; }
   .st + .st::before { left: -2rem; top: 2.65rem; width: 2rem; height: 3px; transform-origin: 0 50%; }
 }
+
+/* four journey nodes on narrow screens: compact cards so the whole path and its links fit above the dock */
+@media (max-width: 55.99rem) {
+  .steps5 { gap: .7rem; margin-top: 1rem; }
+  .st { padding: .5rem .85rem; gap: .8rem; }
+  .dot { width: 2.2rem; height: 2.2rem; font-size: 1.15rem; }
+  .txt strong { font-size: 1.02rem; }
+  .txt span { font-size: .88rem; }
+  .txt .note { font-size: .8rem; }
+  .st + .st::before { left: calc(.85rem + 1.1rem - 1.5px); top: -.7rem; height: .7rem; }
+}
+@media (max-height: 700px) { .f4 > .f-copy.top .sub { display: none; } }
 
 /* frame 6 (your move) */
 .f6 .line { margin-top: .3rem; }
@@ -105,7 +120,8 @@
 .flink { display: inline-flex; align-items: center; gap: .5rem; min-height: 46px; /* >= 44px even at the .985 entry scale */ font-weight: 700; color: var(--orange-hi); text-decoration: none; border-bottom: 2px solid currentColor; }
 .flink svg { width: 1.1rem; height: 1.1rem; }
 .flink:hover { color: var(--fg); }
-.soonnote { margin-left: 1rem; }
+.path-links { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; }
+.soonnote { margin: 0; white-space: nowrap; }
 .f-copy:has(.flink) { margin-top: 1rem; }
 
 /* time-based spark (page load) — still when motion is reduced */
@@ -161,8 +177,8 @@
   @keyframes spin { from { rotate: -24deg; } to { rotate: 24deg; } }
   .doms { perspective: 700px; }
   .dom { --a: calc(.1 + var(--j) * .06); --b: calc(var(--a) + .1); animation-name: flip; transform-origin: 50% 100%; }
-  .st { --a: calc(.1 + var(--j) * .13); --b: calc(var(--a) + .1); animation-name: left; }
-  .st + .st::before { --a: calc(var(--j) * .13 + .02); --b: calc(var(--a) + .08); animation-name: grow; }
+  .st { --a: calc(.08 + var(--j) * .1); --b: calc(var(--a) + .1); animation-name: left; } /* four nodes: the last one is in by .48 of the frame */
+  .st + .st::before { --a: calc(var(--j) * .1 + .02); --b: calc(var(--a) + .08); animation-name: grow; }
   @keyframes flip { from { opacity: 0; transform: rotateX(-42deg) translateY(28px); } to { opacity: 1; transform: none; } }
   @keyframes up { from { opacity: 0; transform: translateY(var(--ty, 30px)); } to { opacity: 1; transform: none; } }
   @keyframes left { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }

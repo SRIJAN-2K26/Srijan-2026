@@ -208,7 +208,8 @@
       },
       {
         "q": "How much does it cost?",
-        "a": "₹50 per team member: ₹50 for 1, ₹100 for 2, ₹150 for 3, ₹200 for 4."
+        "a": "₹50 per team member: ₹50 for 1, ₹100 for 2, ₹150 for 3, ₹200 for 4.",
+        "closedA": "Registration is closed. The fee was ₹50 per team member: ₹50 for 1, ₹100 for 2, ₹150 for 3, ₹200 for 4."
       },
       {
         "q": "When does registration close?",
@@ -285,10 +286,6 @@
         "leaf",
         "open"
       ],
-      "link": {
-        "label": "See all domains",
-        "href": "#domains"
-      },
       "sub": "Six themes. Choose the one your idea fits."
     },
     "path": {
@@ -297,7 +294,13 @@
       "steps": [
         {
           "title": "Register",
-          "sub": "Submit your idea"
+          "sub": "Submit your idea",
+          "note": "Register by 11 Oct, 12:00 PM IST"
+        },
+        {
+          "title": "Shortlist",
+          "sub": "12 Oct",
+          "note": "Shortlisted teams are announced"
         },
         {
           "title": "Online screening",

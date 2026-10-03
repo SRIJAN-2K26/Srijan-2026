@@ -25,7 +25,7 @@ const readLine = (p, sel) => p.evaluate((sel) => { const l = document.querySelec
     sr: sr && sr.textContent, srLive: sr && sr.getAttribute('aria-live'), srCount: l.querySelectorAll('[role=timer]').length, w: +cq.width.toFixed(2), h: Math.round(q.height), right: Math.round(cq.right), left: Math.round(cq.left), bottom: Math.round(q.bottom), oneRow: tops.size === 1, overReg: hit, regBottom: Math.round(rq.bottom), vw: document.documentElement.clientWidth, ovX: document.documentElement.scrollWidth > innerWidth }; }, sel);
 
 // ── open states: 8 days / 1 hour before (paused clock, deterministic digits) at several widths ──
-const open = [['8d', CLOSE - (8 * 86400 + 8 * 3600 + 30 * 60) * 1000, 'Registration closes in 8 days 8 hours'], ['1h', CLOSE - 3600e3, 'Registration closes in 1 hour']];
+const open = [['8d', CLOSE - (8 * 86400 + 8 * 3600 + 30 * 60) * 1000, 'Registration closes in 8 days 8 hours'], ['1h', CLOSE - 3600e3, 'Registration closes in 1 hour 1 min']];
 for (const [name, t0, srWant] of open) for (const [w, h] of [[320, 640], [360, 640], [390, 844], [1280, 800], [1920, 1080]]) {
   const tag = `${name} ${w}x${h}`;
   const ctx = await b.newContext({ viewport: { width: w, height: h }, timezoneId: 'America/Los_Angeles' }); await ctx.addInitScript(clsHook);
@@ -94,7 +94,7 @@ for (const [w, h] of [[360, 640], [390, 844], [1280, 800]]) {
   const ctx = await b.newContext({ viewport: { width: w, height: h }, timezoneId: 'America/Los_Angeles' }); await ctx.addInitScript(clsHook); const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(String(e)));
   await p.clock.install({ time: CLOSE + 5 * 60e3 }); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(2400); await p.clock.runFor(1500);
   const r = await readLine(p, '.f1 .regline');
-  const s = await p.evaluate(() => ({ btns: [...document.querySelectorAll('a[data-reg-btn]')].map((a) => { const c = getComputedStyle(a); return { dis: a.getAttribute('aria-disabled'), href: a.getAttribute('href'), role: a.getAttribute('role'), txt: a.textContent.replace(/\s+/g, ' ').trim(), fg: c.color, bg: c.backgroundColor, h: Math.round(a.getBoundingClientRect().height) }; }), faq: document.querySelector('[data-reg-faq]').textContent.trim(), fee: getComputedStyle(document.querySelector('.fee')).display, digits: /\d\d\s*:\s*\d\d/.test(document.body.innerText) }));
+  const s = await p.evaluate(() => ({ btns: [...document.querySelectorAll('a[data-reg-btn]')].map((a) => { const c = getComputedStyle(a); return { dis: a.getAttribute('aria-disabled'), href: a.getAttribute('href'), role: a.getAttribute('role'), txt: a.textContent.replace(/\s+/g, ' ').trim(), fg: c.color, bg: c.backgroundColor, h: Math.round(a.getBoundingClientRect().height) }; }), faq: document.querySelector('[data-reg-faq]').textContent.trim(), fee: (() => { const c = getComputedStyle(document.querySelector('.fee')); return c.display === 'none' || (c.visibility === 'hidden' && +c.opacity === 0) ? 'none' : c.display; })(), digits: /\d\d\s*:\s*\d\d\s*:\s*\d\d/.test(document.body.innerText) }));
   console.log(tag, JSON.stringify({ state: r.state, text: r.staticText, sr: r.sr, faq: s.faq }));
   ok(r.state === 'closed' && !r.clockOn && r.staticText === 'Registration closed' && !s.digits, `${tag}: closed text, no clock digits`);
   ok(s.btns.length === 6 && s.btns.every((x) => x.dis === 'true' && !x.href && x.role === 'link' && x.txt === 'Registration closed' && (x.h === 0 || x.h >= 44) && cr(x.fg, x.bg) >= 4.5), `${tag}: 6 disabled buttons, label, h>=44, contrast ${JSON.stringify(s.btns.map((x) => [x.txt, x.h, +cr(x.fg, x.bg).toFixed(1)]))}`);
@@ -158,7 +158,7 @@ for (const opts of [{ reducedMotion: 'reduce' }, { javaScriptEnabled: false }]) 
   const n = await p.evaluate(() => document.querySelectorAll('.reg-chip').length); ok(n === 0, 'no chip ' + JSON.stringify(opts)); console.log('no-chip', JSON.stringify(opts), n); await ctx.close(); }
 // focus jump only for keyboard focus: a mouse-modality script focus must not move the page
 { const ctx = await b.newContext({ viewport: { width: 390, height: 844 } }); const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(1500);
-  await p.click('.menu summary'); await p.click('.menu summary'); await p.evaluate(() => document.querySelector('.f3 .flink').focus()); await p.waitForTimeout(400); const y1 = await p.evaluate(() => scrollY);
+  await p.click('.menu summary'); await p.click('.menu summary'); await p.evaluate(() => document.querySelector('.f4 .flink').focus()); await p.waitForTimeout(400); const y1 = await p.evaluate(() => scrollY);
   await p.evaluate(() => document.activeElement.blur()); await p.keyboard.press('Tab'); await p.keyboard.press('Tab'); await p.keyboard.press('Tab'); await p.waitForTimeout(500); const y2 = await p.evaluate(() => scrollY);
   console.log('focus-jump mouse-modality scrollY', y1, '| keyboard Tab scrollY', y2); ok(y1 < 1000, 'no frame jump on non-focus-visible focus (native scroll only)'); ok(y2 > 100, 'keyboard focus jumps to frame'); await ctx.close(); }
 await b.close(); console.log(bad ? `countdown-check FAILED (${bad})` : 'countdown-check ok'); process.exit(bad ? 1 : 0);

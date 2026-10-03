@@ -88,7 +88,6 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
           <li class="dom" data-tilt style={`--j:${i}`}><span class="tilt-glow" aria-hidden="true"></span><svg class="tilt-pop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span>{t}</span></li>
         ))}
       </ul>
-      <p class="f-copy"><a class="flink" href={story.domains.link.href}>{story.domains.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a></p>
     </article>
 
     <!-- 4 · PATH -->
@@ -97,10 +96,10 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
       <ol class="steps5" data-timeline>
         <svg class="tl-svg" aria-hidden="true" focusable="false"><path class="tl-path" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         {story.path.steps.map((s, i) => (
-          <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong><span>{s.sub}</span></span></li>
+          <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong>{' '}<span>{s.sub}</span>{s.note && <>{' '}<span class="note">{s.note}</span></>}</span></li>
         ))}
       </ol>
-      <p class="f-copy"><a class="flink" href={story.path.link.href}>{story.path.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a><span class="sub small soonnote"> {data.schedule.footnote}</span></p>
+      <p class="f-copy path-links"><a class="flink" href={story.path.link.href}>{story.path.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a><span class="sub small soonnote"> {data.schedule.footnote}</span></p>
     </article>
 
     <!-- 5 · REWARD -->

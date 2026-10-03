@@ -7,8 +7,11 @@ import poster from '../assets/poster.jpg';
 import Story from '../components/Story.astro';
 import EmberBg from '../components/EmberBg.astro';
 import Motion from '../components/Motion.astro';
+import RegLine from '../components/RegLine.astro';
 
-const { event: ev, venue: venueInfo, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact, fee } = data;
+const { event: ev, venue: venueInfo, register, nav, about, schedule, prizes, how, sponsors, faq, contact, fee, registration } = data;
+const cp = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).formatToParts(new Date(registration.closes)).map((p) => [p.type, p.value]));
+const closesShort = `${cp.day} ${cp.month}, ${cp.hour}:${cp.minute} ${String(cp.dayPeriod).toUpperCase()} IST`; // 11 Oct, 12:00 PM IST
 const tagline = ev.tagline;
 ---
 <Base>
@@ -38,6 +41,7 @@ const tagline = ev.tagline;
       {register.label}<span class="sr"> (opens in a new tab)</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
+    <p class="dock-close">Closes {closesShort}</p>
   </div></div>
 
   <main id="main">
@@ -63,6 +67,7 @@ const tagline = ev.tagline;
             <div data-stagger style="margin-top:1.5rem">
               {about.body.map((p, i) => <p class="lead" style={`--i:${i}`}>{p}</p>)}
             </div>
+            <p class="about-org" data-reveal><strong>{ev.organizers}</strong> in collaboration with <strong>{ev.collaborator}</strong></p>
             <div class="explainer" data-reveal><h3>{about.explainer.heading}</h3><p>{about.explainer.text}</p></div>
             <ul class="glance" data-stagger aria-label="At a glance">
               {about.cards.map((c, i) => <li style={`--i:${i}`}><span class="k">{c.k}</span><strong>{c.t}</strong><span class="d">{c.d}</span></li>)}
@@ -73,23 +78,6 @@ const tagline = ev.tagline;
               alt="SRIJAN 2K26 inter-college hackathon poster: 13–14 Oct 2026, SRMCEM Campus Lucknow, hybrid mode" loading="lazy" />
             <figcaption>Official poster</figcaption>
           </figure>
-        </div>
-
-        <div class="plain-doms" id="domains">
-          <p class="eyebrow" data-reveal>Six domains</p>
-          <h3 class="display h3" data-reveal>{tracks.heading}</h3>
-          <p class="lead" data-reveal>{tracks.intro}</p>
-          <ul class="dcards" data-stagger>
-            {tracks.list.map((t, i) => (
-              <li data-tilt style={`--i:${i}`}>
-                <span class="tilt-glow" aria-hidden="true"></span>
-                <span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <h4>{t}</h4>
-                <p>{tracks.cards[i]}</p>
-              </li>
-            ))}
-          </ul>
-          <p class="foot-note" data-reveal>{tracks.problemStatements.title}.</p>
         </div>
 
         <figure class="venue" data-reveal>
@@ -130,6 +118,8 @@ const tagline = ev.tagline;
         <div class="cta" data-reveal>
           <p class="display yourmove">{how.cta}</p>
           <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
+          <RegLine cls="rl-cta" />
+          <span class="regfee">{fee.note}</span>
         </div>
       </div>
     </section>
@@ -171,7 +161,7 @@ const tagline = ev.tagline;
           {faq.items.map((f, i) => (
             <details data-faq style={`--i:${i}`}>
               <summary aria-expanded="false" aria-controls={`faq-a${i}`}>{f.q}<span class="plus" aria-hidden="true"></span></summary>
-              <div class="faq-panel" id={`faq-a${i}`}><div class="faq-in"><p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p></div></div>
+              <div class="faq-panel" id={`faq-a${i}`}><div class="faq-in"><p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : f.closedA ? { 'data-reg-past': '', 'data-closed-text': f.closedA } : {})}>{f.a}</p></div></div>
             </details>
           ))}
         </div>
@@ -188,6 +178,8 @@ const tagline = ev.tagline;
         <div class="cta" data-reveal>
           <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer">{register.label}<span class="sr"> (opens in a new tab)</span></a>
           <a class="btn btn-ghost btn-lg" data-magnetic href={sponsors.partner.href} target="_blank" rel="noopener noreferrer">{sponsors.partner.label}</a>
+          <RegLine cls="rl-cta" />
+          <span class="regfee">{fee.note}</span>
         </div>
       </div>
     </section>

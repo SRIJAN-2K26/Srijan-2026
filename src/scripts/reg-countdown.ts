@@ -17,8 +17,14 @@ function markClosed() {
     a.removeAttribute('href'); a.removeAttribute('target'); a.removeAttribute('rel'); a.removeAttribute('data-register');
     a.textContent = closed;
   });
-  document.querySelectorAll<HTMLElement>('[data-reg-faq],[data-reg-copy]').forEach((p) => { if (p.dataset.closedText) p.textContent = p.dataset.closedText; });
-  document.documentElement.classList.add('reg-closed'); // CSS: hides the phone dock and the duplicate hero line
+  document.querySelectorAll<HTMLElement>('[data-reg-faq],[data-reg-copy],[data-reg-past]').forEach((p) => { if (p.dataset.closedText) p.textContent = p.dataset.closedText; });
+  document.documentElement.classList.add('reg-closed'); // CSS: hides the phone dock, the duplicate hero line and (fading, height kept) the fee block
+  // The faded fee block keeps its height so nothing moves at the close. Collapse it only while it is entirely below the viewport (nothing visible can shift).
+  const fee = document.querySelector<HTMLElement>('.fee');
+  if (fee && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(([e]) => { if (!e.isIntersecting && e.boundingClientRect.top > 0) { fee.classList.add('gone'); io.disconnect(); } });
+    io.observe(fee);
+  }
 }
 
 if (lines.length && !Number.isNaN(closes)) {
@@ -80,7 +86,7 @@ if (lines.length && !Number.isNaN(closes)) {
     const animate = !reduce && !first && !document.hidden;
     for (const v of views) vals.forEach((x, i) => setNum(v.nums[i], x, animate));
     if (chip) { vals.forEach((x, i) => setNum(chipNums[i], x, false)); chip.dataset.state = 'open'; }
-    const mins = Math.max(1, Math.floor(ms / 60000)), D = Math.floor(mins / 1440), H = Math.floor((mins % 1440) / 60), M = mins % 60;
+    const mins = Math.max(1, Math.ceil(ms / 60000)), D = Math.floor(mins / 1440), H = Math.floor((mins % 1440) / 60), M = mins % 60;
     const text = `${lead} ${D ? count(D, uDay) + (H ? ' ' + count(H, uHour) : '') : H ? count(H, uHour) + (M ? ' ' + count(M, uMin) : '') : count(M, uMin)}`;
     if (text !== srText && now - srAt >= 60000) { srText = text; srAt = now; for (const v of views) v.sr.textContent = text; }
     // first tick: the live line goes in with its text already set, so nothing is announced on page load

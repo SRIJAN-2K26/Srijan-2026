@@ -16,10 +16,10 @@ for (const mode of ['js-off', 'reduced']) for (const [w, h] of [[360, 640], [390
   const p = await ctx.newPage(); const errs = []; p.on('console', (m) => m.type() === 'error' && errs.push(m.text())); p.on('pageerror', (e) => errs.push(String(e)));
   await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(1500);
   const r = await p.evaluate(() => { const vis = (s) => { const e = document.querySelector(s); if (!e) return false; const c = getComputedStyle(e); const q = e.getBoundingClientRect(); return c.visibility !== 'hidden' && +c.opacity > 0.9 && q.width > 0 && q.height > 0; };
-    return { h1: vis('h1'), reg: vis('.f1 [data-register]'), logos: document.querySelectorAll('.f1 .sp-logos img').length, domains: document.querySelectorAll('.dcards li').length, faq: document.querySelectorAll('.faq details').length, steps: document.querySelectorAll('.stp').length, fee: vis('.fee-tiers'), anims: document.getAnimations().length, ov: document.documentElement.scrollWidth > innerWidth }; });
+    return { h1: vis('h1'), reg: vis('.f1 [data-register]'), logos: document.querySelectorAll('.f1 .sp-logos img').length, domains: document.querySelectorAll('.f3 .dom').length, dcards: document.querySelectorAll('.dcards, .plain-doms').length, faq: document.querySelectorAll('.faq details').length, steps: document.querySelectorAll('.stp').length, fee: vis('.fee-tiers'), anims: document.getAnimations().length, ov: document.documentElement.scrollWidth > innerWidth }; });
   if (mode === 'reduced') { await p.evaluate(() => window.scrollTo(0, 3000)); await p.waitForTimeout(300); r.animsAfterScroll = await p.evaluate(() => document.getAnimations().length); }
   console.log(mode, w + 'x' + h, JSON.stringify(r), 'errs', errs.length);
-  ok(r.h1 && r.reg && r.logos === 3 && r.domains === 6 && r.faq >= 8 && r.steps === 5 && !r.ov && !errs.length, mode + ' ' + w);
+  ok(r.h1 && r.reg && r.logos === 3 && r.domains === 6 && r.dcards === 0 && r.steps === 5 && r.faq >= 8 && !r.ov && !errs.length, mode + ' ' + w);
   if (mode === 'reduced') ok(r.anims === 0 && r.animsAfterScroll === 0, 'running animations under reduced motion');
   await ctx.close();
 }
