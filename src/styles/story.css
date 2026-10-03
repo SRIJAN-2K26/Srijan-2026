@@ -110,6 +110,8 @@
   .st + .st::before { left: calc(.85rem + 1.1rem - 1.5px); top: -.7rem; height: .7rem; }
 }
 @media (max-height: 700px) { .f4 > .f-copy.top .sub { display: none; } }
+@media (max-height: 600px) { .txt .note { display: none; } .st { padding: .35rem .8rem; } .f-copy.path-links { margin-top: .5rem; } } /* very short phones: keep the path links + footnote above the dock */
+@media (max-height: 540px) { .st { padding-block: .2rem; } .steps5 { gap: .45rem; margin-top: .6rem; } }
 
 /* frame 6 (your move) */
 .f6 .line { margin-top: .3rem; }

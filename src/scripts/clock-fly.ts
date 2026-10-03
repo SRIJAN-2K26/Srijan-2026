@@ -35,6 +35,8 @@ export function initChip() {
   };
 
   const resetClock = () => { if (clock?.style.transform || clock?.style.opacity) { clock.style.transform = ''; clock.style.opacity = ''; clock.style.willChange = ''; } };
+  // text/links the chip must not sit on while scrolling past them (fee labels, partner/contact links, FAQ rows)
+  const avoid = [...document.querySelectorAll<HTMLElement>('.fee li, .sp-row a, .faq-more a, details>summary')].filter((a) => !a.closest('.top'));
   const overlaps = (r: DOMRect, c: DOMRect, m: number) => r.width > 0 && r.bottom > c.top - m && r.top < c.bottom + m && r.right > c.left - m && r.left < c.right + m;
 
   let raf = 0;
@@ -49,6 +51,7 @@ export function initChip() {
     const gate = () => {
       const c = chip.getBoundingClientRect();
       if (regs.some((a) => overlaps(a.getBoundingClientRect(), c, 8))) return false;
+      if (avoid.some((a) => overlaps(a.getBoundingClientRect(), c, 4))) return false;
       const a = document.activeElement as HTMLElement | null;
       return !(a && a !== document.body && a !== chip && overlaps(a.getBoundingClientRect(), c, 4)); // never cover the focused control
     };
