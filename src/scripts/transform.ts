@@ -29,7 +29,9 @@ const springScale = (el: HTMLElement, to: number) => {
   const from = cur(el).sx;
   el.getAnimations().forEach((a) => a.cancel());
   if (Math.abs(from - to) < 0.0005) return;
-  el.animate(S.map((p) => ({ transform: `scale(${(from + (to - from) * p).toFixed(4)})` })), { duration: SPRING_MS, easing: 'linear' });
+  // fill: forwards holds the hover scale until the next spring; the rest state (1) is released so no animation lingers
+  const a = el.animate(S.map((p) => ({ transform: `scale(${(from + (to - from) * p).toFixed(4)})` })), { duration: SPRING_MS, easing: 'linear', fill: 'forwards' });
+  if (to === 1) a.onfinish = () => a.cancel();
 };
 /** squash and stretch kick on a non-text element: scaleX = k, scaleY = 1 / k, settling back to 1 */
 const kick = (el: Element, k: number) => {
@@ -45,10 +47,12 @@ if (!reduce) {
     const card = li.querySelector<HTMLElement>('.dom-in'), icon = li.querySelector<SVGElement>('.dom-ic');
     if (!card) continue;
     let hover = false;
-    li.addEventListener('pointerenter', (e) => {
-      if (!fineHover || e.pointerType !== 'mouse') return;
+    const enter = (e: PointerEvent) => {
+      if (!fineHover || e.pointerType !== 'mouse' || hover) return;
       hover = true; springScale(card, 1.02); if (icon) kick(icon, 1.05);
-    });
+    };
+    li.addEventListener('pointerenter', enter);
+    li.addEventListener('pointermove', enter); // a resting pointer that a card faded in under never fires pointerenter
     li.addEventListener('pointerleave', () => { hover = false; springScale(card, 1); });
     li.addEventListener('pointerdown', () => { springScale(card, 0.98); if (icon) kick(icon, 0.95); });
     const up = () => springScale(card, hover ? 1.02 : 1);
@@ -83,6 +87,7 @@ if (mark && steps.length) {
   };
   for (const st of steps) {
     st.addEventListener('pointerenter', (e) => { if (fineHover && e.pointerType === 'mouse') go(st); });
+    st.addEventListener('pointermove', (e) => { if (fineHover && e.pointerType === 'mouse' && mark.parentElement !== st) go(st); });
     st.addEventListener('pointerdown', () => go(st));
   }
   const list = steps[0].parentElement;
