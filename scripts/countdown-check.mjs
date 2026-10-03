@@ -52,6 +52,7 @@ for (const [name, t0, srWant] of open) for (const [w, h] of [[320, 640], [360, 6
   const btns = await p.evaluate(() => [...document.querySelectorAll('a[data-reg-btn]')].map((a) => ({ dis: a.getAttribute('aria-disabled'), href: a.getAttribute('href') })));
   ok(btns.length === 6 && btns.every((x) => !x.dis && /forms\.gle/.test(x.href)), `${tag}: 6 live Register buttons`);
   ok(/closes on 11 Oct 2026 at 12:00 PM IST\.$/.test(await p.$eval('[data-reg-faq]', (e) => e.textContent.trim())), `${tag}: FAQ future tense`);
+  ok((await p.$eval('.fee', (e) => getComputedStyle(e).display)) !== 'none', `${tag}: fee block shown while open`);
   ok(!errs.length, `${tag}: errors ${errs}`);
   if ([320, 390, 1280, 1920].includes(w)) await p.screenshot({ path: `${OUT}/${name}-${w}x${h}.png` });
   // screen-reader line: over 3 simulated minutes it changes at most once a minute while the seconds tick every second
@@ -93,11 +94,12 @@ for (const [w, h] of [[360, 640], [390, 844], [1280, 800]]) {
   const ctx = await b.newContext({ viewport: { width: w, height: h }, timezoneId: 'America/Los_Angeles' }); await ctx.addInitScript(clsHook); const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(String(e)));
   await p.clock.install({ time: CLOSE + 5 * 60e3 }); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(2400); await p.clock.runFor(1500);
   const r = await readLine(p, '.f1 .regline');
-  const s = await p.evaluate(() => ({ btns: [...document.querySelectorAll('a[data-reg-btn]')].map((a) => { const c = getComputedStyle(a); return { dis: a.getAttribute('aria-disabled'), href: a.getAttribute('href'), role: a.getAttribute('role'), txt: a.textContent.replace(/\s+/g, ' ').trim(), fg: c.color, bg: c.backgroundColor, h: Math.round(a.getBoundingClientRect().height) }; }), faq: document.querySelector('[data-reg-faq]').textContent.trim(), digits: /\d\d\s*:\s*\d\d/.test(document.body.innerText) }));
+  const s = await p.evaluate(() => ({ btns: [...document.querySelectorAll('a[data-reg-btn]')].map((a) => { const c = getComputedStyle(a); return { dis: a.getAttribute('aria-disabled'), href: a.getAttribute('href'), role: a.getAttribute('role'), txt: a.textContent.replace(/\s+/g, ' ').trim(), fg: c.color, bg: c.backgroundColor, h: Math.round(a.getBoundingClientRect().height) }; }), faq: document.querySelector('[data-reg-faq]').textContent.trim(), fee: getComputedStyle(document.querySelector('.fee')).display, digits: /\d\d\s*:\s*\d\d/.test(document.body.innerText) }));
   console.log(tag, JSON.stringify({ state: r.state, text: r.staticText, sr: r.sr, faq: s.faq }));
   ok(r.state === 'closed' && !r.clockOn && r.staticText === 'Registration closed' && !s.digits, `${tag}: closed text, no clock digits`);
   ok(s.btns.length === 6 && s.btns.every((x) => x.dis === 'true' && !x.href && x.role === 'link' && x.txt === 'Registration closed' && (x.h === 0 || x.h >= 44) && cr(x.fg, x.bg) >= 4.5), `${tag}: 6 disabled buttons, label, h>=44, contrast ${JSON.stringify(s.btns.map((x) => [x.txt, x.h, +cr(x.fg, x.bg).toFixed(1)]))}`);
   ok(s.faq === 'Registration closed on 11 Oct 2026 at 12:00 PM IST.', `${tag}: FAQ past tense: ${s.faq}`);
+  ok(s.fee === 'none', `${tag}: fee block hidden once registration is closed (${s.fee})`);
   ok((await p.evaluate(() => window.__cls)) === 0, `${tag}: CLS`); ok(!errs.length, `${tag}: errors ${errs}`);
   if (w !== 390) await p.screenshot({ path: `${OUT}/closed-${w}x${h}.png` });
   await ctx.close();

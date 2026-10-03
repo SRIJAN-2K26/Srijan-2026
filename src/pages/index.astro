@@ -170,8 +170,8 @@ const tagline = ev.tagline;
         <div class="faq" data-stagger>
           {faq.items.map((f, i) => (
             <details data-faq style={`--i:${i}`}>
-              <summary aria-expanded="false">{f.q}<span class="plus" aria-hidden="true"></span></summary>
-              <div class="faq-panel"><div class="faq-in"><p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p></div></div>
+              <summary aria-expanded="false" aria-controls={`faq-a${i}`}>{f.q}<span class="plus" aria-hidden="true"></span></summary>
+              <div class="faq-panel" id={`faq-a${i}`}><div class="faq-in"><p class="a" {...(f.regClose ? { 'data-reg-faq': '', 'data-closed-text': f.a.replace('closes on', 'closed on') } : {})}>{f.a}</p></div></div>
             </details>
           ))}
         </div>

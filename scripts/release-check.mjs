@@ -1,5 +1,5 @@
 // Combined motion release checks (Lenis + hero parallax + timeline draw + tilt + prize scramble + magnetic buttons + FAQ + schedule tabs),
-// prize scramble CLS (360x640, 4x CPU) and fit, hero h1 accessible name,
+// prize scramble CLS (360x640, 4x CPU) and fit, hero h1 accessible name, header tap targets / scroll-behavior / FAQ aria-controls,
 // plus reduced-motion / touch / JS-off behaviour. Also saves the six review screenshots per viewport into $OUT.
 import { chromium } from 'playwright';
 import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
@@ -143,6 +143,20 @@ for (const opts of [{}, { reducedMotion: 'reduce' }, { javaScriptEnabled: false 
   console.log('h1', JSON.stringify(opts), JSON.stringify(snap), JSON.stringify(r));
   ok(r.count === 1 && r.label === null && r.sr.length === 1 && r.sr[0] === 'SRIJAN 2K26' && r.hidden && r.n > 0 && /^- heading "SRIJAN 2K26" \[level=1\]$/.test(snap.trim()), `h1 ${JSON.stringify(opts)}: name "SRIJAN 2K26" from .sr, ${r.n} visual spans aria-hidden, no aria-label`);
   ok(/SRIJAN/i.test(r.text), `h1 ${JSON.stringify(opts)}: visual title still rendered`);
+  await ctx.close();
+}
+// ── polish: header tap targets, no native smooth scroll under Lenis, FAQ aria-controls ──
+for (const opts of [{}, { reducedMotion: 'reduce' }, { javaScriptEnabled: false }]) {
+  const tag = 'polish ' + (JSON.stringify(opts) === '{}' ? 'motion' : Object.keys(opts)[0]);
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 800 }, ...opts }); const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(1200);
+  const r = await p.evaluate(() => ({ lenis: document.documentElement.classList.contains('lenis'), sb: getComputedStyle(document.documentElement).scrollBehavior,
+    nav: [...document.querySelectorAll('.nav a')].map((a) => Math.round(a.getBoundingClientRect().height)), top: Math.round(document.querySelector('.top .btn').getBoundingClientRect().height), header: Math.round(document.querySelector('.top').getBoundingClientRect().height),
+    faq: [...document.querySelectorAll('[data-faq]')].map((d) => { const id = d.querySelector('summary').getAttribute('aria-controls'); const t = id && document.getElementById(id); return !!t && t.classList.contains('faq-panel') && d.contains(t); }) }));
+  console.log(tag, JSON.stringify(r));
+  ok(r.nav.length > 0 && r.nav.every((x) => x >= 44) && r.top >= 44, `${tag}: nav links + header Register >= 44px ${r.nav} / ${r.top}`);
+  ok(r.header === 65, `${tag}: header height unchanged ${r.header}`);
+  ok(opts.javaScriptEnabled === false ? !r.lenis && r.sb === 'smooth' : r.sb === 'auto' && r.lenis === !opts.reducedMotion, `${tag}: scroll-behavior ${r.sb} (lenis ${r.lenis})`);
+  ok(r.faq.length >= 8 && r.faq.every(Boolean), `${tag}: every FAQ summary aria-controls its own panel`);
   await ctx.close();
 }
 await b.close(); console.log(bad ? 'release-check FAILED' : 'release-check ok'); process.exit(bad ? 1 : 0);
