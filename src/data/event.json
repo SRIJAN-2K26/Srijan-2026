@@ -121,7 +121,15 @@
       "Solutions that reduce environmental harm or address community needs such as health, education and accessibility.",
       "A free-choice theme for original ideas that do not fit the other five but solve a real problem."
     ],
-    "intro": "Each domain is a theme for your idea. The note under each is general background, not an event rule."
+    "intro": "Each domain is a theme for your idea. The note under each is general background, not an event rule.",
+    "lines": [
+      "Teach software to learn, predict and help people decide.",
+      "Turn an idea into something people can open and use.",
+      "Protect people, data and systems from misuse.",
+      "Use connected technology to make campus life simpler and safer.",
+      "Use technology to help communities and the planet.",
+      "Have a different idea? Bring it."
+    ]
   },
   "schedule": {
     "heading": "Two days. One finale.",
@@ -277,7 +285,7 @@
       "alt": "Stylised city skyline at dusk, with domes, minarets, an arched gateway and modern towers"
     },
     "domains": {
-      "line": "Pick your battlefield",
+      "line": "Pick your battlefield.",
       "icons": [
         "ai",
         "web",
@@ -289,32 +297,37 @@
       "sub": "Six themes. Choose the one your idea fits."
     },
     "path": {
-      "line": "Your path",
+      "line": "Register. Shortlist. Build. Finale.",
       "sub": "Online screening 13 Oct. On-campus finale 14 Oct.",
       "steps": [
         {
           "title": "Register",
           "sub": "Submit your idea",
-          "note": "Register by 11 Oct, 12:00 PM IST"
+          "note": "Register by 11 Oct, 12:00 PM IST",
+          "day": "11"
         },
         {
           "title": "Shortlist",
           "sub": "12 Oct",
-          "note": "Shortlisted teams are announced"
+          "note": "Shortlisted teams are announced",
+          "day": "12"
         },
         {
           "title": "Online screening",
-          "sub": "13 Oct"
+          "sub": "13 Oct",
+          "day": "13"
         },
         {
           "title": "On-campus finale",
-          "sub": "14 Oct · SRMCEM"
+          "sub": "14 Oct · SRMCEM",
+          "day": "14"
         }
       ],
       "link": {
         "label": "See the schedule",
         "href": "#schedule"
-      }
+      },
+      "month": "Oct"
     },
     "reward": {
       "alt": "Golden trophy"

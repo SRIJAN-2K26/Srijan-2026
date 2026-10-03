@@ -1,75 +1,46 @@
-// Count-up scramble on the prize figure. Overlay is aria-hidden; DOM/a11y text is the final value from the start.
-// Layout never moves (CLS 0): each cell is locked to the width its final glyph occupies in the original text (kerning included,
-// measured per character with a Range), the overlay box is locked for the run, and .prize-fx is nowrap (motion-fx.css).
-const FINAL = '₹1.5 Lakh+';
-const DIGITS = '0123456789';
-const LETTERS = 'LAKH0123456789';
+// Reward settle: the text "Rewards worth ₹1.5 Lakh+" is in the page from the first byte and never changes. When the reward frame
+// becomes the active one, the fixed text settles into place with a spring on transform (scale) + opacity. No digits are cycled, so
+// no other figure is ever shown. Interruptible: re-entering the frame mid-settle restarts from the current scale/opacity.
+// Reduced motion / no JS: no animation at all, the text is simply there. Layout never moves (transform + opacity only, CLS 0).
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const root = document.querySelector<HTMLElement>('[data-prize]');
-const scramble = root?.querySelector<HTMLElement>('.prize-scramble');
 const fx = root?.querySelector<HTMLElement>('.prize-fx');
-if (root && scramble && fx && !reduce) {
-  const target = FINAL.split('');
-  let done = false;
-  const measure = () => {
-    const node = scramble.firstChild;
-    if (!node || node.nodeType !== Node.TEXT_NODE || node.textContent !== FINAL) return null;
-    const r = document.createRange();
-    const x = (i: number) => { r.setStart(node, i); r.setEnd(node, i + 1); return r.getBoundingClientRect(); };
-    const boxes = target.map((_, i) => x(i));
-    return boxes.map((b, i) => (i < boxes.length - 1 && boxes[i + 1].top === b.top ? boxes[i + 1].left - b.left : b.width));
+if (root && fx && !reduce) {
+  const n = 26, zeta = 0.45, w = 12, wd = w * Math.sqrt(1 - zeta * zeta);
+  const S = Array.from({ length: n + 1 }, (_, i) => {
+    const t = (i / n) * 1.0;
+    return i === n ? 1 : 1 - Math.exp(-zeta * w * t) * (Math.cos(wd * t) + ((zeta * w) / wd) * Math.sin(wd * t));
+  });
+  let primed = true; // first run starts a little small and dim; later runs start from wherever the text currently is
+  const settle = () => {
+    let s = 0.93, o = 0.55;
+    if (!primed) {
+      const m = new DOMMatrixReadOnly(getComputedStyle(fx).transform);
+      s = m.a || 1; o = +getComputedStyle(fx).opacity;
+    }
+    primed = false;
+    fx.getAnimations().forEach((a) => a.cancel());
+    fx.animate(S.map((p) => ({ transform: `scale(${(s + (1 - s) * p).toFixed(4)})`, opacity: +(o + (1 - o) * Math.min(1, p * 1.6)).toFixed(3) })), { duration: 720, easing: 'linear' });
   };
-  const run = async () => {
-    if (done) return;
-    done = true;
-    await document.fonts?.ready;
-    const widths = measure();
-    if (!widths) return;
-    const box = fx.getBoundingClientRect();
-    fx.style.width = `${box.width}px`; fx.style.height = `${box.height}px`;
-    const cells = target.map((c, i) => {
-      const el = document.createElement('span');
-      el.className = /\d/.test(c) ? 'pc d' : 'pc';
-      el.style.width = `${widths[i]}px`;
-      el.textContent = c;
-      return el;
-    });
-    scramble.replaceChildren(...cells);
-    const pool = (c: string) => (/\d/.test(c) ? DIGITS : /[a-z]/i.test(c) ? LETTERS : '');
-    const start = performance.now();
-    const DUR = 900;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / DUR);
-      cells.forEach((el, i) => {
-        const g = pool(target[i]);
-        const settle = Math.min(1, Math.max(0, (t - i * 0.045) / 0.35));
-        el.textContent = settle >= 1 || !g ? target[i] : g[(Math.random() * g.length) | 0];
-      });
-      if (t < 1) requestAnimationFrame(tick);
-      else { cells.forEach((el, i) => { el.textContent = target[i]; }); fx.style.width = ''; fx.style.height = ''; }
-    };
-    requestAnimationFrame(tick);
-  };
+  fx.style.transformOrigin = '0 50%';
   const frame = root.closest<HTMLElement>('.frame');
+  let active = false;
+  const set = (on: boolean) => { if (on && !active) settle(); active = on; };
   if (frame && getComputedStyle(frame.parentElement as Element).position === 'sticky') {
-    // pinned story: the frame is always "intersecting"; start when it is actually the active frame (opacity), checked on scroll
-    // sampled in rAF: scroll-driven animations only update after the scroll event, before animation-frame callbacks
-    let q = 0;
-    // also require the scroll position to be inside the frame's window: before the scroll timeline attaches, opacity can read 1 at load
+    // pinned story: the frame is always "intersecting"; it is active when its scroll window is reached and its opacity is up
+    // (sampled in rAF: scroll-driven animations only update after the scroll event, before animation-frame callbacks)
     const story = frame.closest<HTMLElement>('.story');
+    let q = 0;
     const inWindow = () => {
       if (!story) return true;
       const F = (story.offsetHeight - (frame.parentElement as HTMLElement).offsetHeight) / 6;
       const fi = +(frame.style.getPropertyValue('--fi') || 0);
       return scrollY > story.getBoundingClientRect().top + scrollY + (fi + 0.1) * F;
     };
-    const check = () => { q = 0; if (inWindow() && +getComputedStyle(frame).opacity > 0.7) { run(); removeEventListener('scroll', onScroll); } };
-    const onScroll = () => { if (!q) q = requestAnimationFrame(check); };
-    addEventListener('scroll', onScroll, { passive: true }); check();
+    const check = () => { q = 0; set(inWindow() && +getComputedStyle(frame).opacity > 0.7); };
+    addEventListener('scroll', () => { if (!q) q = requestAnimationFrame(check); }, { passive: true });
+    check();
   } else if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((es) => {
-      if (es.some((e) => e.isIntersecting)) { run(); io.disconnect(); }
-    }, { threshold: 0.35 });
-    io.observe(root);
-  } else run();
+    new IntersectionObserver((es) => es.forEach((e) => set(e.isIntersecting)), { threshold: 0.35 }).observe(root);
+  }
 }

@@ -62,38 +62,3 @@
   .sky.s-hero .ly-near { --fx: -3.5%; --fy: 5%; --fs: .05; }
   .sky.s-hero .ly-front { --fx: -6%; --fy: 0%; --fs: .08; }
 }
-
-/* 3D tilt cards. Text stays on the card plane (no translateZ on type). Pointer-fine hover only. */
-.dom { position: relative; }
-[data-tilt] .tilt-glow {
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 0;
-  background: conic-gradient(from var(--glow-a, 210deg), transparent 0 40%, rgba(255, 102, 0, 0.85) 62%, transparent 82%);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  padding: 1px;
-}
-[data-tilt] > :not(.tilt-glow) { position: relative; z-index: 1; }
-@media (hover: hover) and (pointer: fine) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Individual transform properties (rotate/scale) compose with the reveal's and the pinned story's own
-       `transform` animations instead of replacing them. Perspective comes from the parent grid (.doms / .dcards). */
-    html.js [data-tilt] {
-      rotate: var(--ta, 0 0 1) var(--tg, 0deg);
-      scale: var(--ts, 1);
-      transform-style: preserve-3d;
-      transition: rotate 160ms var(--ease), scale 160ms var(--ease), border-color 200ms;
-    }
-    html.js [data-stagger].in > [data-tilt] {
-      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), rotate 160ms var(--ease), scale 160ms var(--ease), border-color 200ms;
-      transition-delay: calc(min(var(--i, 0), 3) * var(--stagger)), calc(min(var(--i, 0), 3) * var(--stagger)), 0s, 0s, 0s;
-    }
-    html.js [data-tilt] .tilt-pop { transform: translate3d(0, 0, 24px); }
-    html.js [data-tilt]:hover .tilt-glow { opacity: 1; }
-  }
-}

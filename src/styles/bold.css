@@ -1,0 +1,95 @@
+/* ───────── "Bolder" redesign: one huge line per frame, small supporting text ─────────
+   Size rule: --big is the single largest type size on the page. The hero title and the final Register button (.btn-xl) are both
+   exactly --big, every other headline is <= --big, so nothing is bigger than the final Register button.
+   The button's closed label ("Registration closed") must fit: <64rem it may wrap to two lines (the box always reserves two lines),
+   >=64rem it stays on one line. Only transform/opacity are ever animated; colours change instantly. */
+:root {
+  --big: min(7rem, 22svh, calc((100vw - 2 * var(--pad) - 1rem) / 5.3));
+  --slate-hi: #6f8aa8; /* slate-blue accent text on near-black */
+}
+@media (min-width: 64rem) { :root { --big: min(7rem, 22svh, calc((100vw - 2 * var(--pad) - 5rem) / 8.3)); } }
+
+/* every frame headline: one huge line, balanced wrapping, never wider than the frame */
+.frame .line { width: fit-content; max-width: 100%; text-wrap: balance; line-height: .95; margin-top: .3rem; }
+.story .f1 h1.kin { font-size: var(--big); width: fit-content; max-width: 100%; line-height: .88; }
+.f2 .line, .f3 .line, .f6 .line { font-size: var(--big); }
+.f4 .line { font-size: min(var(--big), calc((100vw - 2 * var(--pad)) / 8.4)); }
+@media (min-width: 64rem) { .f4 .line { font-size: min(var(--big), calc((min(100vw, 76rem) - 2 * var(--pad)) / 13.8)); } }
+.f2 .sub { font-size: 1.05rem; }
+
+/* hero: the tagline sits right under the huge title */
+.f1 .tag { margin-top: .5rem; font-size: clamp(1.5rem, 6.4vw, 3.2rem); }
+.f1 .sponsored { margin-top: .9rem; }
+
+/* ── domains ── */
+.doms { gap: .6rem; }
+.dom { display: block; padding: 0; border: 0; background: none; border-radius: 0; min-height: 0; font-weight: 400; }
+.dom-in { display: flex; align-items: flex-start; gap: .85rem; height: 100%; padding: .7rem .9rem; border: 1px solid color-mix(in srgb, var(--orange) 40%, transparent); border-radius: 14px; background: rgba(8,11,13,.92); transform-origin: 50% 50%; }
+.dom-ic { flex: none; width: 1.7rem; height: 1.7rem; margin-top: .1rem; color: var(--slate-hi); transform-origin: 50% 60%; }
+.dom-tx { display: grid; gap: .2rem; min-width: 0; }
+.dom-tx strong { font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: .02em; font-size: 1.2rem; line-height: 1.1; }
+.dom-l { color: var(--muted); font-size: .86rem; line-height: 1.3; }
+@media (min-width: 64rem) { .dom { min-height: 0; font-size: 1rem; } .dom-in { padding: 1rem 1.15rem; gap: 1rem; } .dom-ic { width: 2.2rem; height: 2.2rem; } .dom-tx strong { font-size: 1.55rem; } .dom-l { font-size: .95rem; } }
+/* short phones: two columns of compact cards so all six one-liners stay inside the pinned frame */
+@media (max-width: 39.99rem) and (max-height: 720px) {
+  .doms { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; margin-top: .8rem; }
+  .dom-in { flex-direction: column; gap: .3rem; padding: .5rem .6rem; }
+  .dom-ic { width: 1.3rem; height: 1.3rem; margin: 0; }
+  .dom-tx strong { font-size: .98rem; }
+  .dom-l { font-size: .75rem; line-height: 1.22; }
+}
+@media (max-width: 39.99rem) and (min-height: 721px) {
+  .dom-in { padding: .5rem .8rem; gap: .7rem; }
+  .dom-ic { width: 1.5rem; height: 1.5rem; }
+  .dom-tx { gap: .1rem; }
+  .dom-tx strong { font-size: 1.08rem; }
+  .dom-l { font-size: .8rem; line-height: 1.22; }
+  .doms { gap: .45rem; margin-top: 1rem; }
+}
+@media (hover: hover) and (pointer: fine) { .dom:hover .dom-in { border-color: var(--orange); } .dom:hover .dom-ic { color: var(--orange-hi); } }
+.dom:has(:focus-visible) .dom-in { border-color: var(--orange); }
+
+/* ── journey: big date badges + the shared marker ── */
+.dot { width: 4rem; height: 4rem; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .1rem; background: #34495f; color: #fff; font-family: var(--display); line-height: 1; border: 1px solid color-mix(in srgb, var(--slate-hi) 60%, transparent); }
+.dot b { font-weight: 400; font-size: 2rem; line-height: .9; letter-spacing: .01em; }
+.dot i { font-style: normal; font-family: var(--sans); font-weight: 800; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: #dbe5ef; }
+.st:first-of-type .dot, .st:nth-of-type(1) .dot { background: var(--orange); color: #000; border-color: var(--orange); }
+.st:nth-of-type(1) .dot i { color: #000; }
+.dot::before, .dot::after { border-radius: 20px; }
+.st { position: relative; }
+.st-mark { position: absolute; inset: -5px; z-index: 2; pointer-events: none; border: 3px solid var(--orange); border-radius: 19px; transform-origin: 50% 50%; box-shadow: 0 0 22px rgba(255,106,0,.22); }
+.txt strong { font-size: 1.15rem; }
+@media (max-width: 55.99rem) {
+  .dot { width: 3.4rem; height: 3.4rem; border-radius: 13px; }
+  .dot b { font-size: 1.7rem; }
+  .dot i { font-size: .56rem; }
+  .st { gap: .85rem; }
+}
+@media (max-width: 55.99rem) and (max-height: 640px) {
+  .dot { width: 2.9rem; height: 2.9rem; } .dot b { font-size: 1.4rem; } .dot i { font-size: .5rem; }
+}
+@media (min-width: 56rem) {
+  .dot { width: 6rem; height: 6rem; border-radius: 22px; gap: .2rem; }
+  .dot b { font-size: 3.6rem; }
+  .dot i { font-size: .8rem; }
+  .st { gap: 1.25rem; }
+  .st + .st::before { top: 3.9rem; }
+  .txt strong { font-size: 1.35rem; }
+  .txt span { font-size: 1rem; }
+  .txt .note { font-size: .9rem; }
+}
+/* keep the Register-by line (12:00 PM IST) visible at every height; only the other notes drop on very short phones */
+@media (max-height: 600px) { .st:nth-of-type(1) .txt .note { display: block; } .st:nth-of-type(n+2) .txt .note { display: none; } }
+
+/* ── reward ── */
+.f5 .total { font-size: var(--big); }
+.prize-fig { color: var(--orange); }
+
+/* ── final Register: the biggest thing on the page ── */
+.btn-xl { display: flex; width: 100%; max-width: 100%; font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: .01em; font-size: var(--big); line-height: 1; padding: .16em .25em; min-height: calc(var(--big) * 2.5); text-align: center; text-wrap: balance; white-space: normal; border-radius: .28em; }
+.btn-xl:hover { transform: none; }
+.btn-xl:active { transform: none; }
+@media (min-width: 64rem) { .btn-xl { min-height: calc(var(--big) * 1.4); border-radius: 999px; } }
+.f6 a.btn-xl[aria-disabled='true'] { white-space: normal; font-size: var(--big); letter-spacing: .01em; padding: .16em .25em; }
+.f6 .cta { margin-top: 1rem; }
+.f6 .cta .regline { flex: 1 1 auto; }

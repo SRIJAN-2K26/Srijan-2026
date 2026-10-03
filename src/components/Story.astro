@@ -7,6 +7,7 @@ import RegLine from './RegLine.astro';
 import '../styles/skyline.css';
 import '../styles/hero-cards-fx.css';
 import '../styles/motion-fx.css';
+import '../styles/bold.css';
 import paytm from '../assets/sponsors/paytm.webp';
 import xyz from '../assets/sponsors/xyz.webp';
 import macrovisionAi from '../assets/sponsors/macrovision-ai-black.webp';
@@ -54,13 +55,13 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
         <h1 id="hero-title" class="display kin">
           <span class="sr">{`${ev.name} ${ev.year}`}</span><span class="lit" aria-hidden="true"></span><span class="nm" aria-hidden="true">{split(nameA).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}</span><span class="bi" aria-hidden="true"><span class="nm">{split(nameI).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm" aria-hidden="true">{split(nameB).map((ch, i) => <span class="ch" style={`--c:${i + nameA.length + 1}`}>{ch}</span>)}</span>{' '}<span class="y chroma-pulse" aria-hidden="true">{split(ev.year).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}<span class="fx fx-a" aria-hidden="true">{ev.year}</span><span class="fx fx-b" aria-hidden="true">{ev.year}</span></span>
         </h1>
+        <p class="tag kin"><span class="sr">{ev.tagline.join(' • ')}</span>{ev.tagline.map((t, i) => <><span class:list={['tw', i === 2 && 'chroma-pulse']} aria-hidden="true">{split(t).map((ch, j) => <span class="ch" style={`--c:${j}`}>{ch}</span>)}{i === 2 && <><span class="fx fx-a">{t}</span><span class="fx fx-b">{t}</span></>}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
         <div class="sponsored">
           <p class="sp-label">{sponsors.label}</p>
           <ul class="sp-logos" aria-label={sponsors.label}>
             {logoList.map((l) => <li><Img src={logos[l.logo]} widths={[l.w]} fallbackWidth={l.w} sizes={`${l.w}px`} alt={l.alt} width={l.w} height={l.h} loading="eager" /></li>)}
           </ul>
         </div>
-        <p class="tag kin"><span class="sr">{ev.tagline.join(' • ')}</span>{ev.tagline.map((t, i) => <><span class:list={['tw', i === 2 && 'chroma-pulse']} aria-hidden="true">{split(t).map((ch, j) => <span class="ch" style={`--c:${j}`}>{ch}</span>)}{i === 2 && <><span class="fx fx-a">{t}</span><span class="fx fx-b">{t}</span></>}</span>{i < ev.tagline.length - 1 && <i aria-hidden="true">•</i>}</>)}</p>
         <p class="when display">{story.spark.line}</p>
         <p class="support">{story.spark.support}</p>
         <ul class="facts" aria-label="Event details">
@@ -85,7 +86,7 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
       <div class="f-copy top"><h2 class="line display">{story.domains.line}</h2><p class="sub">{story.domains.sub}</p></div>
       <ul class="doms">
         {tracks.list.map((t, i) => (
-          <li class="dom" data-tilt style={`--j:${i}`}><span class="tilt-glow" aria-hidden="true"></span><svg class="tilt-pop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span>{t}</span></li>
+          <li class="dom" data-spring style={`--j:${i}`}><div class="dom-in"><svg class="dom-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[story.domains.icons[i]]}/></svg><span class="dom-tx"><strong>{t}</strong><span class="dom-l">{tracks.lines[i]}</span></span></div></li>
         ))}
       </ul>
     </article>
@@ -95,9 +96,12 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
       <div class="f-copy top"><h2 class="line display">{story.path.line}</h2><p class="sub">{story.path.sub}</p></div>
       <ol class="steps5" data-timeline>
         <svg class="tl-svg" aria-hidden="true" focusable="false"><path class="tl-path" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        {story.path.steps.map((s, i) => (
-          <li class="st" style={`--j:${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span class="txt"><strong>{s.title}</strong>{' '}<span>{s.sub}</span>{s.note && <>{' '}<span class="note">{s.note}</span></>}</span></li>
-        ))}
+        {story.path.steps.map((s, i) => {
+          const vis = s.sub.replace(`${s.day} ${story.path.month}`, '').replace(/^[\s·]+/, '');
+          return (
+          <li class="st" data-step style={`--j:${i}`}>{i === 0 && <span class="st-mark" aria-hidden="true"></span>}<span class="dot" aria-hidden="true"><b>{s.day}</b><i>{story.path.month}</i></span><span class="txt"><strong>{s.title}</strong>{' '}{vis !== s.sub ? <><span class="sr">{s.sub.replace(/ · .*/, '')}</span>{vis && <span>{vis}</span>}</> : <span>{s.sub}</span>}{s.note && <>{' '}<span class="note">{s.note}</span></>}</span></li>
+          );
+        })}
       </ol>
       <p class="f-copy path-links"><a class="flink" href={story.path.link.href}>{story.path.link.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a><span class="sub small soonnote"> {data.schedule.footnote}</span></p>
     </article>
@@ -112,7 +116,7 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
         <g class="sparks"><path style="--d:0" d="M30 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path style="--d:1" d="M170 52l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/><path style="--d:2" d="M52 110l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:3" d="M150 118l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path style="--d:4" d="M100 8l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
         </svg>
       </div>
-      <div class="f-copy"><h2 class="line total display" data-prize><span class="sr">{prizes.total}</span><span class="prize-fx" aria-hidden="true"><span class="prize-head">{prizeHead}</span><span class="prize-scramble">{prizeFig}</span><span class="prize-tail">{prizeTail}</span></span></h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
+      <div class="f-copy"><h2 class="line total display" data-prize><span class="sr">{prizes.total}</span><span class="prize-fx" aria-hidden="true"><span class="prize-head">{prizeHead}</span><span class="prize-scramble prize-fig">{prizeFig}</span><span class="prize-tail">{prizeTail}</span></span></h2><p class="motto display">{prizes.motto.map((m, i) => <><span>{m}</span>{i < prizes.motto.length - 1 && <i aria-hidden="true">•</i>}</>)}</p></div>
     </article>
 
     <!-- 6 · YOUR MOVE -->
@@ -121,7 +125,7 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
         <h2 class="line display">{story.move.line}</h2>
         <p class="sub">{story.move.sub}</p>
         <div class="cta">
-          <a class="btn btn-primary btn-lg" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={arrow}/></svg></a>
+          <a class="btn btn-primary btn-lg btn-xl" data-reg-btn data-magnetic href={register.href} target="_blank" rel="noopener noreferrer" data-register>{register.label}<span class="sr"> (opens in a new tab)</span></a>
           <RegLine />
         </div>
         <div class="sp-row">
