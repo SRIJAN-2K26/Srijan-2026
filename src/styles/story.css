@@ -16,7 +16,8 @@
 
 /* frames: static layout */
 .frame { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; padding-block: 3.5rem; border-top: 1px solid var(--line); }
-.f1 { border-top: 0; min-height: calc(100svh - 4rem); padding-block: 2.5rem calc(3.5rem + 46px); /* +46px: the 44px skip strip pushes the stage bottom below the fold; keep the centred hero content above it */ }
+.f1 { border-top: 0; min-height: calc(100svh - 4rem); padding-block: 2.5rem 3.5rem; }
+@media (max-width: 767px) { .f1 { padding-block: 2.5rem calc(3.5rem + 46px); /* +46px: the 44px skip strip pushes the stage bottom below the fold; keep the centred hero content above it */ } }
 .frame > .in, .f-copy, .doms, .steps5 { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--pad); }
 .kicker { font-size: .8rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--orange-hi); }
 .line { font-size: clamp(2.2rem, 8vw, 5rem); margin-top: .4rem; }
@@ -235,7 +236,8 @@
   .f1 .cta .btn-lg { min-height: 3.4rem; }
   .f1 .facts { gap: .4rem; }
   .f1 .fact { padding: .4rem .7rem; }
-  .f1 { padding-block: .4rem calc(.4rem + 46px); }
+  .f1 { padding-block: .6rem; }
+  @media (max-width: 767px) { .f1 { padding-block: .4rem calc(.4rem + 46px); } }
 }
 
 @media (max-height: 800px) and (min-height: 701px) {

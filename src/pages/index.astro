@@ -8,11 +8,19 @@ import Story from '../components/Story.astro';
 import EmberBg from '../components/EmberBg.astro';
 import Motion from '../components/Motion.astro';
 import RegLine from '../components/RegLine.astro';
+import srmcemLogo from '../assets/logos/srmcem.webp';
+import csiLogo from '../assets/logos/csi-srmcem.webp';
+import gfgLogo from '../assets/logos/gfg-srmcem.webp';
 
 const { event: ev, venue: venueInfo, register, nav, about, schedule, prizes, how, sponsors, faq, contact, fee, registration } = data;
 const cp = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).formatToParts(new Date(registration.closes)).map((p) => [p.type, p.value]));
 const closesShort = `${cp.day} ${cp.month}, ${cp.hour}:${cp.minute} ${String(cp.dayPeriod).toUpperCase()} IST`; // 11 Oct, 12:00 PM IST
 const tagline = ev.tagline;
+const orgLogos = [
+  { src: srmcemLogo, alt: 'SRMCEM', w: 256, h: 256, tile: false },
+  { src: csiLogo, alt: 'CSI SRMCEM', w: 256, h: 256, tile: true },
+  { src: gfgLogo, alt: 'GFG SRMCEM', w: 189, h: 148, tile: true },
+];
 ---
 <Base>
   <EmberBg />
@@ -200,6 +208,9 @@ const tagline = ev.tagline;
           ))}
         </ul>
       </div>
+      <ul class="orgs">
+        {orgLogos.map((l) => <li class={l.tile ? 'tile' : undefined}><img src={l.src.src} alt={l.alt} width={l.w} height={l.h} loading="lazy" decoding="async" /></li>)}
+      </ul>
       <div>
         <p class="big">{ev.name} <span>{ev.year}</span></p>
         <p style="margin-top:.5rem">{ev.type} · {ev.datesLong} · {ev.mode}</p>
