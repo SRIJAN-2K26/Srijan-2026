@@ -1,0 +1,88 @@
+/* Hero kinetic type + skyline parallax. Transform and opacity only.
+   Reduced motion / no JS: letters stay fully visible, no pulse, no extra motion. */
+
+.kin .ch { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .kin .ch {
+    animation: hero-ch 620ms var(--ease) both;
+    animation-delay: calc(var(--c, 0) * 36ms + 260ms);
+  }
+  html.js .tag.kin .ch { animation-delay: calc(var(--c, 0) * 30ms + 700ms); }
+}
+@keyframes hero-ch {
+  from { opacity: 0; transform: translate3d(0, 0.38em, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+.chroma-pulse { position: relative; }
+.chroma-pulse .fx {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ff6a00;
+  pointer-events: none;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .chroma-pulse .fx-a {
+    animation: chroma-a 5s ease-in-out 1.2s infinite;
+  }
+  html.js .chroma-pulse .fx-b {
+    animation: chroma-b 5s ease-in-out 1.2s infinite;
+  }
+}
+@keyframes chroma-a {
+  0%, 72%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  48% { opacity: 0.4; transform: translate3d(2px, 0, 0); }
+}
+@keyframes chroma-b {
+  0%, 72%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  50% { opacity: 0.32; transform: translate3d(-2px, 0, 0); }
+}
+
+/* Stronger far-vs-near dolly using existing --dx/--dz (skyline keyframes). */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .city .ly-far { --dx: -0.6%; --dz: 16px; }
+    .city .ly-mid { --dx: -2%; --dz: 50px; }
+    .city .ly-near { --dx: -5.5%; --dz: 150px; }
+    .city .ly-front { --dx: -11%; --dz: 230px; }
+  }
+}
+
+/* Static hero silhouette: JS writes --para-far / --para-near. */
+@media (prefers-reduced-motion: no-preference) {
+  .sky.s-hero .ly-far, .sky.s-hero .ly-mid { transform: translate3d(0, calc(var(--para-far, 0) * 1px), 0); }
+  .sky.s-hero .ly-near, .sky.s-hero .ly-front { transform: translate3d(0, calc(var(--para-near, 0) * 1px), 0); }
+}
+
+/* 3D tilt cards. Text stays on the card plane (no translateZ on type). Pointer-fine hover only. */
+.dom { position: relative; }
+[data-tilt] .tilt-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  background: conic-gradient(from var(--glow-a, 210deg), transparent 0 40%, rgba(255, 102, 0, 0.85) 62%, transparent 82%);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+}
+[data-tilt] > :not(.tilt-glow) { position: relative; z-index: 1; }
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js [data-tilt] {
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(var(--ts, 1), var(--ts, 1), 1);
+      transform-style: preserve-3d;
+      transition: transform 160ms var(--ease), border-color 200ms;
+    }
+    html.js .dcards li[data-tilt]:hover {
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1.02, 1.02, 1);
+    }
+    html.js [data-tilt] .tilt-pop { transform: translate3d(0, 0, 24px); }
+    html.js [data-tilt]:hover .tilt-glow { opacity: 1; }
+  }
+}
