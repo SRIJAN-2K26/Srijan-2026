@@ -374,9 +374,9 @@ html.lenis { scroll-behavior: auto !important; } /* Lenis owns smooth scrolling;
 @media (prefers-reduced-motion: reduce) { .spot { display: none; } }
 
 /* Problem statements: collapsed native <details> rows. Opening only grows the row (content below shifts, nothing above moves). No animation at all. */
-.ps { padding-block: clamp(3rem, 8vw, 5rem); }
+.ps { padding-block: clamp(3rem, 8vw, 5rem); background: var(--bg); } /* solid: the ember canvas never sits behind the grey copy (worst-pixel contrast) */
 .ps h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); max-width: none; }
-.ps-note { margin-top: .5rem; color: var(--muted); font-weight: 600; }
+.ps-note { margin-top: .5rem; color: #e6e6e6; font-weight: 600; }
 .ps-list { margin-top: 1.5rem; max-width: 52rem; border-top: 1px solid var(--line); list-style: none; padding: 0; }
 .ps-list > li { border-bottom: 1px solid var(--line); }
 .ps-list summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: .9rem; min-height: 44px; padding: .75rem .5rem; margin-inline: -.5rem; border-radius: 10px; font-weight: 700; font-size: clamp(1rem, 2.4vw, 1.15rem); line-height: 1.3; -webkit-tap-highlight-color: transparent; }
@@ -391,4 +391,4 @@ html.lenis { scroll-behavior: auto !important; } /* Lenis owns smooth scrolling;
 .ps-i::after { transform: rotate(90deg); }
 .ps-list details[open] .ps-i::after { transform: rotate(0deg); opacity: 0; }
 .ps-list details[open] summary { color: var(--fg); }
-.ps-d { padding: 0 .5rem 1.1rem 2.7rem; color: var(--muted); max-width: 60ch; }
+.ps-d { padding: 0 .5rem 1.1rem 2.7rem; color: #e6e6e6; max-width: 60ch; }

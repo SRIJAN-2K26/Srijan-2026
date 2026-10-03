@@ -117,7 +117,10 @@
 .f6 .line { margin-top: .3rem; }
 .f6 .sp-row { margin-top: 1.25rem; }
 .f6 .sp-row { justify-content: flex-start; }
-.faqlink { margin-top: 1rem; color: var(--muted); }
+.faqlink { margin-top: 1rem; color: #e6e6e6; }
+/* final frame: small grey lines stay readable over the animated ember glow (worst-pixel >= 4.5:1) */
+.f6 .sub, .f6 .regline { color: #e6e6e6; }
+.f6 .regline[data-state='closed'] { color: var(--fg); }
 .faqlink a { display: inline-flex; align-items: center; min-height: 46px; }
 .faqlink a, .soonnote a { color: var(--fg); }
 .flink { display: inline-flex; align-items: center; gap: .5rem; min-height: 46px; /* >= 44px even at the .985 entry scale */ font-weight: 700; color: var(--orange-hi); text-decoration: none; border-bottom: 2px solid currentColor; }
