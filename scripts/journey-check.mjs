@@ -7,6 +7,9 @@ import fs from 'fs';
 const BASE = process.env.BASE || 'http://localhost:4393/';
 const html = fs.readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 const data = JSON.parse(fs.readFileSync(new URL('../src/data/event.json', import.meta.url), 'utf8'));
+// The problem-statements list is the owner-approved softened copy (AML statement says "bank transaction streams"); scripts/ps-check.mjs guards it, so it is left out of the forbidden-word scan only.
+const htmlScan = html.replace(/<section id="problem-statements"[\s\S]*?<\/section>/, ' ');
+const dataScan = { ...data, tracks: { ...data.tracks, problemStatements: undefined } };
 const b = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox'] });
 let bad = 0; const ok = (c, m) => { console.log(c ? 'ok  ' : 'FAIL', m); if (!c) bad++; return c; };
 const CLOSE = Date.parse('2026-10-11T12:00:00+05:30');
@@ -18,7 +21,7 @@ ok(steps.length === 4 && steps.map((s) => s.title).join('|') === 'Register|Short
 ok(steps[0].note === 'Register by 11 Oct, 12:00 PM IST' && steps[1].sub === '12 Oct' && steps[1].note === 'Shortlisted teams are announced', 'step 1 deadline + shortlist 12 Oct / allowed wording');
 ok(steps[2].sub === '13 Oct' && steps[3].sub === '14 Oct · SRMCEM' && steps[2].title === 'Online screening' && steps[3].title === 'On-campus finale', '13 Oct online and 14 Oct finale wording unchanged');
 ok(data.event.venueFull === 'Shri Ramswaroop Memorial College of Engineering & Management, Lucknow', 'footer full college name unchanged');
-ok(!FORBID.test(JSON.stringify(data)) && !FORBID.test(html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '')), 'no forbidden copy (Discord / prize amounts / UPI / QR / bank / 48 hours / top 75 / Organised by)');
+ok(!FORBID.test(JSON.stringify(dataScan)) && !FORBID.test(htmlScan.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '')), 'no forbidden copy (Discord / prize amounts / UPI / QR / bank / 48 hours / top 75 / Organised by)');
 ok((html.match(/class="regline[^"]*rl-cta/g) || []).length === 2, 'built HTML: RegLine under the #how and #contact CTAs');
 ok((html.match(/class="regfee"[^>]*>₹50 per team member</g) || []).length === 2, 'built HTML: "₹50 per team member" next to both');
 ok(/class="dock-close"[^>]*>Closes 11 Oct, 12:00 PM IST</.test(html), 'built HTML: dock says "Closes 11 Oct, 12:00 PM IST"');

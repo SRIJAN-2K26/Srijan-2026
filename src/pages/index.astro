@@ -12,6 +12,7 @@ import srmcemLogo from '../assets/logos/srmcem.webp';
 import csiLogo from '../assets/logos/csi-srmcem.webp';
 import gfgLogo from '../assets/logos/gfg-srmcem.webp';
 
+const ps = data.tracks.problemStatements;
 const { event: ev, venue: venueInfo, register, nav, about, schedule, prizes, how, sponsors, faq, contact, fee, registration } = data;
 const cp = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).formatToParts(new Date(registration.closes)).map((p) => [p.type, p.value]));
 const closesShort = `${cp.day} ${cp.month}, ${cp.hour}:${cp.minute} ${String(cp.dayPeriod).toUpperCase()} IST`; // 11 Oct, 12:00 PM IST
@@ -94,6 +95,24 @@ const orgLogos = [
           <figcaption>{about.venueCaption}</figcaption>
           <p class="venue-go"><a class="btn btn-ghost" href={venueInfo.mapsHref} target="_blank" rel="noopener noreferrer" data-venue-map>{venueInfo.directionsLabel}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="venue-note">{venueInfo.note}</span></p>
         </figure>
+      </div>
+    </section>
+
+    <!-- PROBLEM STATEMENTS (draft list; native <details> so every row works without JS) -->
+    <section id="problem-statements" class="ps" aria-labelledby="ps-h">
+      <div class="wrap">
+        <h2 id="ps-h" class="display">{ps.heading}</h2>
+        <p class="ps-note">{ps.note}</p>
+        <ol class="ps-list">
+          {ps.items.map((it, i) => (
+            <li>
+              <details>
+                <summary><span class="ps-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="ps-t">{it.title}</span><span class="ps-i" aria-hidden="true"></span></summary>
+                <p class="ps-d">{it.text}</p>
+              </details>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
 

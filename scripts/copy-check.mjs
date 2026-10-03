@@ -1,6 +1,7 @@
 // Content guard on dist/index.html: fee text is allowed ONLY as the owner-approved amounts; no payment/QR/UPI/deadline/count/time copy.
 import fs from 'fs';
-const html = fs.readFileSync('dist/index.html', 'utf8');
+// The problem-statements section is the owner-approved softened list (AML statement says "bank transaction streams"); it is guarded by scripts/ps-check.mjs instead.
+const html = fs.readFileSync('dist/index.html', 'utf8').replace(/<section id="problem-statements"[\s\S]*?<\/section>/, ' ');
 const text = html.replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 let bad = 0;
 const fail = (m) => { bad++; console.log('FAIL', m); };
