@@ -46,7 +46,7 @@
       "href": "#schedule"
     },
     {
-      "label": "Prizes",
+      "label": "Rewards",
       "href": "#reward",
       "frame": 4
     },
@@ -140,9 +140,9 @@
         "date": "14 Oct",
         "mode": "SRMCEM Campus",
         "items": [
-          "Offline finale: demos, judging, prizes"
+          "Offline finale: demos, judging, rewards"
         ],
-        "blurb": "The second day is in person at SRMCEM Campus, Lucknow, with demos, judging and prizes."
+        "blurb": "The second day is in person at SRMCEM Campus, Lucknow, with demos, judging and rewards."
       }
     ],
     "footnote": "Detailed times coming soon"

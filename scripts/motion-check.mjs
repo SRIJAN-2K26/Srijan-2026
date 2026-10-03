@@ -16,7 +16,7 @@ for (const [w, h] of [[1280, 800], [1920, 1080]]) {
   const f = await p.evaluate(() => [...document.querySelectorAll('.frame')].map((e) => +getComputedStyle(e).opacity)); console.log(' frame opacities at 2.55F', JSON.stringify(f)); ok(f[2] > .95 && f.filter((o) => o > .5).length === 1, 'pinned frame 3 active');
   await p.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await p.waitForTimeout(500);
   // nav anchors (data-f) land on the frame
-  for (const [label, fi] of [['Prizes', 4], ['Sponsors', 5]]) { const a = p.locator(`.top nav a:has-text("${label}")`).first(); if (await a.count()) { await a.click(); await p.waitForTimeout(2200); const y = await sy(p), want = Math.round((fi + .5) * .9 * h); console.log(' nav', label, y, 'want', want); ok(Math.abs(y - want) < 6, 'nav anchor ' + label); } }
+  for (const [label, fi] of [['Rewards', 4], ['Sponsors', 5]]) { const a = p.locator(`.top nav a:has-text("${label}")`).first(); if (await a.count()) { await a.click(); await p.waitForTimeout(2200); const y = await sy(p), want = Math.round((fi + .5) * .9 * h); console.log(' nav', label, y, 'want', want); ok(Math.abs(y - want) < 6, 'nav anchor ' + label); } }
   await p.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await p.waitForTimeout(400);
   // skip link: scroll to About, focus lands on it
   await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(2200);

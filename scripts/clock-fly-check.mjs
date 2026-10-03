@@ -83,7 +83,7 @@ for (const [w, h] of [[320, 640], [390, 844], [1280, 800]]) {
   }
   // ── anchor jumps (nav links via Lenis) and Home
   await jump(p, 0); await p.waitForTimeout(500);
-  for (const label of ['Prizes', 'About', 'FAQ']) { const a = p.locator(`.top nav a:has-text("${label}")`).first(); if (!(await a.count()) || !(await a.isVisible())) continue; await a.click(); await p.waitForTimeout(2600); const s = await read(p); inv(s, tag + ' anchor ' + label); ok(s.op < 0.02, tag + ` anchor ${label}: hero clock settled (y=${Math.round(s.y)})`); }
+  for (const label of ['Rewards', 'About', 'FAQ']) { const a = p.locator(`.top nav a:has-text("${label}")`).first(); if (!(await a.count()) || !(await a.isVisible())) continue; await a.click(); await p.waitForTimeout(2600); const s = await read(p); inv(s, tag + ' anchor ' + label); ok(s.op < 0.02, tag + ` anchor ${label}: hero clock settled (y=${Math.round(s.y)})`); }
   await p.keyboard.press('Home'); await p.waitForTimeout(2400); const hm = await read(p);
   ok(hm.y === 0 && hm.inlineAll === '' && near(hm.rect, base, 0.01) && hm.chipOp === 0, tag + `: anchor jumps then Home restore exactly (y=${hm.y})`);
   // ── chip never over a lower Register button / the focused control: sweep the whole page
