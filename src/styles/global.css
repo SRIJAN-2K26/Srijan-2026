@@ -160,7 +160,9 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 
 /* registration line + fee under the CTAs of #how and #contact (static IST text without JS; becomes the clock; hidden, space kept, once closed) */
 .rl-cta, .regfee { font-size: .9rem; }
-.regfee { font-weight: 700; color: var(--muted); }
+.regfee { font-weight: 700; }
+/* grey copy that sits over the ember glow: light grey + a bg-coloured halo keeps the worst pixel >= 4.5:1 */
+.regfee, #contact .lead { color: #e6e6e6; text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); }
 .about-org { margin-top: 1.25rem; color: var(--muted); max-width: 60ch; }
 .about-org strong { color: var(--fg); }
 
@@ -262,7 +264,8 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 .contact .lead { margin-top: 1.5rem; }
 .contact .cta { margin-top: 2rem; }
 main, footer { position: relative; z-index: 1; }
-footer { border-top: 1px solid var(--line); padding-block: 2.5rem; color: var(--muted); font-size: .9rem; }
+footer { border-top: 1px solid var(--line); padding-block: 2.5rem; color: #e6e6e6; text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); font-size: .9rem; }
+footer .person { text-shadow: none; }
 footer .wrap { display: grid; gap: 1.25rem; }
 footer .big { font-family: var(--display); text-transform: uppercase; font-size: 1.6rem; color: var(--fg); letter-spacing: .04em; }
 footer .big span { color: var(--orange); }
