@@ -56,9 +56,22 @@
 .fact svg { width: 1.15rem; height: 1.15rem; color: var(--orange); flex: none; }
 @media (min-width: 40rem) { .facts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; } .fact { display: inline-flex; padding: .65rem 1rem; font-size: .95rem; } }
 .cta { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
-.regline { margin-top: .9rem; min-height: 1.5em; font-size: min(.9rem, 3.5vw); font-weight: 700; letter-spacing: .02em; white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); }
+/* registration line: sits in the .cta row beside Register (wraps under it on narrow screens).
+   No JS: the static IST deadline line. With JS: a fixed-size box sized by the clock (laid out but invisible until the first tick),
+   with the static/closed text overlaid, so the upgrade and the close never move anything (CLS 0). */
+.f1 .cta, .f6 .cta { row-gap: .5rem; }
+.regline { --rl-n: clamp(1.3rem, 5.6vw, 1.6rem); min-height: 1.5em; font-size: min(.9rem, 3.5vw); font-weight: 700; letter-spacing: .02em; white-space: nowrap; color: var(--muted); text-shadow: 0 0 8px var(--bg), 0 0 3px var(--bg); }
 .regline[data-state='closed'] { color: var(--fg); }
-.f6 .regline { margin-top: .75rem; }
+.js .regline { position: relative; display: inline-flex; align-items: center; min-height: 0; }
+.js .rl-static { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.rl-clock:not([hidden]), .js .rl-clock { display: inline-flex; align-items: flex-start; gap: .25rem; }
+.js .rl-clock[hidden] { visibility: hidden; }
+.rl-lead { align-self: center; width: min-content; margin-right: .3rem; font-size: .66rem; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; white-space: normal; }
+.rl-unit { display: inline-flex; flex-direction: column; align-items: center; min-width: 2.2rem; }
+.rl-num { font-family: var(--display); font-weight: 400; font-size: var(--rl-n); line-height: 1; color: var(--fg); }
+.rl-d { display: inline-block; width: .58em; text-align: center; }
+.rl-colon { font-family: var(--display); font-size: var(--rl-n); line-height: 1; color: var(--orange-hi); }
+.rl-lbl { margin-top: .2rem; font-size: .58rem; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
 
 /* frame 3 (domains) */
 .doms { display: grid; gap: .6rem; margin-top: 1.5rem; }
@@ -185,8 +198,8 @@
 .sparks path { fill: #fff3c4; }
 .plat { fill: color-mix(in srgb, var(--orange) 55%, transparent); }
 @media (prefers-reduced-motion: no-preference) {
-  .f1 .in > :is(.inst, .sponsored, .tag, .when, .support, .facts, .cta, .regline) { animation: heroin 700ms var(--ease) both; animation-delay: calc(var(--k, 0) * 80ms + 420ms); }
-  .f1 .in > .inst { --k: 0; } .f1 .in > .sponsored { --k: 1; } .f1 .in > .tag { --k: 2; } .f1 .in > .when { --k: 3; } .f1 .in > .support { --k: 4; } .f1 .in > .facts { --k: 5; } .f1 .in > .cta { --k: 6; } .f1 .in > .regline { --k: 7; }
+  .f1 .in > :is(.inst, .sponsored, .tag, .when, .support, .facts, .cta) { animation: heroin 700ms var(--ease) both; animation-delay: calc(var(--k, 0) * 80ms + 420ms); }
+  .f1 .in > .inst { --k: 0; } .f1 .in > .sponsored { --k: 1; } .f1 .in > .tag { --k: 2; } .f1 .in > .when { --k: 3; } .f1 .in > .support { --k: 4; } .f1 .in > .facts { --k: 5; } .f1 .in > .cta { --k: 6; }
   @keyframes heroin { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   .sparks path { transform-box: fill-box; transform-origin: center; animation: spark 2.6s ease-in-out infinite; animation-delay: calc(var(--d, 0) * -.6s); }
   @keyframes spark { 0%, 100% { opacity: .15; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
@@ -206,7 +219,6 @@
   .f1 .cta .btn-lg { min-height: 3.4rem; }
   .f1 .facts { gap: .4rem; }
   .f1 .fact { padding: .4rem .7rem; }
-  .f1 .regline { margin-top: .5rem; }
   .f1 { padding-block: .4rem calc(.4rem + 46px); }
 }
 
@@ -217,5 +229,4 @@
   .f1 .cta .btn-lg { min-height: 3.4rem; }
   .f1 .facts { gap: .4rem; }
   .f1 .fact { padding: .4rem .8rem; }
-  .f1 .regline { margin-top: .5rem; }
 }

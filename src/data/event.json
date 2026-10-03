@@ -379,6 +379,17 @@
     "caption": "Total for your team"
   },
   "registration": {
-    "closes": "2026-10-11T12:00:00+05:30"
+    "closes": "2026-10-11T12:00:00+05:30",
+    "countdown": {
+      "lead": "Registration closes in",
+      "compact": "Closes in",
+      "closed": "Registration closed",
+      "units": [
+        "Days",
+        "Hours",
+        "Min",
+        "Sec"
+      ]
+    }
   }
 }

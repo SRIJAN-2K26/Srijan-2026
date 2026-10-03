@@ -1,8 +1,11 @@
-// Registration countdown. Bundled by Astro as an external module (no inline script, CSP unchanged).
+// Registration countdown clock. Bundled by Astro as an external module (no inline script, CSP unchanged).
 // Source of truth: registration.closes in event.json, an ISO string with an explicit +05:30 offset, so Date.parse is timezone-proof.
+// Every tick recomputes from Date.now(); seconds round up, so the clock never reads 00 : 00 : 00 : 00 or goes negative: at the close
+// it is replaced by the closed text. Ticking digits are aria-hidden; screen readers get one line, rewritten at most once a minute.
 import { jump } from './scroller';
-const els = Array.from(document.querySelectorAll<HTMLElement>('[data-reg-closes]'));
-const closes = els.length ? Date.parse(els[0].dataset.regCloses || '') : NaN;
+const lines = Array.from(document.querySelectorAll<HTMLElement>('[data-reg-closes]'));
+const closes = lines.length ? Date.parse(lines[0].dataset.regCloses || '') : NaN;
+const { lead = '', compact = '', closed = '', units = '' } = lines[0]?.dataset ?? {};
 
 // After the close: Register buttons become an honest, disabled-looking "Registration closed" (no navigation) and the FAQ answer goes past tense.
 function markClosed() {
@@ -11,38 +14,79 @@ function markClosed() {
     a.setAttribute('aria-disabled', 'true');
     a.setAttribute('role', 'link');
     a.removeAttribute('href'); a.removeAttribute('target'); a.removeAttribute('rel'); a.removeAttribute('data-register');
-    a.textContent = 'Registration closed';
+    a.textContent = closed;
   });
   document.querySelectorAll<HTMLElement>('[data-reg-faq],[data-reg-copy]').forEach((p) => { if (p.dataset.closedText) p.textContent = p.dataset.closedText; });
   document.documentElement.classList.add('reg-closed'); // CSS: hides the phone dock and the duplicate hero line
 }
 
-if (els.length && !Number.isNaN(closes)) {
+if (lines.length && !Number.isNaN(closes)) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Corner chip: created by JS only (no chip without JS or under reduced motion). Same text/state as the hero line.
-  const chip = reduce ? null : document.body.appendChild(Object.assign(document.createElement('div'), { className: 'reg-chip', ariaHidden: 'true' }));
-  if (chip) chip.setAttribute('aria-hidden', 'true');
+  const [uDay, uHour, uMin] = units.split(',').map((u) => u.toLowerCase());
+  const count = (n: number, u: string) => `${n} ${n === 1 && u.endsWith('s') ? u.slice(0, -1) : u}`;
   const pad = (n: number) => String(n).padStart(2, '0');
-  let last = '';
-  let timer = 0;
-  const render = () => {
-    const ms = closes - Date.now();
-    let text: string, state: string;
-    if (ms <= 0) { text = 'Registration closed'; state = 'closed'; }
-    else if (reduce) return; // reduced motion: keep the static, always-correct deadline text until it closes
-    else {
-      const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60);
-      text = s < 3600 ? `Registration closes in ${m}m ${pad(s % 60)}s` : d > 0 ? `Registration closes in ${d}d ${pad(h)}h ${pad(m)}m` : `Registration closes in ${h}h ${pad(m)}m`;
-      state = 'open';
+  const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls: string, text = '') => Object.assign(document.createElement(tag), { className: cls, textContent: text });
+
+  const views = lines.map((line) => {
+    const stat = line.querySelector<HTMLElement>('.rl-static')!;
+    const clock = line.querySelector<HTMLElement>('.rl-clock')!;
+    const sr = el('span', 'sr');
+    sr.setAttribute('role', 'timer');
+    sr.setAttribute('aria-live', line.hasAttribute('data-live') ? 'polite' : 'off');
+    sr.setAttribute('aria-atomic', 'true');
+    stat.setAttribute('aria-hidden', 'true');
+    return { line, stat, clock, sr, nums: Array.from(clock.querySelectorAll<HTMLElement>('.rl-num')) };
+  });
+
+  // Corner chip: created by JS only (none without JS or under reduced motion), aria-hidden. Same clock, compact.
+  const chip = reduce ? null : document.body.appendChild(el('div', 'reg-chip'));
+  const chipNums: HTMLElement[] = [];
+  if (chip) {
+    chip.setAttribute('aria-hidden', 'true');
+    const t = el('span', 'rc-t');
+    for (let i = 0; i < 4; i++) {
+      if (i) t.append(el('span', 'rc-c', ':'));
+      chipNums.push(t.appendChild(el('span', 'rl-num')));
     }
-    if (text === last) return;
-    last = text;
-    for (const e of els) { const t = e.firstElementChild; if (t) t.textContent = text; e.dataset.state = state; }
-    if (chip) { chip.textContent = state === 'closed' ? text : text.replace('Registration closes in', 'Closes in'); chip.dataset.state = state; }
-    if (state === 'closed') { clearInterval(timer); markClosed(); }
+    chip.append(el('span', 'rc-lead', compact), ' ', t);
+  }
+
+  // Fixed-width digit boxes: each digit is its own .rl-d span, so the clock never changes width.
+  const setNum = (num: HTMLElement, v: string, animate: boolean) => {
+    while (num.children.length < v.length) num.prepend(el('span', 'rl-d'));
+    Array.from(num.children).forEach((d, i) => {
+      if (d.textContent === v[i]) return;
+      d.textContent = v[i];
+      if (animate) (d as HTMLElement).animate([{ opacity: 0.2, transform: 'translateY(-0.22em)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)' });
+    });
   };
-  render();
-  if (last !== 'Registration closed') timer = window.setInterval(render, 1000);
+
+  let srText = '', srAt = -Infinity, timer = 0, done = false, first = true;
+  const close = () => {
+    done = true; clearTimeout(timer);
+    for (const v of views) { v.clock.hidden = true; v.stat.textContent = closed; v.stat.hidden = false; v.sr.textContent = closed; v.line.dataset.state = 'closed'; if (!v.sr.isConnected) v.line.append(v.sr); }
+    if (chip) { chip.textContent = closed; chip.dataset.state = 'closed'; }
+    markClosed();
+  };
+  const tick = () => {
+    const now = Date.now(), ms = closes - now;
+    if (ms <= 0) { close(); return; }
+    const s = Math.ceil(ms / 1000);
+    const vals = [pad(Math.floor(s / 86400)), pad(Math.floor((s % 86400) / 3600)), pad(Math.floor((s % 3600) / 60)), pad(s % 60)];
+    const animate = !reduce && !first && !document.hidden;
+    for (const v of views) vals.forEach((x, i) => setNum(v.nums[i], x, animate));
+    if (chip) { vals.forEach((x, i) => setNum(chipNums[i], x, false)); chip.dataset.state = 'open'; }
+    const mins = Math.max(1, Math.floor(ms / 60000)), D = Math.floor(mins / 1440), H = Math.floor((mins % 1440) / 60), M = mins % 60;
+    const text = `${lead} ${D ? count(D, uDay) + (H ? ' ' + count(H, uHour) : '') : H ? count(H, uHour) + (M ? ' ' + count(M, uMin) : '') : count(M, uMin)}`;
+    if (text !== srText && now - srAt >= 60000) { srText = text; srAt = now; for (const v of views) v.sr.textContent = text; }
+    // first tick: the live line goes in with its text already set, so nothing is announced on page load
+    if (first) for (const v of views) { v.stat.hidden = true; v.clock.hidden = false; v.line.dataset.state = 'open'; v.line.append(v.sr); }
+    first = false;
+  };
+  // Re-arm on each displayed-second boundary (seconds round up, so the value changes when ms crosses a multiple of 1000).
+  const loop = () => { tick(); if (!done) timer = window.setTimeout(loop, ((closes - Date.now()) % 1000) + 5); };
+  loop();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && !done) { clearTimeout(timer); loop(); } });
 }
 
 // Keyboard: in the pinned story, frames 3, 4 and 6 are opacity-0 (still focusable) until scrolled to.
@@ -59,10 +103,12 @@ if (window.CSS?.supports?.('animation-timeline: scroll()') && !matchMedia('(pref
   });
 }
 
-// Chip visibility: shown once the hero line has scrolled away, hidden while the last frame (which has its own line) is on screen.
+// Chip visibility: shown once the hero line has scrolled away, hidden while the last frame (which has its own line) is on screen
+// and while any Register button below the story passes under it.
 {
   const chip = document.querySelector<HTMLElement>('.reg-chip');
   const story = document.querySelector<HTMLElement>('.story');
+  const regs = [...document.querySelectorAll<HTMLElement>('[data-reg-btn]')].filter((a) => !a.closest('.top, .dock, .story'));
   if (chip && story) {
     const pinned = !!window.CSS?.supports?.('animation-timeline: scroll()');
     let tick = 0;
@@ -72,6 +118,10 @@ if (window.CSS?.supports?.('animation-timeline: scroll()') && !matchMedia('(pref
       let show: boolean;
       if (pinned) { const end = story.offsetTop + story.offsetHeight - vh; show = y > 0.97 * F && !(y > 4.9 * F && y < end + 0.35 * vh); }
       else { const l = document.querySelector('.f1 .regline')?.getBoundingClientRect(); const l6 = document.querySelector('.f6 .regline')?.getBoundingClientRect(); const on = (r?: DOMRect) => !!r && r.bottom > 64 && r.top < vh; show = !on(l) && !on(l6); }
+      if (show) {
+        const c = chip.getBoundingClientRect();
+        show = !regs.some((a) => { const r = a.getBoundingClientRect(); return r.width > 0 && r.bottom > c.top - 8 && r.top < c.bottom + 8 && r.right > c.left - 8 && r.left < c.right + 8; });
+      }
       chip.classList.toggle('on', show);
     };
     const req = () => { if (!tick) tick = requestAnimationFrame(update); };
