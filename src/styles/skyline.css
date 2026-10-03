@@ -1,5 +1,7 @@
 /* ───────── Stylised city skyline: 4 depth layers, CSS-3D parallax. transform + opacity only. ─────────
-   Static base (no JS / reduced motion / no scroll-timeline): .sky.s instances sit in the hero and frame 2.
+   Exactly one skyline is ever rendered.
+   Static base (reduced motion / no scroll-timeline): the hero's .sky.s-hero, anchored to the hero's bottom edge and clipped
+   to it (src/scripts/hero-motion.ts drifts its layers when motion is allowed but scroll-timeline is missing).
    Pinned story (scroll-driven, motion allowed): one stage-level .city is shown instead and the camera dollies
    through the layers while you scroll. */
 .sky-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -9,9 +11,7 @@
 .ly-far { opacity: .85; }
 .sk-glow { position: absolute; left: 50%; bottom: -12%; width: min(78rem, 150%); aspect-ratio: 2 / 1; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,106,0,.6), rgba(255,106,0,.16) 58%, transparent); }
 .city { display: none; }
-.sky.s-hero { height: clamp(9rem, 36svh, 24rem); }
-.f2 .f-art { position: relative; height: clamp(12rem, 40svh, 26rem); overflow: hidden; border-bottom: 2px solid color-mix(in srgb, var(--orange) 60%, transparent); }
-.f2 .f-art .sky { --ch: 100%; }
+.sky.s-hero { height: clamp(9rem, 36svh, 24rem); overflow: hidden; -webkit-mask-image: linear-gradient(transparent, #000 28%); mask-image: linear-gradient(transparent, #000 28%); }
 .scrim { display: none; }
 /* hero (static): darken under the text */
 .s-hero::after { content: ''; position: absolute; inset: 0; z-index: 5; background: linear-gradient(to top, rgba(10,10,10,.8), rgba(10,10,10,.93) 60%); }
@@ -34,7 +34,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .city { display: block; position: absolute; z-index: 0; perspective: 640px; perspective-origin: 50% 100%;
     animation: cityv linear both; animation-timeline: scroll(root); animation-range: 0 calc(6 * var(--F)); }
-  .stage .sky.s, .f2 .f-art { display: none; }
+  .stage .sky.s { display: none; }
   .scrim { display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none;
     background: linear-gradient(to top, rgba(10,10,10,.8), rgba(10,10,10,.93) 60%);
     animation: scrimv linear both; animation-timeline: scroll(root); animation-range: 0 calc(6 * var(--F)); }

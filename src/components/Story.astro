@@ -48,7 +48,7 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
 
     <!-- 1 · SPARK -->
     <article class="frame f1" style="--fi:0">
-      <Skyline cls="s s-hero" />
+      <Skyline cls="s s-hero" label={story.ground.alt} />
       <div class="in">
         <p class="inst">{ev.type}</p>
         <h1 id="hero-title" class="display kin" aria-label={`${ev.name} ${ev.year}`}>
@@ -75,9 +75,8 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
       </div>
     </article>
 
-    <!-- 2 · GROUND (skyline + start-small line) -->
+    <!-- 2 · GROUND (start-small line; the skyline is the stage-level .city when pinned, the hero's .s-hero otherwise) -->
     <article class="frame f2" id="ground" style="--fi:1">
-      <div class="f-art"><Skyline cls="s" label={story.ground.alt} /></div>
       <div class="f-copy"><h2 class="line display">{story.ground.line}</h2>{story.ground.sub.map((t) => <p class="sub">{t}</p>)}</div>
     </article>
 
