@@ -24,4 +24,9 @@ if (unexpected.length) fail('unexpected amounts: ' + unexpected.join(' '));
 if (!text.includes('Rewards worth ₹1.5 Lakh+')) fail('missing approved reward wording');
 if (/Lakh\+?\s+in rewards|\bcash\b|prize pool|goodies|voucher/i.test(text)) fail('old/forbidden reward wording');
 if ((html.match(/@/g) || []).length && /[\w.]+@(?!gmail\.com)/.test(text)) fail('unexpected email');
+// venue: one maps link (defined once in event.json), exact photo caption, no embed
+const maps = html.match(/https:\/\/maps\.app\.goo\.gl\/P6yhEmcQWCVMKETi7/g) || [];
+if (maps.length !== 1) fail('directions href should appear exactly once, found ' + maps.length);
+if (!/<figcaption[^>]*>SRMCEM Campus, Lucknow<\/figcaption>/.test(html)) fail('venue photo caption must be exactly "SRMCEM Campus, Lucknow"');
+if (/<iframe/i.test(html)) fail('no map embed');
 process.exit(bad ? 1 : 0);

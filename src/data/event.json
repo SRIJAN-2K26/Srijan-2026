@@ -60,6 +60,11 @@
       "href": "#faq"
     }
   ],
+  "venue": {
+    "mapsHref": "https://maps.app.goo.gl/P6yhEmcQWCVMKETi7",
+    "directionsLabel": "Get directions to the campus",
+    "note": "On-campus finale · 14 Oct"
+  },
   "about": {
     "heading": "Ideas in. Prototypes out.",
     "body": [

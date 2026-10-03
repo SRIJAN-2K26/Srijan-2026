@@ -177,6 +177,9 @@ section { position: relative; padding-block: clamp(4rem, 10vw, 8rem); }
 .poster img { border-radius: 18px; border: 1px solid var(--line); width: 100%; aspect-ratio: 520 / 780; }
 .poster figcaption, .venue figcaption { margin-top: .75rem; font-size: .85rem; color: var(--muted); }
 .venue { margin-top: clamp(3rem, 7vw, 5rem); }
+.venue-go { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.1rem; }
+.venue-go .btn { min-height: 2.75rem; }
+.venue-note { color: var(--muted); font-size: .9rem; font-weight: 600; letter-spacing: .04em; }
 .venue img { width: 100%; border-radius: 20px; border: 1px solid var(--line); aspect-ratio: 1024 / 380; object-fit: cover; }
 @media (min-width: 56rem) {
   .about-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; gap: 4rem; }

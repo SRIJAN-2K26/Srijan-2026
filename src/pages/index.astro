@@ -8,7 +8,7 @@ import Story from '../components/Story.astro';
 import EmberBg from '../components/EmberBg.astro';
 import Motion from '../components/Motion.astro';
 
-const { event: ev, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact, fee } = data;
+const { event: ev, venue: venueInfo, register, nav, about, tracks, schedule, prizes, how, sponsors, faq, contact, fee } = data;
 const tagline = ev.tagline;
 ---
 <Base>
@@ -95,7 +95,8 @@ const tagline = ev.tagline;
         <figure class="venue" data-reveal>
           <Img src={venue} fallbackWidth={768} widths={[400, 560, 768, 1024]} sizes="(min-width: 76rem) 70rem, 92vw" width={1024} height={380}
             alt="SRMCEM campus building with the golden Ashoka lion capital statue in front" loading="lazy" />
-          <figcaption>{about.venueCaption} · {ev.venueFull}</figcaption>
+          <figcaption>{about.venueCaption}</figcaption>
+          <p class="venue-go"><a class="btn btn-ghost" href={venueInfo.mapsHref} target="_blank" rel="noopener noreferrer" data-venue-map>{venueInfo.directionsLabel}<span class="sr"> (opens in a new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="venue-note">{venueInfo.note}</span></p>
         </figure>
       </div>
     </section>
