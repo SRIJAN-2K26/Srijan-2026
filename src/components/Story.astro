@@ -51,8 +51,8 @@ const prizeTail = pi >= 0 ? prizes.total.slice(pi + prizeFig.length) : '';
       <Skyline cls="s s-hero" label={story.ground.alt} />
       <div class="in">
         <p class="inst">{ev.type}</p>
-        <h1 id="hero-title" class="display kin" aria-label={`${ev.name} ${ev.year}`}>
-          <span class="lit" aria-hidden="true"></span><span class="nm">{split(nameA).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}</span><span class="bi"><span class="nm">{split(nameI).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm">{split(nameB).map((ch, i) => <span class="ch" style={`--c:${i + nameA.length + 1}`}>{ch}</span>)}</span>{' '}<span class="y chroma-pulse">{split(ev.year).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}<span class="fx fx-a" aria-hidden="true">{ev.year}</span><span class="fx fx-b" aria-hidden="true">{ev.year}</span></span>
+        <h1 id="hero-title" class="display kin">
+          <span class="sr">{`${ev.name} ${ev.year}`}</span><span class="lit" aria-hidden="true"></span><span class="nm" aria-hidden="true">{split(nameA).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}</span><span class="bi" aria-hidden="true"><span class="nm">{split(nameI).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}</span><svg class="bolt" viewBox="0 0 40 120" aria-hidden="true" focusable="false"><path d="M27 0L5 68h15L11 120l26-74H22L27 0z"/></svg></span><span class="nm" aria-hidden="true">{split(nameB).map((ch, i) => <span class="ch" style={`--c:${i + nameA.length + 1}`}>{ch}</span>)}</span>{' '}<span class="y chroma-pulse" aria-hidden="true">{split(ev.year).map((ch, i) => <span class="ch" style={`--c:${i}`}>{ch}</span>)}<span class="fx fx-a" aria-hidden="true">{ev.year}</span><span class="fx fx-b" aria-hidden="true">{ev.year}</span></span>
         </h1>
         <div class="sponsored">
           <p class="sp-label">{sponsors.label}</p>

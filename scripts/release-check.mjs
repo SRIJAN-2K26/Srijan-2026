@@ -1,4 +1,5 @@
 // Combined motion release checks (Lenis + hero parallax + timeline draw + tilt + prize scramble + magnetic buttons + FAQ + schedule tabs),
+// prize scramble CLS (360x640, 4x CPU) and fit, hero h1 accessible name,
 // plus reduced-motion / touch / JS-off behaviour. Also saves the six review screenshots per viewport into $OUT.
 import { chromium } from 'playwright';
 import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
@@ -98,4 +99,50 @@ for (const [w, h] of [[390, 844], [1280, 800]]) {
 { const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false }); const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(800);
   const r = await p.evaluate(() => ({ text: document.body.innerText, days: [...document.querySelectorAll('.day')].map((d) => !d.hidden), tabs: document.querySelectorAll('.day-tab').length, faq: [...document.querySelectorAll('.faq .a')].length, frames: [...document.querySelectorAll('.frame')].map((e) => +getComputedStyle(e).opacity), venueH: Math.round(document.querySelector('[data-venue-map]').getBoundingClientRect().height) }));
   const must = [REWARD, 'BUILD', '13 Oct', '14 Oct', 'Get directions to the campus', 'On-campus finale · 14 Oct']; const miss = must.filter((m) => !new RegExp(m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(r.text)); console.log('js-off', JSON.stringify({ days: r.days, tabs: r.tabs, faq: r.faq, frames: r.frames, miss })); ok(!miss.length && r.days.every(Boolean) && r.tabs === 0 && r.venueH >= 44 && !r.text.includes('Rewards worth ₹1.5 Lakh+Rewards'), 'JS off: text readable, both days visible, no duplicate overlay text ' + miss); await ctx.close(); }
+// ── prize scramble: CLS 0 at 360x640 with 4x CPU throttle while scrolling to the reward frame (pinned + no-timeline fallback) ──
+const SUPPORTS = /@supports\s*\(\s*animation-timeline\s*:\s*scroll\(\)\s*\)/g;
+for (const mode of ['pinned', 'fallback']) {
+  const ctx = await b.newContext({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true });
+  if (mode === 'fallback') {
+    await ctx.route(BASE, async (route) => { const r = await route.fetch(); await route.fulfill({ response: r, body: (await r.text()).replace(SUPPORTS, '@supports (not-a-real-property: 1)') }); });
+    await ctx.addInitScript(() => { const o = CSS.supports.bind(CSS); CSS.supports = (...a) => (/animation-timeline/.test(a.join(' ')) ? false : o(...a)); });
+  }
+  await ctx.addInitScript(() => { window.__cls = 0; window.__shifts = []; new PerformanceObserver((l) => { for (const e of l.getEntries()) { window.__cls += e.value; window.__shifts.push([+e.value.toFixed(5), (e.sources || []).map((s) => s.node?.className || s.node?.nodeName)]); } }).observe({ type: 'layout-shift', buffered: true }); });
+  const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(String(e)));
+  const cdp = await ctx.newCDPSession(p); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+  await p.goto(BASE, { waitUntil: 'load' }); await settle(p);
+  const pinned = await p.evaluate(() => getComputedStyle(document.querySelector('.stage')).position === 'sticky');
+  const target = await p.evaluate((pinned) => (pinned ? Math.round(4.55 * 0.9 * innerHeight) : Math.round(document.querySelector('[data-prize]').getBoundingClientRect().top + scrollY - innerHeight / 3)), pinned);
+  for (let y = 0; y <= target; y += 90) { await p.evaluate((y) => scrollTo({ top: y, behavior: 'instant' }), y); await p.waitForTimeout(60); }
+  await p.evaluate((y) => scrollTo({ top: y, behavior: 'instant' }), target); await p.waitForTimeout(3500);
+  const r = await p.evaluate(() => { const fx = document.querySelector('.prize-fx'); return { cls: window.__cls, shifts: window.__shifts, cells: document.querySelectorAll('.pc').length, text: fx.textContent, nowrap: getComputedStyle(fx).whiteSpace, styled: fx.getAttribute('style') || '' }; });
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  console.log('prize-cls', mode, 'pinned=' + pinned, JSON.stringify(r));
+  ok(pinned === (mode === 'pinned'), `prize-cls ${mode}: layout mode`);
+  ok(r.cells === 10 && r.text === REWARD, `prize-cls ${mode}: scramble ran and settled (${r.cells} cells, "${r.text}")`);
+  ok(r.cls === 0, `prize-cls ${mode}: CLS 0 at 360x640 / 4x CPU while scrolling to the reward frame (${r.cls} ${JSON.stringify(r.shifts)})`);
+  ok(r.nowrap === 'nowrap' && !/width|height/.test(r.styled), `prize-cls ${mode}: .prize-fx nowrap, size lock released after the run (${r.styled})`);
+  ok(!errs.length, `prize-cls ${mode}: errors ${errs}`);
+  await ctx.close();
+}
+// ── prize heading fits without wrapping at narrow widths (font-size clamps; two fixed lines below 48rem, one above) ──
+for (const [w, h, reducedMotion] of [[320, 640, 'no-preference'], [320, 640, 'reduce'], [360, 640, 'reduce'], [768, 1024, 'reduce'], [1280, 800, 'reduce']]) {
+  const ctx = await b.newContext({ viewport: { width: w, height: h }, reducedMotion }); const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(800);
+  const r = await p.evaluate(() => { const fx = document.querySelector('.prize-fx'); const parts = ['.prize-head', '.prize-scramble', '.prize-tail'].map((s) => { const rs = [...fx.querySelector(s).getClientRects()]; return { n: rs.length, top: Math.round(rs[0].top), left: Math.round(Math.min(...rs.map((q) => q.left))), right: Math.round(Math.max(...rs.map((q) => q.right))) }; });
+    return { parts, sw: fx.scrollWidth, cw: fx.clientWidth, vw: document.documentElement.clientWidth, fs: getComputedStyle(fx).fontSize }; });
+  const lines = new Set(r.parts.map((x) => x.top)).size;
+  console.log('prize-fit', w + 'x' + h, reducedMotion, JSON.stringify(r));
+  ok(r.parts.every((x) => x.n === 1 && x.left >= 0 && x.right <= r.vw) && r.sw <= r.cw + 1 && lines === (w < 768 ? 2 : 1) && r.parts[1].top === r.parts[2].top, `prize-fit ${w} ${reducedMotion}: no wrap inside a segment, inside the viewport, ${lines} line(s)`);
+  await ctx.close();
+}
+// ── hero h1: one accessible name from an .sr span, visual letters aria-hidden, no aria-label ──
+for (const opts of [{}, { reducedMotion: 'reduce' }, { javaScriptEnabled: false }]) {
+  const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, ...opts }); const p = await ctx.newPage(); await p.goto(BASE, { waitUntil: 'load' }); await p.waitForTimeout(800);
+  const snap = await p.locator('h1').ariaSnapshot();
+  const r = await p.evaluate(() => { const h = document.querySelector('h1'); const vis = [...h.children].filter((c) => !c.classList.contains('sr')); return { count: document.querySelectorAll('h1').length, label: h.getAttribute('aria-label'), sr: [...h.querySelectorAll('.sr')].map((s) => s.textContent), hidden: vis.every((c) => c.getAttribute('aria-hidden') === 'true'), n: vis.length, text: h.innerText.replace(/\s+/g, '') }; });
+  console.log('h1', JSON.stringify(opts), JSON.stringify(snap), JSON.stringify(r));
+  ok(r.count === 1 && r.label === null && r.sr.length === 1 && r.sr[0] === 'SRIJAN 2K26' && r.hidden && r.n > 0 && /^- heading "SRIJAN 2K26" \[level=1\]$/.test(snap.trim()), `h1 ${JSON.stringify(opts)}: name "SRIJAN 2K26" from .sr, ${r.n} visual spans aria-hidden, no aria-label`);
+  ok(/SRIJAN/i.test(r.text), `h1 ${JSON.stringify(opts)}: visual title still rendered`);
+  await ctx.close();
+}
 await b.close(); console.log(bad ? 'release-check FAILED' : 'release-check ok'); process.exit(bad ? 1 : 0);

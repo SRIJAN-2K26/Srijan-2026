@@ -42,10 +42,15 @@
 /* dark plate behind the reward heading: keeps the white copy >= 4.5:1 over the trophy rays / embers at every scroll position */
 [data-prize]::before { content: ''; position: absolute; inset: -.4em -1rem; z-index: -1; pointer-events: none;
   background: linear-gradient(90deg, transparent, rgba(10,10,10,.8) 1rem, rgba(10,10,10,.8) calc(100% - 1rem), transparent); }
-.prize-fx { display: block; }
+/* Never wraps (the scramble must not reflow): two fixed lines below 48rem, one above, and the font shrinks to fit the line */
+[data-prize] { container-type: inline-size; }
+.prize-fx { display: block; white-space: nowrap; font-size: min(1em, 100cqi / 11); }
 .prize-scramble { font-variant-numeric: tabular-nums; }
-.pc { display: inline-block; }
-.pc.d { width: .62em; text-align: center; }
+@media (max-width: 47.99rem) {
+  .prize-fx { font-size: min(1em, 100cqi / 7); }
+  .prize-head { display: block; }
+}
+.pc { display: inline-flex; justify-content: center; }
 @media (prefers-reduced-motion: no-preference) {
   .reward-float { animation: floaty 5.2s ease-in-out infinite; }
   @keyframes floaty {
