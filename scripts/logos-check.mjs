@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 const BASE = process.env.BASE || 'http://localhost:4393/';
 const b = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox'] });
 let bad = 0; const ok = (c, m) => { if (!c) { bad++; console.log('FAIL', m); } else console.log('ok  ', m); };
-const ALTS = [['SRMCEM', 256, 256], ['CSI SRMCEM', 256, 256], ['GFG SRMCEM', 189, 148]];
+const ALTS = [['SRMCEM', 128, 128], ['CSI SRMCEM', 256, 256], ['GFG SRMCEM', 189, 148]];
 for (const [w, h] of [[1280, 800], [1024, 768], [1024, 640], [768, 1024], [767, 1024], [390, 844], [320, 640]]) {
   const mobile = w <= 767; // <=767px: always-visible orange strip; >=768px: hidden until keyboard focus
   const tag = `${w}x${h}`;
@@ -35,7 +35,7 @@ for (const [w, h] of [[1280, 800], [1024, 768], [1024, 640], [768, 1024], [767, 
   await p.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })); await p.waitForTimeout(1200);
   const L = await p.evaluate(() => [...document.querySelectorAll('footer .orgs img')].map((i) => { const r = i.getBoundingClientRect(); const cx = r.left + r.width / 2, cy = r.top + r.height / 2; const t = document.elementFromPoint(cx, cy); const tile = i.closest('li').getBoundingClientRect(); return { alt: i.alt, nw: i.naturalWidth, nh: i.naturalHeight, aw: i.getAttribute('width'), ah: i.getAttribute('height'), lazy: i.loading, dec: i.decoding, h: r.height, top: r.top, bottom: r.bottom, left: tile.left, right: tile.right, bg: getComputedStyle(i.closest('li')).backgroundColor, linked: !!i.closest('a'), top_ok: t === i, dockShown: !!document.querySelector('.dock.show') }; }));
   console.log(tag, JSON.stringify(L));
-  ok(L.every((l, i) => l.nw === ALTS[i][1] && l.nh === ALTS[i][2] && +l.aw === l.nw && +l.ah === l.nh), `${tag} natural sizes 256x256, 256x256, 189x148 and explicit width/height attrs match`);
+  ok(L.every((l, i) => l.nw === ALTS[i][1] && l.nh === ALTS[i][2] && +l.aw === l.nw && +l.ah === l.nh), `${tag} natural sizes 128x128, 256x256, 189x148 and explicit width/height attrs match`);
   ok(L.every((l) => l.h >= 44 && Math.round(l.h) === 56 && l.lazy === 'lazy' && l.dec === 'async' && !l.linked), `${tag} rendered height 56px (>=44), lazy, async decode, not linked`);
   ok(L.every((l) => l.top_ok && l.top >= 0 && l.bottom <= h), `${tag} logos fully in view and not covered by dock/fixed UI at bottom (dock shown: ${L[0]?.dockShown})`);
   ok(L.every((l) => l.left >= 0 && l.right <= w) && L[1].bg === 'rgb(255, 255, 255)' && L[2].bg === 'rgb(255, 255, 255)' && L[0].bg === 'rgba(0, 0, 0, 0)', `${tag} tiles inside viewport; CSI/GFG on white tiles, SRMCEM bare`);
